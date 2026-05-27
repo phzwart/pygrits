@@ -1,0 +1,748 @@
+id: https://w3id.org/isom/core
+name: isom_core
+title: Interactive Scientific Object Model — Core Schema
+description: >-
+  Schema for the Interactive Scientific Object Model (ISOM).
+
+  Defines the three classes of Entity (Object, Activity, EvidenceRecord),
+  the ViewpointDirective construct, and primitives (ContentReference, Scope,
+  Locator hierarchy, structured Confidence). All entities share the discipline
+  contract (identity, type, viewpoint, provenance, should_not_claim) and differ
+  by role. The schema implements the ISOM spec v0.
+
+  This is a v0.1 draft schema covering the vertical slice needed for the
+  first implementation milestone (NaCl-style epistemically-disciplined refusal).
+  It does not yet model speech acts, reactions, threads, communities, wiki
+  statement objects, or the harmonization process. Those are deferred to v0.2.
+version: 0.1.0
+license: TBD
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  isom: https://w3id.org/isom/
+  prov: http://www.w3.org/ns/prov#
+  schema: http://schema.org/
+  dcterms: http://purl.org/dc/terms/
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: isom
+default_range: string
+
+imports:
+  - linkml:types
+
+# ----------------------------------------------------------------------
+# Subsets — MVE-first tiering
+# ----------------------------------------------------------------------
+
+subsets:
+  MVE:
+    description: >-
+      Minimum viable entity. The irreducible discipline contract fields plus
+      the class-specific minimum that makes an entity honest. Instances
+      missing any MVE-tagged required slot fail validation.
+  ParticipationReady:
+    description: >-
+      Object fields needed for community participation (offers, needs, gaps,
+      features, summary, affordances).
+  Full:
+    description: >-
+      Full object surface including reported_claims, methods, assumptions,
+      uncertainties, and backward-pointer link lists (synthesis_link_ids,
+      wiki_link_ids, action_link_ids).
+
+# ----------------------------------------------------------------------
+# Types — string subtypes with pattern constraints
+# ----------------------------------------------------------------------
+
+types:
+  Sha256Hex:
+    uri: xsd:string
+    base: str
+    description: Hex-encoded SHA-256, lowercase, 64 chars.
+    pattern: "^[a-f0-9]{64}$"
+
+  CurieOrUri:
+    uri: xsd:anyURI
+    base: str
+    description: A CURIE or URI identifying a vocabulary term.
+
+  Iso8601:
+    uri: xsd:dateTime
+    base: str
+    description: ISO 8601 datetime string.
+
+  EntityId:
+    uri: xsd:string
+    base: str
+    description: >-
+      Canonical entity identifier of the form scheme:value, where scheme is
+      one of obj, act, evi, vpt, src. Hash-derived where applicable. Identity
+      is by declaration plus content hash (for ContentReference-bearing
+      entities like ViewpointDirective).
+    pattern: "^[a-z]+:[A-Za-z0-9._:-]+$"
+
+# ----------------------------------------------------------------------
+# Enumerations
+# ----------------------------------------------------------------------
+
+enums:
+
+  HashMode:
+    description: How a ContentReference's sha256 is computed.
+    permissible_values:
+      raw_bytes:
+        description: SHA-256 of the file bytes as stored.
+      linkml_canonical_jcs:
+        description: >-
+          LinkML normalize → JSON via LinkML mapping → RFC 8785 JCS → SHA-256.
+
+  ActivityType:
+    description: Structural type of an Activity (hyperedge in the topology).
+    permissible_values:
+      SYNTHESIS_EDGE:
+        description: Inputs + assumptions → new synthesis entity.
+      SUPPORT_EDGE:
+        description: Evidence → claim/synthesis it supports.
+      CONTRADICTION_EDGE:
+        description: Evidence → claim/synthesis it contradicts.
+      COMPATIBILITY_EDGE:
+        description: Records a compatibility judgment over entities.
+      VALIDATION_EDGE:
+        description: Validating entity → entity it validates.
+      ACTION_EDGE:
+        description: Action entity with inputs and output entities.
+      ADJUDICATION_EDGE:
+        description: Resolves a set of CONTRADICTION_EDGEs.
+
+  LifecycleState:
+    description: Lifecycle state of an entity.
+    permissible_values:
+      ingested:
+      parsed:
+      evidence_extracted:
+      interaction_ready:
+      participating:
+      synthesized:
+      deprecated:
+      superseded:
+      retracted:
+
+  ReviewState:
+    description: Epistemic maturity of a derived entity.
+    permissible_values:
+      unreviewed:
+      machine_generated:
+      curator_reviewed:
+      experimentally_validated:
+      disputed:
+      deprecated:
+
+  EpistemicStatus:
+    description: Epistemic label on a consequential statement.
+    permissible_values:
+      direct_evidence:
+      reported_by_source:
+      extracted:
+      computed:
+      inferred:
+      synthesized:
+      speculative:
+      negative_evidence:
+      out_of_viewpoint:
+      action_proposal:
+      contradicted:
+      unresolved:
+      deprecated:
+      unknown:
+
+  LineageType:
+    description: Independence classification of an evidence record.
+    permissible_values:
+      independent:
+      derived:
+      duplicated:
+      cited:
+      computational:
+
+  RefusalState:
+    description: >-
+      Five-state refusal taxonomy. Distinct from EpistemicStatus — RefusalState
+      answers "did we look, and what did we find?", EpistemicStatus answers
+      "what kind of statement is this?".
+    permissible_values:
+      unknown:
+        description: Question not considered.
+      not_searched:
+        description: Question in scope, but retrieval not attempted.
+      searched_absent:
+        description: Retrieval attempted under stated scope and value absent.
+      out_of_viewpoint:
+        description: >-
+          Question may be answerable but the extracting viewpoint did not commit to it.
+          Proposes viewpoint extension as next action.
+      contradicted:
+        description: >-
+          Answer was found but is refuted by other evidence; no current usable answer
+          until adjudication.
+
+  CompatibilityStatus:
+    description: Outcome of a compatibility judgment.
+    permissible_values:
+      compatible:
+      conditionally_compatible:
+      incompatible:
+      unknown:
+
+  ConfidenceBasis:
+    description: Source semantics of a confidence value.
+    permissible_values:
+      parser_self_report:
+        description: Vendor-provided model self-report; typically uncalibrated.
+      conformal:
+        description: PAC coverage under exchangeability; calibrated to operational rate.
+      bayesian:
+        description: Posterior-derived; calibrated under priors and model assumptions.
+      heuristic:
+        description: Ad hoc; basis must be documented in calibration_scope.
+      aggregated:
+        description: Combined over heterogeneous evidence; combination method must be declared.
+
+  EvidenceTypeBase:
+    description: >-
+      Built-in evidence categories. Viewpoints may extend evidence_type with
+      additional CURIEs, but these base values are structural and always available.
+    permissible_values:
+      text_span:
+      figure:
+      table:
+      observation:
+      claim_statement:
+      processing_statistic:
+      parameter:
+      metadata_field:
+
+# ----------------------------------------------------------------------
+# Classes
+# ----------------------------------------------------------------------
+
+classes:
+
+  # ====================================================================
+  # Primitives — ContentReference, Scope dimensions, Locator hierarchy,
+  # Confidence, CompatibilityJudgment
+  # ====================================================================
+
+  ContentReference:
+    description: >-
+      Content-addressed reference to externally stored content. Identity by
+      uri + sha256 + hash_mode. At resolution time, the system fetches uri,
+      recomputes the hash under hash_mode, and refuses to use the content
+      if the hash does not match.
+    attributes:
+      uri:
+        required: true
+        description: Locator (file path, https URL, did:..., cid:...).
+      sha256:
+        required: true
+        range: Sha256Hex
+        pattern: "^[a-f0-9]{64}$"
+        description: Integrity check on the content.
+      hash_mode:
+        required: true
+        range: HashMode
+        description: How the sha256 was computed.
+      media_type:
+        required: false
+        description: MIME type for disambiguation.
+      retrieved_at:
+        required: false
+        range: Iso8601
+        description: Last successful integrity verification timestamp.
+
+  # ----- Scope dimensions -----
+
+  ThermodynamicScope:
+    description: Temperature, pressure, ionic strength.
+    attributes:
+      temperature_kelvin: {range: float}
+      pressure_pascal: {range: float}
+      ionic_strength_molar: {range: float}
+      notes: {range: string}
+
+  TemporalScope:
+    description: Time window, sample age, instrument run, observation epoch.
+    attributes:
+      time_window_start: {range: Iso8601}
+      time_window_end: {range: Iso8601}
+      sample_age: {range: string}
+      instrument_run: {range: string}
+      observation_epoch: {range: string}
+
+  BiologicalScope:
+    description: Organism, tissue, cell line, developmental stage.
+    attributes:
+      organism: {range: string}
+      tissue: {range: string}
+      cell_line: {range: string}
+      developmental_stage: {range: string}
+
+  CompositionalScope:
+    description: Formula, purity, doping, isotopic composition.
+    attributes:
+      formula: {range: string}
+      purity: {range: string}
+      doping: {range: string}
+      isotopic_composition: {range: string}
+
+  StatisticalScope:
+    description: Sample size, population, sampling method.
+    attributes:
+      sample_size: {range: integer}
+      population: {range: string}
+      sampling_method: {range: string}
+
+  MethodologicalScope:
+    description: Instrument, protocol, software version.
+    attributes:
+      instrument: {range: string}
+      protocol: {range: string}
+      software_version: {range: string}
+
+  SpatialScope:
+    description: Region, reference frame, length scale.
+    attributes:
+      region: {range: string}
+      reference_frame: {range: string}
+      length_scale: {range: string}
+
+  Scope:
+    description: >-
+      Composite scope. Each dimension is optional. An unset dimension is
+      operationally `unspecified` — not a wildcard, but an honest acknowledgement
+      that the viewpoint did not bind it.
+    attributes:
+      thermodynamic: {range: ThermodynamicScope, inlined: true}
+      temporal: {range: TemporalScope, inlined: true}
+      biological: {range: BiologicalScope, inlined: true}
+      compositional: {range: CompositionalScope, inlined: true}
+      statistical: {range: StatisticalScope, inlined: true}
+      methodological: {range: MethodologicalScope, inlined: true}
+      spatial: {range: SpatialScope, inlined: true}
+      notes:
+        range: string
+        description: Free-text scope clarification.
+
+  # ----- Locator hierarchy -----
+
+  Locator:
+    abstract: true
+    description: Polymorphic locator into a source artifact. Discriminator is locator_type.
+    attributes:
+      locator_type:
+        required: true
+        range: string
+        designates_type: true
+        description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
+
+  CharRangeLocator:
+    is_a: Locator
+    description: Character range within extracted text of a source artifact.
+    attributes:
+      char_start: {required: true, range: integer}
+      char_end:   {required: true, range: integer}
+      page:       {range: integer}
+
+  BboxLocator:
+    is_a: Locator
+    description: Axis-aligned bounding box on a rasterized page.
+    attributes:
+      page: {required: true, range: integer}
+      bbox_x0: {required: true, range: float}
+      bbox_y0: {required: true, range: float}
+      bbox_x1: {required: true, range: float}
+      bbox_y1: {required: true, range: float}
+
+  SequencePositionLocator:
+    is_a: Locator
+    description: Position range within a reference biological sequence.
+    attributes:
+      reference_sequence_id: {required: true}
+      seq_start: {required: true, range: integer}
+      seq_end:   {required: true, range: integer}
+
+  ProcessingLogLineLocator:
+    is_a: Locator
+    description: Line range within a processing log.
+    attributes:
+      log_line_start: {required: true, range: integer}
+      log_line_end:   {required: true, range: integer}
+
+  TableCellLocator:
+    is_a: Locator
+    description: A specific cell within an extracted table.
+    attributes:
+      table_id: {required: true}
+      row: {required: true, range: integer}
+      col: {required: true, range: integer}
+
+  FileRegionLocator:
+    is_a: Locator
+    description: Byte range within an opaque binary artifact.
+    attributes:
+      byte_start: {required: true, range: integer}
+      byte_end:   {required: true, range: integer}
+
+  CompositeLocator:
+    is_a: Locator
+    description: A locator that combines multiple sub-locators.
+    attributes:
+      members:
+        multivalued: true
+        range: Locator
+        inlined: true
+        inlined_as_list: true
+
+  # ----- Confidence and CompatibilityJudgment -----
+
+  Confidence:
+    description: >-
+      Structured confidence carrying calibration metadata. A calibrated
+      confidence outside its calibration_domain or under a different viewpoint
+      is no longer calibrated — downstream consumers must downgrade to heuristic.
+    attributes:
+      value:
+        range: float
+        description: Numeric confidence; semantics depend on confidence_basis.
+      confidence_basis:
+        required: true
+        range: ConfidenceBasis
+      calibration_scope:
+        range: string
+        description: The data distribution under which the confidence was calibrated.
+      confidence_domain:
+        range: string
+        description: The input domain where the calibration applies.
+      failure_modes:
+        multivalued: true
+        range: string
+      viewpoint_directive_id:
+        range: EntityId
+        description: Viewpoint under which calibration was performed.
+
+  CompatibilityJudgment:
+    description: A recorded compatibility judgment over a set of entities/evidence.
+    attributes:
+      compared_entity_ids:
+        multivalued: true
+        range: EntityId
+        required: true
+      checked_scope_dimensions:
+        multivalued: true
+        range: string
+      assumptions:
+        multivalued: true
+        range: string
+      rationale:
+        range: string
+      status:
+        required: true
+        range: CompatibilityStatus
+      viewpoint_directive_id:
+        range: EntityId
+
+  # ====================================================================
+  # Entity hierarchy — Entity (abstract) with three concrete subclasses
+  # ====================================================================
+
+  Entity:
+    abstract: true
+    description: >-
+      Abstract base for all ISOM entities. Carries the discipline contract:
+      identity, type, viewpoint, provenance, lifecycle, review state,
+      should_not_claim, scope, generation mode. Three concrete subclasses:
+      Object, Activity, EvidenceRecord.
+    class_uri: prov:Entity
+    attributes:
+      id:
+        identifier: true
+        required: true
+        range: EntityId
+        in_subset: [MVE]
+        description: Canonical entity identifier.
+      type:
+        required: true
+        range: CurieOrUri
+        in_subset: [MVE]
+        description: >-
+          For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary.
+          For Activity, a CURIE corresponding to the ActivityType value
+          (e.g. isom:activity_type/synthesis_edge).
+      viewpoint_directive_id:
+        required: true
+        range: EntityId
+        in_subset: [MVE]
+        description: >-
+          Reference to the ViewpointDirective that shaped this entity. The
+          bootstrap meta-viewpoint and the blank-slate viewpoint are valid
+          references; absence is not.
+      provenance:
+        required: true
+        range: string
+        in_subset: [MVE]
+        description: >-
+          Provenance description for v1. Future versions will model provenance
+          as structured edges into the hyperDAG; for now a free-form string is
+          accepted to allow ingestion bundles from upstream extraction tools.
+      should_not_claim:
+        required: true
+        multivalued: true
+        range: string
+        in_subset: [MVE]
+        description: >-
+          Epistemic boundaries this entity must respect. Combination of
+          per-class defaults plus directive-imposed rules from the viewpoint.
+      scope:
+        range: Scope
+        inlined: true
+        description: >-
+          Optional but recommended. Sets the conditions under which this
+          entity's statements apply. Unset dimensions are operationally
+          `unspecified`, not wildcards.
+      review_state:
+        range: ReviewState
+      lifecycle_state:
+        range: LifecycleState
+      generation_mode:
+        range: string
+        description: >-
+          Free-form descriptor of the process that generated this entity
+          (parser name + version, viewpoint name + version, LLM model + tier).
+
+  Object:
+    is_a: Entity
+    description: >-
+      Participant in reasoning. Has source artifacts, evidence records,
+      features, observations, needs, offers, posts, communities. The thing
+      being talked about.
+    attributes:
+      source_artifact_refs:
+        multivalued: true
+        range: ContentReference
+        inlined: true
+        inlined_as_list: true
+        in_subset: [MVE]
+        description: ContentReferences to the source artifacts this Object derives from.
+      evidence_record_ids:
+        multivalued: true
+        range: EntityId
+        in_subset: [MVE]
+        description: References to EvidenceRecord entities anchoring this Object's claims.
+      summary:
+        range: string
+        in_subset: [ParticipationReady]
+      features:
+        range: string
+        in_subset: [ParticipationReady]
+        description: >-
+          Viewpoint-defined structured payload, serialized as a JSON string in v1.
+          The viewpoint's vocabulary determines the shape. Later versions may use
+          a typed Any with viewpoint-declared schemas.
+      observations:
+        multivalued: true
+        range: string
+        in_subset: [ParticipationReady]
+      gaps:
+        multivalued: true
+        range: string
+        in_subset: [ParticipationReady]
+      needs:
+        multivalued: true
+        range: string
+        in_subset: [ParticipationReady]
+      offers:
+        multivalued: true
+        range: string
+        in_subset: [ParticipationReady]
+      affordances:
+        multivalued: true
+        range: string
+        in_subset: [ParticipationReady]
+      reported_claims:
+        multivalued: true
+        range: string
+        in_subset: [Full]
+      methods:
+        multivalued: true
+        range: string
+        in_subset: [Full]
+      assumptions:
+        multivalued: true
+        range: string
+        in_subset: [Full]
+      uncertainties:
+        multivalued: true
+        range: string
+        in_subset: [Full]
+      synthesis_link_ids:
+        multivalued: true
+        range: EntityId
+        in_subset: [Full]
+        description: Backward pointers to Activities that referenced this Object as input or output.
+      wiki_link_ids:
+        multivalued: true
+        range: EntityId
+        in_subset: [Full]
+        description: Backward pointers to wiki statement Objects citing this Object.
+      action_link_ids:
+        multivalued: true
+        range: EntityId
+        in_subset: [Full]
+        description: Backward pointers to ACTION_EDGE Activities involving this Object.
+
+  Activity:
+    is_a: Entity
+    description: >-
+      Transformation. Consumes input entities, applies an interpretation
+      under stated assumptions, emits output entities. Hyperedge in the
+      hyperDAG topology. Activities do not participate in conversations —
+      they record how a step of reasoning happened.
+    class_uri: prov:Activity
+    attributes:
+      activity_type:
+        required: true
+        range: ActivityType
+        in_subset: [MVE]
+      inputs:
+        required: true
+        multivalued: true
+        range: EntityId
+        in_subset: [MVE]
+        description: Input entity IDs consumed by this Activity.
+      outputs:
+        multivalued: true
+        range: EntityId
+        description: >-
+          New entities produced by this Activity. May be empty for
+          declarative edges (SUPPORT, CONTRADICTION) whose output is the
+          Activity itself.
+      assumptions:
+        multivalued: true
+        range: string
+      admissibility_rationale:
+        range: string
+        description: Why this Activity is valid given its inputs and viewpoint.
+      compatibility_judgments:
+        multivalued: true
+        range: CompatibilityJudgment
+        inlined: true
+        inlined_as_list: true
+      confidence:
+        range: Confidence
+        inlined: true
+
+  EvidenceRecord:
+    is_a: Entity
+    description: >-
+      Grounded data anchored to a single source artifact via a typed locator.
+      The citable unit. EvidenceRecords are referenced by Objects'
+      evidence_record_ids and by Activities' inputs; they do not initiate
+      threads or posts.
+    attributes:
+      source_artifact_ref:
+        required: true
+        range: ContentReference
+        inlined: true
+        in_subset: [MVE]
+        description: Single source artifact this evidence is extracted from.
+      locator:
+        required: true
+        range: Locator
+        inlined: true
+        in_subset: [MVE]
+      extracted_content:
+        range: string
+      normalized_payload:
+        range: string
+        description: >-
+          Viewpoint-defined structured payload, serialized as a JSON string in v1.
+      evidence_type:
+        range: CurieOrUri
+        description: >-
+          Either a value from EvidenceTypeBase (e.g. isom:text_span) or a
+          CURIE into a viewpoint-extended evidence vocabulary.
+      extraction_method:
+        range: string
+      extraction_confidence:
+        range: Confidence
+        inlined: true
+      lineage:
+        range: LineageType
+      cited_from:
+        range: string
+        description: >-
+          Identifier or marker for prior evidence this record derives from
+          or cites. May be `unknown_external` when citation resolution has
+          not happened.
+
+  ViewpointDirective:
+    is_a: Object
+    description: >-
+      The interpretive frame under which entities are extracted. Itself an
+      Object — a ViewpointDirective has its own viewpoint_directive_id
+      (the bootstrap meta-viewpoint, or itself for the meta-viewpoint).
+      Carries prompts, exemplars, vocabulary references, target schema,
+      and the should_not_claim rules it imposes on extracted entities.
+    attributes:
+      directive_name:
+        required: true
+        description: >-
+          Human-readable name (e.g. viewpoint:materials_science:v1). Combined
+          with content hash, this gives identity-by-declaration.
+      prompts:
+        multivalued: true
+        range: ContentReference
+        inlined: true
+        inlined_as_list: true
+      exemplars:
+        multivalued: true
+        range: ContentReference
+        inlined: true
+        inlined_as_list: true
+      vocabulary_refs:
+        multivalued: true
+        range: ContentReference
+        inlined: true
+        inlined_as_list: true
+      target_schema:
+        range: ContentReference
+        inlined: true
+        description: Reference to the LinkML schema (or schema profile) this directive commits to.
+      imposed_should_not_claim:
+        multivalued: true
+        range: string
+        description: >-
+          should_not_claim rules this directive imposes on every entity
+          extracted under it. Combined with per-class defaults at extraction time.
+
+  NegativeEvidenceRecord:
+    is_a: EvidenceRecord
+    description: >-
+      First-class record of a search that returned no result under stated
+      scope. Distinct from `unknown` (question not considered) and from
+      `not_searched` (in scope but not attempted).
+    attributes:
+      search_method:
+        required: true
+        range: string
+      search_scope:
+        range: string
+      search_timestamp:
+        range: Iso8601
+      search_confidence:
+        range: Confidence
+        inlined: true
+      result:
+        required: true
+        range: string
+        description: One of `absent`, `weak_signal`, `excluded`, `inconclusive`.

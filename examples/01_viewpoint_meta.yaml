@@ -1,0 +1,45 @@
+# Example 01 — The bootstrap meta-viewpoint.
+#
+# This is the seed of the viewpoint system. It defines what a
+# ViewpointDirective IS. It references itself as its own viewpoint —
+# the only entity in the system permitted to do so. Every other
+# entity references some viewpoint that ultimately descends from this one.
+#
+# Validate with:
+#   linkml-validate -s schema/isom_core.yaml -C ViewpointDirective examples/01_viewpoint_meta.yaml
+
+id: vpt:meta-v0
+type: isom:viewpoint_directive
+viewpoint_directive_id: vpt:meta-v0
+provenance: >-
+  Bootstrap meta-viewpoint v0. Hardcoded seed of the viewpoint system.
+  Self-referential by design: this directive defines what a viewpoint
+  directive IS, so it must reference itself as its viewpoint.
+
+should_not_claim:
+  - "This directive is hardcoded; it has not itself been derived from corpus analysis."
+  - "Do not treat the bootstrap meta-viewpoint as a domain-specific extraction frame."
+  - "Do not apply the bootstrap directly to source artifacts; use a descendant viewpoint."
+
+review_state: curator_reviewed
+lifecycle_state: participating
+generation_mode: hardcoded_bootstrap_v0
+
+source_artifact_refs: []
+evidence_record_ids: []
+
+summary: >-
+  Bootstrap meta-viewpoint that defines the ViewpointDirective construct
+  itself. Every other viewpoint directive in the system references this
+  one (directly or transitively) as its viewpoint.
+
+directive_name: "viewpoint:meta:v0"
+
+prompts: []
+exemplars: []
+vocabulary_refs: []
+
+imposed_should_not_claim:
+  - "Every entity must declare its viewpoint_directive_id."
+  - "Every entity must declare its should_not_claim."
+  - "Reasoning produces new entities; it does not mutate existing entities."

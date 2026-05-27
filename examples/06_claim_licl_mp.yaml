@@ -1,0 +1,83 @@
+# Example 06 — The claim Object produced by the synthesis Activity.
+#
+# This Object is the OUTPUT of act:synth-licl-mp-v0 (Example 05).
+# Its existence proves the compositional principle: a new entity emerges
+# from the synthesis. The contributing paper and evidence Objects are
+# unchanged. This claim Object can now accumulate further SUPPORT_EDGEs
+# and CONTRADICTION_EDGEs from other entities — but it itself is never
+# mutated; new Activities link to it, and revisions produce new claim
+# Object versions that supersede this one.
+#
+# Validate with:
+#   linkml-validate -s schema/isom_core.yaml -C Object examples/06_claim_licl_mp.yaml
+
+id: obj:claim-licl-mp-v0
+type: isom:claim
+viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+provenance: >-
+  Promoted from claim statement attached to obj:paper-licl-demo-v0
+  by synthesis activity act:synth-licl-mp-v0 on 2026-05-27.
+  Promotion event itself is provenance.
+
+should_not_claim:
+  - "This claim is a synthesized proposition under viewpoint v0; its truth is contingent on the inherited evidence lineage and assumptions."
+  - "Aggregation with other LiCl claims from different viewpoints requires explicit cross-viewpoint compatibility judgment."
+  - "Citation lineage of the underlying value is unresolved; this claim does not constitute independent confirmation."
+
+scope:
+  thermodynamic:
+    pressure_pascal: 101325.0
+    notes: "Inherited from synthesis Activity inputs."
+
+review_state: machine_generated
+lifecycle_state: synthesized
+generation_mode: synthesis_v0_from_act:synth-licl-mp-v0
+
+source_artifact_refs: []
+
+evidence_record_ids:
+  - evi:span-licl-mp-v0
+
+summary: >-
+  Persistent claim object stating the melting point of LiCl under ambient
+  pressure based on the value reported in obj:paper-licl-demo-v0. Carries
+  forward as a target for further SUPPORT_EDGE, CONTRADICTION_EDGE, and
+  VALIDATION_EDGE Activities from other entities. The proposition itself
+  is immutable; revisions produce a new claim Object via lifecycle
+  supersession.
+
+features: '{"property": "melting_point", "material": "LiCl", "value_kelvin": 883, "conditions": "ambient pressure", "claim_kind": "value_assertion"}'
+
+observations:
+  - "Asserts LiCl melting point at 883 K under ambient pressure."
+
+gaps:
+  - "Independent measurement under specified instrument/protocol not yet linked."
+  - "Citation resolution for original measurement not yet performed."
+
+needs:
+  - "VALIDATION_EDGE from an independently-measured LiCl value."
+  - "Citation resolution to identify whether obj:paper-licl-demo-v0 is the original source."
+
+offers:
+  - "Anchor claim for alkali-halide family-trend analysis under ambient pressure."
+  - "Target for cross-paper SUPPORT or CONTRADICTION aggregation."
+
+affordances:
+  - "Cation/anion family interpolation contribution."
+  - "Subject of future ADJUDICATION_EDGE if contradicting values are discovered."
+
+reported_claims:
+  - "LiCl melting point = 883 K @ ambient pressure (epistemic status: synthesized; lineage: cited/unresolved)."
+
+assumptions:
+  - "Single-paper synthesis under v0 viewpoint; promotion to claim object reflects synthesis admissibility, not validation."
+
+uncertainties:
+  - "Methodological scope partially unspecified."
+  - "Citation lineage unresolved."
+
+synthesis_link_ids:
+  - act:synth-licl-mp-v0
+wiki_link_ids: []
+action_link_ids: []

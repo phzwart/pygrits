@@ -1,0 +1,515 @@
+---
+search:
+  boost: 10.0
+---
+
+# Class: EvidenceRecord 
+
+
+_Grounded data anchored to a single source artifact via a typed locator. The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids and by Activities' inputs; they do not initiate threads or posts._
+
+
+
+<div data-search-exclude markdown="1">
+
+
+
+URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
+
+
+
+
+
+```mermaid
+ classDiagram
+    class EvidenceRecord
+    click EvidenceRecord href "../EvidenceRecord/"
+      Entity <|-- EvidenceRecord
+        click Entity href "../Entity/"
+      
+
+      EvidenceRecord <|-- NegativeEvidenceRecord
+        click NegativeEvidenceRecord href "../NegativeEvidenceRecord/"
+      
+
+      EvidenceRecord : cited_from
+        
+      EvidenceRecord : evidence_type
+        
+      EvidenceRecord : extracted_content
+        
+      EvidenceRecord : extraction_confidence
+        
+          
+    
+        
+        
+        EvidenceRecord --> "0..1" Confidence : extraction_confidence
+        click Confidence href "../Confidence/"
+    
+
+        
+      EvidenceRecord : extraction_method
+        
+      EvidenceRecord : generation_mode
+        
+      EvidenceRecord : id
+        
+      EvidenceRecord : lifecycle_state
+        
+          
+    
+        
+        
+        EvidenceRecord --> "0..1" LifecycleState : lifecycle_state
+        click LifecycleState href "../LifecycleState/"
+    
+
+        
+      EvidenceRecord : lineage
+        
+          
+    
+        
+        
+        EvidenceRecord --> "0..1" LineageType : lineage
+        click LineageType href "../LineageType/"
+    
+
+        
+      EvidenceRecord : locator
+        
+          
+    
+        
+        
+        EvidenceRecord --> "1" Locator : locator
+        click Locator href "../Locator/"
+    
+
+        
+      EvidenceRecord : normalized_payload
+        
+      EvidenceRecord : provenance
+        
+      EvidenceRecord : review_state
+        
+          
+    
+        
+        
+        EvidenceRecord --> "0..1" ReviewState : review_state
+        click ReviewState href "../ReviewState/"
+    
+
+        
+      EvidenceRecord : scope
+        
+          
+    
+        
+        
+        EvidenceRecord --> "0..1" Scope : scope
+        click Scope href "../Scope/"
+    
+
+        
+      EvidenceRecord : should_not_claim
+        
+      EvidenceRecord : source_artifact_ref
+        
+          
+    
+        
+        
+        EvidenceRecord --> "1" ContentReference : source_artifact_ref
+        click ContentReference href "../ContentReference/"
+    
+
+        
+      EvidenceRecord : type
+        
+      EvidenceRecord : viewpoint_directive_id
+        
+      
+```
+
+
+
+
+
+## Inheritance
+* [Entity](Entity.md)
+    * **EvidenceRecord**
+        * [NegativeEvidenceRecord](NegativeEvidenceRecord.md)
+
+
+## Slots
+
+| Name | Cardinality and Range | Description | Inheritance |
+| ---  | --- | --- | --- |
+| [source_artifact_ref](source_artifact_ref.md) | 1 <br/> [ContentReference](ContentReference.md) | Single source artifact this evidence is extracted from | direct |
+| [locator](locator.md) | 1 <br/> [Locator](Locator.md) |  | direct |
+| [extracted_content](extracted_content.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [normalized_payload](normalized_payload.md) | 0..1 <br/> [String](String.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 | direct |
+| [evidence_type](evidence_type.md) | 0..1 <br/> [CurieOrUri](CurieOrUri.md) | Either a value from EvidenceTypeBase (e | direct |
+| [extraction_method](extraction_method.md) | 0..1 <br/> [String](String.md) |  | direct |
+| [extraction_confidence](extraction_confidence.md) | 0..1 <br/> [Confidence](Confidence.md) |  | direct |
+| [lineage](lineage.md) | 0..1 <br/> [LineageType](LineageType.md) |  | direct |
+| [cited_from](cited_from.md) | 0..1 <br/> [String](String.md) | Identifier or marker for prior evidence this record derives from or cites | direct |
+| [id](id.md) | 1 <br/> [EntityId](EntityId.md) | Canonical entity identifier | [Entity](Entity.md) |
+| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Entity](Entity.md) |
+| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [EntityId](EntityId.md) | Reference to the ViewpointDirective that shaped this entity | [Entity](Entity.md) |
+| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Entity](Entity.md) |
+| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this entity must respect | [Entity](Entity.md) |
+| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Entity](Entity.md) |
+| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Entity](Entity.md) |
+| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Entity](Entity.md) |
+| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this entity (parser name +... | [Entity](Entity.md) |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/isom/core
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | isom:EvidenceRecord |
+| native | isom:EvidenceRecord |
+
+
+
+
+
+
+## LinkML Source
+
+<!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
+
+### Direct
+
+<details>
+```yaml
+name: EvidenceRecord
+description: Grounded data anchored to a single source artifact via a typed locator.
+  The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids
+  and by Activities' inputs; they do not initiate threads or posts.
+from_schema: https://w3id.org/isom/core
+is_a: Entity
+attributes:
+  source_artifact_ref:
+    name: source_artifact_ref
+    description: Single source artifact this evidence is extracted from.
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: ContentReference
+    required: true
+    inlined: true
+  locator:
+    name: locator
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: Locator
+    required: true
+    inlined: true
+  extracted_content:
+    name: extracted_content
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: string
+  normalized_payload:
+    name: normalized_payload
+    description: Viewpoint-defined structured payload, serialized as a JSON string
+      in v1.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: string
+  evidence_type:
+    name: evidence_type
+    description: Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE
+      into a viewpoint-extended evidence vocabulary.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: CurieOrUri
+  extraction_method:
+    name: extraction_method
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: string
+  extraction_confidence:
+    name: extraction_confidence
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: Confidence
+    inlined: true
+  lineage:
+    name: lineage
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: LineageType
+  cited_from:
+    name: cited_from
+    description: Identifier or marker for prior evidence this record derives from
+      or cites. May be `unknown_external` when citation resolution has not happened.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    domain_of:
+    - EvidenceRecord
+    range: string
+
+```
+</details>
+
+### Induced
+
+<details>
+```yaml
+name: EvidenceRecord
+description: Grounded data anchored to a single source artifact via a typed locator.
+  The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids
+  and by Activities' inputs; they do not initiate threads or posts.
+from_schema: https://w3id.org/isom/core
+is_a: Entity
+attributes:
+  source_artifact_ref:
+    name: source_artifact_ref
+    description: Single source artifact this evidence is extracted from.
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: ContentReference
+    required: true
+    inlined: true
+  locator:
+    name: locator
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: Locator
+    required: true
+    inlined: true
+  extracted_content:
+    name: extracted_content
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: string
+  normalized_payload:
+    name: normalized_payload
+    description: Viewpoint-defined structured payload, serialized as a JSON string
+      in v1.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: string
+  evidence_type:
+    name: evidence_type
+    description: Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE
+      into a viewpoint-extended evidence vocabulary.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: CurieOrUri
+  extraction_method:
+    name: extraction_method
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: string
+  extraction_confidence:
+    name: extraction_confidence
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: Confidence
+    inlined: true
+  lineage:
+    name: lineage
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: LineageType
+  cited_from:
+    name: cited_from
+    description: Identifier or marker for prior evidence this record derives from
+      or cites. May be `unknown_external` when citation resolution has not happened.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - EvidenceRecord
+    range: string
+  id:
+    name: id
+    description: Canonical entity identifier.
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    identifier: true
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: EntityId
+    required: true
+  type:
+    name: type
+    description: For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary.
+      For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: CurieOrUri
+    required: true
+  viewpoint_directive_id:
+    name: viewpoint_directive_id
+    description: Reference to the ViewpointDirective that shaped this entity. The
+      bootstrap meta-viewpoint and the blank-slate viewpoint are valid references;
+      absence is not.
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    owner: EvidenceRecord
+    domain_of:
+    - Confidence
+    - CompatibilityJudgment
+    - Entity
+    range: EntityId
+    required: true
+  provenance:
+    name: provenance
+    description: Provenance description for v1. Future versions will model provenance
+      as structured edges into the hyperDAG; for now a free-form string is accepted
+      to allow ingestion bundles from upstream extraction tools.
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: string
+    required: true
+  should_not_claim:
+    name: should_not_claim
+    description: Epistemic boundaries this entity must respect. Combination of per-class
+      defaults plus directive-imposed rules from the viewpoint.
+    in_subset:
+    - MVE
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: string
+    required: true
+    multivalued: true
+  scope:
+    name: scope
+    description: Optional but recommended. Sets the conditions under which this entity's
+      statements apply. Unset dimensions are operationally `unspecified`, not wildcards.
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: Scope
+    inlined: true
+  review_state:
+    name: review_state
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: ReviewState
+  lifecycle_state:
+    name: lifecycle_state
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: LifecycleState
+  generation_mode:
+    name: generation_mode
+    description: Free-form descriptor of the process that generated this entity (parser
+      name + version, viewpoint name + version, LLM model + tier).
+    from_schema: https://w3id.org/isom/core
+    rank: 1000
+    owner: EvidenceRecord
+    domain_of:
+    - Entity
+    range: string
+
+```
+</details></div>

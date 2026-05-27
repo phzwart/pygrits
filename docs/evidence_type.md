@@ -1,0 +1,105 @@
+---
+search:
+  boost: 5.0
+---
+
+# Slot: evidence_type 
+
+
+_Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE into a viewpoint-extended evidence vocabulary._
+
+
+
+<div data-search-exclude markdown="1">
+
+
+
+URI: [isom:evidence_type](https://w3id.org/isom/evidence_type)
+<!-- no inheritance hierarchy -->
+
+
+
+
+
+## Applicable Classes
+
+| Name | Description | Modifies Slot |
+| --- | --- | --- |
+| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
+
+
+
+
+
+
+## Properties
+
+### Type and Range
+
+| Property | Value |
+| --- | --- |
+| Range | [CurieOrUri](CurieOrUri.md) |
+| Domain Of | [EvidenceRecord](EvidenceRecord.md) |
+
+### Cardinality and Requirements
+
+| Property | Value |
+| --- | --- |
+### Slot Characteristics
+
+| Property | Value |
+| --- | --- |
+| Owner | [EvidenceRecord](EvidenceRecord.md) |
+
+
+
+
+
+
+
+
+
+
+
+
+## Identifier and Mapping Information
+
+
+
+
+
+### Schema Source
+
+
+* from schema: https://w3id.org/isom/core
+
+
+
+
+## Mappings
+
+| Mapping Type | Mapped Value |
+| ---  | ---  |
+| self | isom:evidence_type |
+| native | isom:evidence_type |
+
+
+
+
+## LinkML Source
+
+<details>
+```yaml
+name: evidence_type
+description: Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE
+  into a viewpoint-extended evidence vocabulary.
+from_schema: https://w3id.org/isom/core
+rank: 1000
+owner: EvidenceRecord
+domain_of:
+- EvidenceRecord
+range: CurieOrUri
+
+```
+</details></div>

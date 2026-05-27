@@ -1,0 +1,67 @@
+# Example 04 — EvidenceRecord for the LiCl melting-point text span.
+#
+# Anchors the paper's reported claim to a specific character range in the
+# source PDF's extracted text. Carries explicit scope, lineage, and
+# extraction confidence.
+#
+# Validate with:
+#   linkml-validate -s schema/isom_core.yaml -C EvidenceRecord examples/04_evidence_licl_span.yaml
+
+id: evi:span-licl-mp-v0
+type: isom:text_span
+viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+provenance: >-
+  Text span extracted by paperqa-A from source PDF
+  sha256:4444...4444 (LiCl demo paper). Character range from chunk
+  index 2 (page 3 of source).
+
+should_not_claim:
+  - "Text span content is the verbatim extracted text; downstream semantic interpretation is not part of this evidence record."
+  - "Locator references extracted text, not the original PDF bytes; layout-dependent claims require figure/table evidence instead."
+
+scope:
+  thermodynamic:
+    pressure_pascal: 101325.0
+    notes: "Ambient pressure inherited from viewpoint and paper context."
+  methodological:
+    instrument: "unspecified in extracted text"
+    protocol: "unspecified in extracted text"
+
+review_state: machine_generated
+lifecycle_state: evidence_extracted
+generation_mode: paperqa_a_pdf_text_extraction_v0
+
+source_artifact_ref:
+  uri: "file://./sources/papers/licl_demo.pdf"
+  sha256: "4444444444444444444444444444444444444444444444444444444444444444"
+  hash_mode: raw_bytes
+  media_type: "application/pdf"
+
+locator:
+  locator_type: CharRangeLocator
+  char_start: 8240
+  char_end: 8392
+  page: 3
+
+extracted_content: >-
+  Lithium chloride was observed to undergo phase transition at temperatures
+  reported in Table 2. The reported melting point under ambient laboratory
+  conditions is 883 K.
+
+normalized_payload: '{"property": "melting_point", "material": "LiCl", "value_kelvin": 883, "conditions": "ambient pressure"}'
+
+evidence_type: isom:text_span
+
+extraction_method: pdf_text_extraction_paperqa_a_v0
+
+extraction_confidence:
+  value: 0.92
+  confidence_basis: parser_self_report
+  calibration_scope: "Vendor-reported. No external calibration performed under this viewpoint."
+  confidence_domain: undefined
+  failure_modes:
+    - "Multi-column layout occasionally splits values across columns; manual review of high-stakes values recommended."
+  viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+
+lineage: cited
+cited_from: unknown_external

@@ -1,0 +1,77 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pygrits"
+version = "0.1.0"
+description = "Raisins in the pudding: evidence-grounded scientific entities with viewpoint-aware refusal. Python implementation of the ISOM schema."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "BSD-3-Clause" }
+authors = [
+    { name = "Petrus H. Zwart" },
+]
+keywords = [
+    "scientific-reasoning",
+    "epistemic-discipline",
+    "provenance",
+    "linkml",
+    "agentic-systems",
+    "isom",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+]
+
+dependencies = [
+    "pydantic>=2.5",
+    "jcs>=0.2",
+    "pyyaml>=6.0",
+]
+
+[project.optional-dependencies]
+schema = [
+    # Tools needed to regenerate the Pydantic / JSON Schema / docs from the LinkML source.
+    # Not required to USE pygrits (the generated artifacts are shipped with the package).
+    "linkml>=1.11",
+]
+test = [
+    "pytest>=7",
+    "pytest-cov",
+]
+dev = [
+    "pygrits[schema,test]",
+    "ruff",
+]
+
+[project.urls]
+# Update once the GitHub repo exists:
+# Homepage = "https://github.com/<user>/pygrits"
+# Issues = "https://github.com/<user>/pygrits/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pygrits"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"src/pygrits/core.yaml" = "pygrits/core.yaml"
+"src/pygrits/core.schema.json" = "pygrits/core.schema.json"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+ignore = ["E501"]  # line length handled by formatter
