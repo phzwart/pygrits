@@ -1,26 +1,32 @@
 # pygrits
 
-**Raisins in the pudding** — evidence-grounded scientific grits with viewpoint-aware refusal.
+**Structured epistemic containment for agentic scientific reasoning.**
 
-Python implementation of the **pygrits core schema** for **structured epistemic containment** in agentic scientific reasoning. The job of pygrits is to make it harder for agentic systems to silently collapse evidence, inference, synthesis, confidence, lineage, and viewpoint into unqualified truth claims.
+pygrits is a Python package built on [LinkML](https://linkml.io) that defines a small, strict object model for scientific knowledge work. Every claim, measurement, synthesis step, and refusal is a **grit** — a typed node with identity, provenance, viewpoint, scope, and explicit epistemic boundaries. The goal is to make it structurally difficult for agentic systems to collapse evidence, inference, synthesis, confidence, and viewpoint into unqualified truth.
 
-The motivating failure case is concrete. An agent asked *"What is the melting point of NaCl?"* against a corpus containing only LiCl, KCl, LiF, NaF, and KF observations will typically fabricate a plausible number. A pygrits-built system instead returns: direct evidence absent, negative-evidence record produced, related-family evidence available, interpolation proposed under stated assumptions and viewpoint, review state machine_generated, recommended action: direct retrieval. The fabricated number is structurally impossible.
+## The problem pygrits solves
 
-## Status
+An agent is asked: *"What is the reported catalytic turnover number (k_cat) for enzyme E on substrate S?"*
 
-**Alpha.** Core schema is at v0.3; expect breaking changes between commits until the first real ingestion adapter has bent the schema against actual data. Stability is not a goal yet.
+The paper corpus contains k_cat values for E on three related substrates (S1, S2, S3), each anchored to a specific passage. There is no measurement for S.
+
+A naive agent returns a plausible number. A pygrits-built system returns something different:
+
+| What happened | Grit produced |
+|---------------|---------------|
+| k_cat found for S1, S2, S3 | `EvidenceRecord` per measurement, each with a `Locator` into the source |
+| S searched, not found | `NegativeEvidenceRecord` (`result: absent`) |
+| Optional extrapolation offered | `Activity` (`SYNTHESIS_EDGE`) → new `Object` with `should_not_claim` forbidding presentation as a measured value, `review_state: machine_generated` |
+
+The fabricated "measured value for S" is not representable. Direct evidence, absence, and inference occupy distinct slots with distinct epistemic labels.
 
 ## Install
 
 ```bash
-# from a git checkout
 pip install -e .
 
-# with test deps
-pip install -e '.[test]'
-
-# with the LinkML toolchain (only needed to regenerate the schema artifacts)
-pip install -e '.[schema]'
+pip install -e '.[test]'    # tests
+pip install -e '.[schema]'  # LinkML toolchain (regenerate artifacts only)
 ```
 
 Python 3.11+.
@@ -35,7 +41,6 @@ from pygrits import (
     canonical_hash_instance, verify_content_reference,
 )
 
-# Build a minimal Object under a declared viewpoint (core schema only)
 paper = Object(
     id="obj:minimal-demo",
     type="grits:object",
@@ -58,12 +63,11 @@ paper = Object(
     evidence_record_ids=["evi:minimal-span-v0"],
 )
 
-# Canonical, deterministic content hash
 h = canonical_hash_instance(paper)
 print(h)  # sha256:<64 hex>
 ```
 
-For domain-specific scope dimensions, load a viewpoint schema:
+Domain-specific scope dimensions come from viewpoint schemas:
 
 ```python
 from pygrits.viewpoints.materials_science_v0 import ThermodynamicScope
@@ -74,57 +78,84 @@ scope = ThermodynamicScope(
 )
 ```
 
-See `examples/` for core-level instances that validate against the bare core schema alone. See `viewpoints/materials_science_v0/examples/` for alkali-halide thermodynamics instances that require the materials-science viewpoint.
+Compose a viewpoint with optional operational layers:
 
-## What this package gives you
+```python
+from pygrits import compose_viewpoint
+
+composed = compose_viewpoint(
+    "vpt:generic-paper-parse-v0",
+    registry,
+    extraction_profile_id="ep:detailed-extraction-v0",
+    vocabulary_pack_id="voc:materials-science-v0",
+    reasoning_policy_id="rpol:conservative-v0",
+)
+```
+
+See `examples/` for core-level instances. See `viewpoints/*/examples/` for viewpoint-specific instances.
+
+## The object model
+
+Everything in pygrits is a **grit**. Three role classes share an abstract discipline contract; four composable layers define how extraction and reasoning are permitted.
+
+```
+Grit (abstract)
+├── Object          — subject nodes (claims, papers, measurements)
+├── Activity        — hyperedges (transforms, support, contradiction)
+└── EvidenceRecord  — anchors into source artifacts
+
+Object specializations
+├── ViewpointDirective      — interpretive frame (what may be claimed)
+├── ExtractionProfile       — grounding density (how finely to extract)
+├── VocabularyPack          — namespace surface (which CURIEs are active)
+└── ReasoningPolicy         — inferential permission (what synthesis is allowed)
+```
+
+| Class | Role | Guide |
+|-------|------|-------|
+| [Object](guide/object.md) | Subject node holding claims and references to evidence | What you assert |
+| [Activity](guide/activity.md) | Hyperedge recording a transform step | How you got there |
+| [EvidenceRecord](guide/evidence_record.md) | Anchor into a source artifact via a typed locator | What the source actually says |
+| [ViewpointDirective](guide/viewpoint_directive.md) | Epistemic admissibility contract | What you may claim or refuse |
+| [ExtractionProfile](guide/extraction_profile.md) | Extraction and grounding semantics | How finely to decompose and ground |
+| [VocabularyPack](guide/vocabulary_pack.md) | Ontology and namespace bindings | Which terms are in play |
+| [ReasoningPolicy](guide/reasoning_policy.md) | Inferential permission surface | What synthesis is permitted |
+
+Full overview: [guide/README.md](guide/README.md).
+
+## Composable epistemic layers
+
+pygrits models *what may be claimed*, *how content is extracted*, *which vocabulary applies*, and *what inference is allowed* as four independent, content-addressed grits that compose deterministically into a frozen `ComposedViewpointDirective`.
+
+```python
+composed = compose_viewpoint(viewpoint_id, registry, ...)
+```
+
+Composition is explicit (caller-supplied registry, no global state), field-local (documented merge rules per field kind), and deterministic (identical inputs → identical hash). See [guide/composition.md](guide/composition.md).
+
+## What the package provides
 
 **Core schema (`pygrits.core`)** — structural primitives only:
 
-- **`Grit` hierarchy** — `Object`, `Activity`, `EvidenceRecord` (three siblings sharing an abstract discipline contract), plus `ViewpointDirective` and `NegativeEvidenceRecord` specializations.
-- **`Scope` marker** — opaque container for viewpoint-supplied scope dimensions. Core ships `NotesOnlyScope` (free-form notes only). No domain dimensions (temperature, organism, formula, etc.) are defined in core.
-- **`Locator` hierarchy** — seven concrete subtypes describing *how* an anchor into a source artifact is shaped (character range, bounding box, sequence position, etc.), not *what* content the source contains.
-- **`ContentReference`** — content-addressed with mandatory sha256 + hash_mode.
-- **`Confidence`**, **`CompatibilityJudgment`** — universal structured metadata.
-- **Enums** — `ActivityType` (the seven hyperedge types), `LifecycleState`, `ReviewState`, `EpistemicStatus`, `LineageType`, `RefusalState`, `CompatibilityStatus`, `ConfidenceBasis`, `HashMode`.
-- **`EvidenceRecord.evidence_type`** — open CURIE; no core-supplied vocabulary.
-- **Canonical hashing** — `canonical_hash_instance(grit)` returns a stable SHA-256 over any grit, via LinkML normalization + RFC 8785 JCS.
-- **Bundled schemas** — `pygrits.schema_path()`, `pygrits.json_schema_path()`, and viewpoint helpers `viewpoint_schema_path(name)`.
+- `Grit` hierarchy: `Object`, `Activity`, `EvidenceRecord`
+- `Scope` marker and `Locator` hierarchy (seven concrete locator types)
+- `ContentReference` with mandatory `sha256` + `hash_mode`
+- `Confidence`, `CompatibilityJudgment`
+- Enums: `ActivityType`, `LifecycleState`, `ReviewState`, `EpistemicStatus`, `RefusalState`, `LineageType`, `HashMode`, `CompositionMode`, ...
+- Canonical hashing: `canonical_hash_instance(grit)` via LinkML normalization + RFC 8785 JCS
+- Bundled schemas: `schema_path()`, `json_schema_path()`, `viewpoint_schema_path(name)`
 
 **Viewpoint schemas (`pygrits.viewpoints.*`)** — domain vocabulary layered on core:
 
-- `blank_slate_v0` — vocabulary-free; no domain vocabulary.
-- `document_extraction_v0` — evidence-type CURIEs for document extraction (`de:text_span`, `de:figure`, etc.).
-- `materials_science_v0` — scope-dimension subclasses (`ThermodynamicScope`, etc.) and composite `MaterialsScienceScope`.
-- `coordination_v0` — optional coordination-shaped slots (`required_inputs`, `declared_contributions`, `available_operations`, `citation_link_ids`) for multi-node workflows.
+| Viewpoint | Purpose |
+|-----------|---------|
+| `blank_slate_v0` | No domain vocabulary |
+| `document_extraction_v0` | Evidence-type CURIEs for document extraction |
+| `materials_science_v0` | Thermodynamic scope dimensions, materials vocabulary |
+| `coordination_v0` | Multi-node workflow slots |
+| `paper_parsing_v0` | Generic scientific-paper content kinds (`pp:section`, `pp:measurement`, ...) |
 
-Type and vocabulary are viewpoint-defined, not schema-defined. Domain labels (`mse:paper`, `de:text_span`, thermodynamic scope dimensions) live in viewpoint schemas that import or extend the core.
-
-## What this package does *not* (yet) give you
-
-Deferred to future versions:
-
-- Multi-node coordination extensions beyond the optional `coordination_v0` viewpoint.
-- Reference-graph rendering and viewpoint merge pipelines.
-- Harmonization process and viewpoint supersession Activities.
-- Composition of viewpoint directives (strict/permissive variants).
-- Structured provenance (currently a free-form string).
-- A `linkml_canonical_rdfc` hash mode for schema-level logical equivalence.
-- Hyperedge admissibility and synthesis admissibility rules.
-- Ingestion adapters from real paper-extraction tool output.
-
-## Design
-
-The key ideas:
-
-1. **Everything is a grit.** Three classes — `Object`, `Activity`, `EvidenceRecord` — share an abstract discipline contract (identity, type, viewpoint, provenance, scope, should_not_claim, review state, lifecycle, generation mode). Domain-specific labels (`mse:paper`, `mse:claim`, etc.) are CURIE values of the `type` field, drawn from viewpoint vocabulary — not Python classes in core.
-
-2. **Activities are not Objects.** Activities transform inputs to outputs; they record how a step of reasoning happened. Outputs are *new* grits — Activities never mutate their inputs. This makes the append-only graph mechanical, not aspirational.
-
-3. **Extraction is viewpoint-defined.** Every grit declares which `ViewpointDirective` shaped it. There is no neutral extraction. Different viewpoints applied to the same source produce different grits, not the same grit with different annotations.
-
-4. **Identity by declaration, integrity by content hash.** Viewpoint directives have human-readable names plus content hashes on every referenced piece of content. Names are the human reference; hashes are the integrity check. The canonical form is RFC 8785 JCS on LinkML JSON for instances, raw bytes for opaque content.
-
-5. **Hard refusal modes.** Every grit carries `should_not_claim`. The refusal taxonomy is five-state: `unknown`, `not_searched`, `searched_absent`, `out_of_viewpoint`, `contradicted`. The system surfaces these distinctly; it does not collapse them into a single "I don't know" or — worse — into a fabricated answer.
+Type labels (`mse:paper`, `pp:measurement`, `de:text_span`) are CURIE values of the `type` field, drawn from viewpoint vocabulary — not Python classes in core.
 
 ## Schema regeneration
 
@@ -132,7 +163,7 @@ The key ideas:
 bash scripts/regenerate.sh
 ```
 
-This runs `gen-pydantic`, `gen-json-schema`, and `gen-doc` against `src/pygrits/core.yaml`, then regenerates viewpoint artifacts from `viewpoints/*.yaml`. CI guards that the checked-in artifacts match the sources.
+Regenerates `core.py`, `core.schema.json`, `docs/` (LinkML auto-doc), and viewpoint artifacts from `src/pygrits/core.yaml` and `viewpoints/*.yaml`.
 
 ## Tests
 
@@ -140,22 +171,10 @@ This runs `gen-pydantic`, `gen-json-schema`, and `gen-doc` against `src/pygrits/
 pytest
 ```
 
-Test suite covers:
-
-- Core-level example YAML files load as valid Pydantic instances against bare core.
-- Materials-science viewpoint examples validate when loaded with `pygrits.viewpoints.materials_science_v0`.
-- Core alone defines no domain vocabulary (`ThermodynamicScope`, `EvidenceTypeBase`, etc.).
-- Core alone defines no coordination-shaped social slots (`needs`, `offers`, etc.).
-- Repository contains zero forbidden legacy schema naming.
-- `evidence_type` accepts arbitrary CURIEs under core.
-- Missing MVE fields fail with `ValidationError`.
-- Canonical hashes are deterministic across construction order and YAML/JSON round-trip.
-- `verify_content_reference` accepts matches and rejects mismatches under both hash modes.
-
 ## License
 
 BSD-3-Clause.
 
 ## Acknowledgments
 
-Built on [LinkML](https://linkml.io), with [Pydantic](https://docs.pydantic.dev) for runtime typing and the [jcs](https://pypi.org/project/jcs/) package for RFC 8785 canonicalization.
+Built on [LinkML](https://linkml.io), [Pydantic](https://docs.pydantic.dev), and [jcs](https://pypi.org/project/jcs/) (RFC 8785 canonicalization).

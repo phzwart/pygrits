@@ -13,6 +13,7 @@ Name: pygrits_core
 | Class | Description |
 | --- | --- |
 | [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |
+| [Composable](Composable.md) | Mixin granting a layer a composition_mode |
 | [Confidence](Confidence.md) | Structured confidence carrying calibration metadata |
 | [ContentReference](ContentReference.md) | Content-addressed reference to externally stored content |
 | [Grit](Grit.md) | Abstract base for all pygrits graph nodes |
@@ -20,7 +21,12 @@ Name: pygrits_core
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[EvidenceRecord](EvidenceRecord.md) | Anchor unit |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Object](Object.md) | Subject node |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[OperationalLayer](OperationalLayer.md) | Abstract base for composable operational/interpretive layers that are not the... |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ExtractionProfile](ExtractionProfile.md) | Extraction/grounding semantics: how finely content is decomposed, how densely... |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ReasoningPolicy](ReasoningPolicy.md) | Inferential permission surface: what synthesis, inference, normalization, and... |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[VocabularyPack](VocabularyPack.md) | Namespace/ontology binding surface: the vocabulary references, ontology refer... |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ComposedViewpointDirective](ComposedViewpointDirective.md) | The frozen result of composing a ViewpointDirective with optional ExtractionP... |
 | [Locator](Locator.md) | Polymorphic locator into a source artifact |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[BboxLocator](BboxLocator.md) | Axis-aligned bounding box on a rasterized page |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[CharRangeLocator](CharRangeLocator.md) | Character range within extracted text of a source artifact |
@@ -38,8 +44,12 @@ Name: pygrits_core
 
 | Slot | Description |
 | --- | --- |
+| [active_namespaces](active_namespaces.md) | CURIE-prefix namespaces this pack activates (e |
 | [activity_type](activity_type.md) |  |
 | [admissibility_rationale](admissibility_rationale.md) | Why this Activity is valid given its inputs and viewpoint |
+| [allow_cross_document_synthesis](allow_cross_document_synthesis.md) | Whether synthesis across multiple documents is permitted |
+| [allow_ontology_normalization](allow_ontology_normalization.md) | Whether ontology normalization is permitted |
+| [allow_speculative_inference](allow_speculative_inference.md) | Whether speculative inference is permitted |
 | [assumptions](assumptions.md) |  |
 | [bbox_x0](bbox_x0.md) |  |
 | [bbox_x1](bbox_x1.md) |  |
@@ -55,10 +65,13 @@ Name: pygrits_core
 | [col](col.md) |  |
 | [compared_grit_ids](compared_grit_ids.md) |  |
 | [compatibility_judgments](compatibility_judgments.md) |  |
+| [composition_mode](composition_mode.md) | How this layer folds against its declared parents during resolution |
 | [confidence](confidence.md) |  |
 | [confidence_basis](confidence_basis.md) |  |
 | [confidence_domain](confidence_domain.md) | The input domain where the calibration applies |
 | [directive_name](directive_name.md) | Human-readable name (e |
+| [enable_contradiction_adjudication](enable_contradiction_adjudication.md) | Whether contradiction adjudication is enabled |
+| [evidence_density](evidence_density.md) | How densely claims should be grounded in evidence |
 | [evidence_record_ids](evidence_record_ids.md) | References to EvidenceRecord grits anchoring this Object's claims |
 | [evidence_type](evidence_type.md) | CURIE identifying the kind of scientific content the locator anchors |
 | [exemplars](exemplars.md) |  |
@@ -68,13 +81,17 @@ Name: pygrits_core
 | [failure_modes](failure_modes.md) |  |
 | [features](features.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
 | [generation_mode](generation_mode.md) | Free-form descriptor of the process that generated this grit (parser name + v... |
+| [granularity](granularity.md) | How finely content should be decomposed during extraction |
 | [hash_mode](hash_mode.md) | How the sha256 was computed |
+| [high_fidelity_content_kinds](high_fidelity_content_kinds.md) | Content kinds (viewpoint-supplied CURIEs) requiring high-fidelity locators an... |
 | [id](id.md) | Canonical grit identifier |
 | [imposed_should_not_claim](imposed_should_not_claim.md) | should_not_claim rules this directive imposes on every grit extracted under i... |
 | [inputs](inputs.md) | Input grit IDs consumed by this Activity |
+| [layer_name](layer_name.md) | Human-readable name (e |
 | [lifecycle_state](lifecycle_state.md) |  |
 | [lineage](lineage.md) |  |
 | [locator](locator.md) |  |
+| [locator_fidelity](locator_fidelity.md) | Expected locator granularity for anchored content |
 | [locator_type](locator_type.md) | Class name of the concrete Locator subclass (e |
 | [log_line_end](log_line_end.md) |  |
 | [log_line_start](log_line_start.md) |  |
@@ -84,14 +101,27 @@ Name: pygrits_core
 | [normalized_payload](normalized_payload.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
 | [notes](notes.md) | Free-text scope clarification |
 | [observations](observations.md) |  |
+| [ontology_refs](ontology_refs.md) | Content-addressed references to ontology definitions |
 | [operation_link_ids](operation_link_ids.md) | Backward pointers to ACTION_EDGE Activities involving this Object |
 | [outputs](outputs.md) | New grits produced by this Activity |
 | [page](page.md) |  |
+| [parent_extraction_profile_ids](parent_extraction_profile_ids.md) | ExtractionProfile ids this profile composes from, parents-first |
+| [parent_reasoning_policy_ids](parent_reasoning_policy_ids.md) | ReasoningPolicy ids this policy composes from, parents-first |
+| [parent_viewpoint_ids](parent_viewpoint_ids.md) | ViewpointDirective ids this directive composes from, parents-first |
+| [parent_vocabulary_pack_ids](parent_vocabulary_pack_ids.md) | VocabularyPack ids this pack composes from, parents-first |
+| [preserve_content_kinds](preserve_content_kinds.md) | Content kinds (viewpoint-supplied CURIEs) whose content must be preserved |
+| [preserve_numeric_values](preserve_numeric_values.md) | Whether reported numeric values must be preserved verbatim |
+| [preserve_uncertainty_language](preserve_uncertainty_language.md) | Whether uncertainty/hedging language must be preserved verbatim |
 | [prompts](prompts.md) |  |
 | [provenance](provenance.md) | Provenance description for v1 |
 | [rationale](rationale.md) |  |
 | [reference_sequence_id](reference_sequence_id.md) |  |
 | [reported_claims](reported_claims.md) |  |
+| [require_char_level_locators](require_char_level_locators.md) | Whether anchored content requires character-level locators |
+| [require_grounding_for_content_kinds](require_grounding_for_content_kinds.md) | Content kinds (viewpoint-supplied CURIEs) that must be grounded in an evidenc... |
+| [resolved_extraction_profile](resolved_extraction_profile.md) | The resolved extraction profile, if one was composed |
+| [resolved_reasoning_policy](resolved_reasoning_policy.md) | The resolved reasoning policy, if one was composed |
+| [resolved_vocabulary_pack](resolved_vocabulary_pack.md) | The resolved vocabulary pack, if one was composed |
 | [result](result.md) | One of `absent`, `weak_signal`, `excluded`, `inconclusive` |
 | [retrieved_at](retrieved_at.md) | Last successful integrity verification timestamp |
 | [review_state](review_state.md) |  |
@@ -108,6 +138,10 @@ Name: pygrits_core
 | [should_not_claim](should_not_claim.md) | Epistemic boundaries this grit must respect |
 | [source_artifact_ref](source_artifact_ref.md) | Single source artifact this evidence is extracted from |
 | [source_artifact_refs](source_artifact_refs.md) | ContentReferences to the source artifacts this Object derives from |
+| [source_extraction_profile_ids](source_extraction_profile_ids.md) | Flattened, parents-first chain of extraction profile ids that were composed |
+| [source_reasoning_policy_ids](source_reasoning_policy_ids.md) | Flattened, parents-first chain of reasoning policy ids that were composed |
+| [source_viewpoint_ids](source_viewpoint_ids.md) | Flattened, parents-first chain of viewpoint directive ids that were composed |
+| [source_vocabulary_pack_ids](source_vocabulary_pack_ids.md) | Flattened, parents-first chain of vocabulary pack ids that were composed |
 | [status](status.md) |  |
 | [summary](summary.md) |  |
 | [synthesis_link_ids](synthesis_link_ids.md) | Backward pointers to Activities that referenced this Object as input or outpu... |
@@ -128,11 +162,15 @@ Name: pygrits_core
 | --- | --- |
 | [ActivityType](ActivityType.md) | Structural type of an Activity (hyperedge in the topology) |
 | [CompatibilityStatus](CompatibilityStatus.md) | Outcome of a compatibility judgment |
+| [CompositionMode](CompositionMode.md) | How a composable layer folds against its declared parents during deterministi... |
 | [ConfidenceBasis](ConfidenceBasis.md) | Source semantics of a confidence value |
 | [EpistemicStatus](EpistemicStatus.md) | Epistemic label on a consequential statement |
+| [EvidenceDensity](EvidenceDensity.md) | How densely an extraction profile expects claims to be grounded in evidence |
+| [ExtractionGranularity](ExtractionGranularity.md) | How finely an extraction profile expects content to be decomposed |
 | [HashMode](HashMode.md) | How a ContentReference's sha256 is computed |
 | [LifecycleState](LifecycleState.md) | Lifecycle state of a grit |
 | [LineageType](LineageType.md) | Independence classification of an evidence record |
+| [LocatorFidelity](LocatorFidelity.md) | The locator granularity an extraction profile expects on anchored content |
 | [RefusalState](RefusalState.md) | Five-state refusal taxonomy |
 | [ReviewState](ReviewState.md) | Epistemic maturity of a derived grit |
 

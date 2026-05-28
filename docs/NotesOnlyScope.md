@@ -134,6 +134,7 @@ attributes:
     owner: NotesOnlyScope
     domain_of:
     - Scope
+    - ReasoningPolicy
     range: string
 
 ```

@@ -1,0 +1,48 @@
+# Example 02 — DetailedExtraction profile.
+#
+# A reusable, domain-neutral extraction-density layer. It increases granularity,
+# requires dense grounding and char-level locators, and preserves numeric values
+# and uncertainty language. Content-kind expectations are expressed only as
+# viewpoint-supplied CURIEs (pp:*); core assigns them no meaning.
+#
+# Validate with:
+#   from pygrits import ExtractionProfile
+
+id: ep:detailed-extraction-v0
+type: grits:extraction_profile
+viewpoint_directive_id: vpt:meta-v0
+provenance: >-
+  Hand-authored detailed extraction profile v0. Reusable across viewpoints and
+  domains; carries no domain ontology and no infrastructure settings.
+
+should_not_claim:
+  - "High extraction granularity does not imply correctness of extracted values."
+
+review_state: curator_reviewed
+lifecycle_state: active
+generation_mode: hand_authored_v0
+
+source_artifact_refs: []
+evidence_record_ids: []
+
+layer_name: "extraction_profile:detailed:v0"
+
+composition_mode: overriding
+parent_extraction_profile_ids: []
+
+granularity: detailed
+evidence_density: dense
+locator_fidelity: char
+
+preserve_numeric_values: true
+preserve_uncertainty_language: true
+require_char_level_locators: true
+
+preserve_content_kinds:
+  - pp:equation
+  - pp:measurement
+require_grounding_for_content_kinds:
+  - pp:claim
+  - pp:measurement
+high_fidelity_content_kinds:
+  - pp:equation

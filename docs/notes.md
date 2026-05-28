@@ -5,11 +5,6 @@ search:
 
 # Slot: notes 
 
-
-_Free-text scope clarification._
-
-
-
 <div data-search-exclude markdown="1">
 
 
@@ -27,6 +22,7 @@ URI: [grits:notes](https://w3id.org/grits/notes)
 | --- | --- | --- |
 | [Scope](Scope.md) | Container for viewpoint-supplied scope dimensions |  no  |
 | [NotesOnlyScope](NotesOnlyScope.md) | Scope marker with only free-form notes; no domain dimensions |  no  |
+| [ReasoningPolicy](ReasoningPolicy.md) | Inferential permission surface: what synthesis, inference, normalization, and... |  no  |
 
 
 
@@ -40,19 +36,12 @@ URI: [grits:notes](https://w3id.org/grits/notes)
 | Property | Value |
 | --- | --- |
 | Range | [String](String.md) |
-| Domain Of | [Scope](Scope.md) |
+| Domain Of | [Scope](Scope.md), [ReasoningPolicy](ReasoningPolicy.md) |
 
 ### Cardinality and Requirements
 
 | Property | Value |
 | --- | --- |
-### Slot Characteristics
-
-| Property | Value |
-| --- | --- |
-| Owner | [Scope](Scope.md) |
-
-
 
 
 
@@ -66,13 +55,6 @@ URI: [grits:notes](https://w3id.org/grits/notes)
 ## Identifier and Mapping Information
 
 
-
-
-
-### Schema Source
-
-
-* from schema: https://w3id.org/grits/core
 
 
 
@@ -92,12 +74,9 @@ URI: [grits:notes](https://w3id.org/grits/notes)
 <details>
 ```yaml
 name: notes
-description: Free-text scope clarification.
-from_schema: https://w3id.org/grits/core
-rank: 1000
-owner: Scope
 domain_of:
 - Scope
+- ReasoningPolicy
 range: string
 
 ```

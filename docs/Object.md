@@ -30,6 +30,8 @@ URI: [grits:Object](https://w3id.org/grits/Object)
 
       Object <|-- ViewpointDirective
         click ViewpointDirective href "../ViewpointDirective/"
+      Object <|-- OperationalLayer
+        click OperationalLayer href "../OperationalLayer/"
       
 
       Object : assumptions
@@ -120,7 +122,8 @@ URI: [grits:Object](https://w3id.org/grits/Object)
 ## Inheritance
 * [Grit](Grit.md)
     * **Object**
-        * [ViewpointDirective](ViewpointDirective.md)
+        * [ViewpointDirective](ViewpointDirective.md) [ [Composable](Composable.md)]
+        * [OperationalLayer](OperationalLayer.md) [ [Composable](Composable.md)]
 
 
 ## Slots

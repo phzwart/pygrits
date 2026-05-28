@@ -1,0 +1,65 @@
+id: https://w3id.org/grits/viewpoints/paper_parsing_v0
+name: paper_parsing_v0
+title: Generic Paper Parsing Viewpoint v0
+description: >-
+  Domain-neutral viewpoint vocabulary for scientific-document parsing. Declares
+  document-level content kinds (sections, figures, tables, citations, equations,
+  claims, measurements, evidence spans, extraction provenance) as pp:<term>
+  CURIEs. These are document semantics, not scientific-domain ontology: no
+  materials, biology, or chemistry concepts appear here. ExtractionProfile
+  layers reference these CURIEs in their content-kind slots.
+version: 0.1.0
+license: BSD-3-Clause
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  grits: https://w3id.org/grits/
+  pp: https://w3id.org/grits/viewpoints/paper_parsing_v0/
+
+default_prefix: pp
+default_range: string
+
+imports:
+  - linkml:types
+  - ../src/pygrits/core
+
+enums:
+  PaperParsingContentKind:
+    description: >-
+      Document-level content kinds for scientific-paper parsing. Emitted as
+      pp:<term> CURIEs and referenced by ExtractionProfile content-kind slots
+      (preserve_content_kinds, require_grounding_for_content_kinds,
+      high_fidelity_content_kinds) and by EvidenceRecord.evidence_type.
+    permissible_values:
+      section:
+        meaning: pp:section
+        description: A document section or subsection.
+      figure:
+        meaning: pp:figure
+        description: A figure or image region.
+      table:
+        meaning: pp:table
+        description: A tabular structure.
+      citation:
+        meaning: pp:citation
+        description: A bibliographic citation or reference.
+      equation:
+        meaning: pp:equation
+        description: A mathematical equation or expression.
+      claim:
+        meaning: pp:claim
+        description: An asserted statement reported by the document.
+      measurement:
+        meaning: pp:measurement
+        description: A reported measured or computed value.
+      evidence_span:
+        meaning: pp:evidence_span
+        description: A verbatim span serving as grounding evidence.
+      extraction_provenance:
+        meaning: pp:extraction_provenance
+        description: A record of how content was extracted (tool, model, pass).
+
+classes:
+  PaperParsingScope:
+    is_a: NotesOnlyScope
+    description: Scope for generic paper parsing; no scientific-domain dimensions.

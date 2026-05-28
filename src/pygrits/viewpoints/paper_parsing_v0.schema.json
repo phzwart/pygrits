@@ -1,0 +1,2841 @@
+{
+    "$defs": {
+        "Activity": {
+            "additionalProperties": false,
+            "description": "Hyperedge. Consumes input grits, applies an interpretation under stated assumptions, emits output grits. Records a transform step in the hyperDAG topology.",
+            "properties": {
+                "activity_type": {
+                    "$ref": "#/$defs/ActivityType"
+                },
+                "admissibility_rationale": {
+                    "description": "Why this Activity is valid given its inputs and viewpoint.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "compatibility_judgments": {
+                    "items": {
+                        "$ref": "#/$defs/CompatibilityJudgment"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "inputs": {
+                    "description": "Input grit IDs consumed by this Activity.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "outputs": {
+                    "description": "New grits produced by this Activity. May be empty for declarative edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activity_type",
+                "inputs",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "Activity",
+            "type": "object"
+        },
+        "ActivityType": {
+            "description": "Structural type of an Activity (hyperedge in the topology).",
+            "enum": [
+                "SYNTHESIS_EDGE",
+                "SUPPORT_EDGE",
+                "CONTRADICTION_EDGE",
+                "COMPATIBILITY_EDGE",
+                "VALIDATION_EDGE",
+                "ACTION_EDGE",
+                "ADJUDICATION_EDGE"
+            ],
+            "title": "ActivityType",
+            "type": "string"
+        },
+        "BboxLocator": {
+            "additionalProperties": false,
+            "description": "Axis-aligned bounding box on a rasterized page.",
+            "properties": {
+                "bbox_x0": {
+                    "type": "number"
+                },
+                "bbox_x1": {
+                    "type": "number"
+                },
+                "bbox_y0": {
+                    "type": "number"
+                },
+                "bbox_y1": {
+                    "type": "number"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "BboxLocator"
+                    ],
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "page",
+                "bbox_x0",
+                "bbox_y0",
+                "bbox_x1",
+                "bbox_y1",
+                "locator_type"
+            ],
+            "title": "BboxLocator",
+            "type": "object"
+        },
+        "CharRangeLocator": {
+            "additionalProperties": false,
+            "description": "Character range within extracted text of a source artifact.",
+            "properties": {
+                "char_end": {
+                    "type": "integer"
+                },
+                "char_start": {
+                    "type": "integer"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "CharRangeLocator"
+                    ],
+                    "type": "string"
+                },
+                "page": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "char_start",
+                "char_end",
+                "locator_type"
+            ],
+            "title": "CharRangeLocator",
+            "type": "object"
+        },
+        "CompatibilityJudgment": {
+            "additionalProperties": false,
+            "description": "A recorded compatibility judgment over a set of grits/evidence.",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "checked_scope_dimensions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "compared_grit_ids": {
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "rationale": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "status": {
+                    "$ref": "#/$defs/CompatibilityStatus"
+                },
+                "viewpoint_directive_id": {
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "compared_grit_ids",
+                "status"
+            ],
+            "title": "CompatibilityJudgment",
+            "type": "object"
+        },
+        "CompatibilityStatus": {
+            "description": "Outcome of a compatibility judgment.",
+            "enum": [
+                "compatible",
+                "conditionally_compatible",
+                "incompatible",
+                "unknown"
+            ],
+            "title": "CompatibilityStatus",
+            "type": "string"
+        },
+        "Composable": {
+            "additionalProperties": false,
+            "description": "Mixin granting a layer a composition_mode. Parent references are NOT in this mixin \u2014 each composable class declares its own semantically explicit parent slot (parent_viewpoint_ids, parent_extraction_profile_ids, etc.).",
+            "properties": {
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                }
+            },
+            "title": "Composable",
+            "type": "object"
+        },
+        "ComposedViewpointDirective": {
+            "additionalProperties": false,
+            "description": "The frozen result of composing a ViewpointDirective with optional ExtractionProfile, VocabularyPack, and ReasoningPolicy layers. Still a viewpoint-level interpretive contract (and still hashed by the one canonical pipeline), it inlines the resolved operational layers and records the flattened source chains for inspectability. Produced by compose_viewpoint(); not hand-authored.",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                },
+                "directive_name": {
+                    "description": "Human-readable name (e.g. viewpoint:materials_science:v1). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "exemplars": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "imposed_should_not_claim": {
+                    "description": "should_not_claim rules this directive imposes on every grit extracted under it. Combined with per-class defaults at extraction time.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "parent_viewpoint_ids": {
+                    "description": "ViewpointDirective ids this directive composes from, parents-first. Resolution is explicit (the caller supplies the registry); there is no implicit runtime parent lookup.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "prompts": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "resolved_extraction_profile": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ExtractionProfile"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The resolved extraction profile, if one was composed."
+                },
+                "resolved_reasoning_policy": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ReasoningPolicy"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The resolved reasoning policy, if one was composed."
+                },
+                "resolved_vocabulary_pack": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/VocabularyPack"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The resolved vocabulary pack, if one was composed."
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "source_extraction_profile_ids": {
+                    "description": "Flattened, parents-first chain of extraction profile ids that were composed.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "source_reasoning_policy_ids": {
+                    "description": "Flattened, parents-first chain of reasoning policy ids that were composed.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "source_viewpoint_ids": {
+                    "description": "Flattened, parents-first chain of viewpoint directive ids that were composed.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "source_vocabulary_pack_ids": {
+                    "description": "Flattened, parents-first chain of vocabulary pack ids that were composed.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "target_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Reference to the LinkML schema (or schema profile) this directive commits to."
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "vocabulary_refs": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "directive_name",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "ComposedViewpointDirective",
+            "type": "object"
+        },
+        "CompositeLocator": {
+            "additionalProperties": false,
+            "description": "A locator that combines multiple sub-locators.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "CompositeLocator"
+                    ],
+                    "type": "string"
+                },
+                "members": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/CharRangeLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/BboxLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/SequencePositionLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/ProcessingLogLineLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/TableCellLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/FileRegionLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/CompositeLocator"
+                            }
+                        ]
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "locator_type"
+            ],
+            "title": "CompositeLocator",
+            "type": "object"
+        },
+        "CompositionMode": {
+            "description": "How a composable layer folds against its declared parents during deterministic resolution. Selected per layer; not every layer type supports every mode.",
+            "enum": [
+                "additive",
+                "restrictive",
+                "overriding",
+                "isolated"
+            ],
+            "title": "CompositionMode",
+            "type": "string"
+        },
+        "Confidence": {
+            "additionalProperties": false,
+            "description": "Structured confidence carrying calibration metadata. A calibrated confidence outside its calibration_domain or under a different viewpoint is no longer calibrated \u2014 downstream consumers must downgrade to heuristic.",
+            "properties": {
+                "calibration_scope": {
+                    "description": "The data distribution under which the confidence was calibrated.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "confidence_basis": {
+                    "$ref": "#/$defs/ConfidenceBasis"
+                },
+                "confidence_domain": {
+                    "description": "The input domain where the calibration applies.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "failure_modes": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "value": {
+                    "description": "Numeric confidence; semantics depend on confidence_basis.",
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Viewpoint under which calibration was performed.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "confidence_basis"
+            ],
+            "title": "Confidence",
+            "type": "object"
+        },
+        "ConfidenceBasis": {
+            "description": "Source semantics of a confidence value.",
+            "enum": [
+                "parser_self_report",
+                "conformal",
+                "bayesian",
+                "heuristic",
+                "aggregated"
+            ],
+            "title": "ConfidenceBasis",
+            "type": "string"
+        },
+        "ContentReference": {
+            "additionalProperties": false,
+            "description": "Content-addressed reference to externally stored content. Identity by uri + sha256 + hash_mode. At resolution time, the system fetches uri, recomputes the hash under hash_mode, and refuses to use the content if the hash does not match.",
+            "properties": {
+                "hash_mode": {
+                    "$ref": "#/$defs/HashMode",
+                    "description": "How the sha256 was computed."
+                },
+                "media_type": {
+                    "description": "MIME type for disambiguation.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "retrieved_at": {
+                    "description": "Last successful integrity verification timestamp.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sha256": {
+                    "description": "Integrity check on the content.",
+                    "pattern": "^[a-f0-9]{64}$",
+                    "type": "string"
+                },
+                "uri": {
+                    "description": "Locator (file path, https URL, did:..., cid:...).",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uri",
+                "sha256",
+                "hash_mode"
+            ],
+            "title": "ContentReference",
+            "type": "object"
+        },
+        "EpistemicStatus": {
+            "description": "Epistemic label on a consequential statement.",
+            "enum": [
+                "direct_evidence",
+                "reported_by_source",
+                "extracted",
+                "computed",
+                "inferred",
+                "synthesized",
+                "speculative",
+                "negative_evidence",
+                "out_of_viewpoint",
+                "action_proposal",
+                "contradicted",
+                "unresolved",
+                "deprecated",
+                "unknown"
+            ],
+            "title": "EpistemicStatus",
+            "type": "string"
+        },
+        "EvidenceDensity": {
+            "description": "How densely an extraction profile expects claims to be grounded in evidence.",
+            "enum": [
+                "sparse",
+                "standard",
+                "dense"
+            ],
+            "title": "EvidenceDensity",
+            "type": "string"
+        },
+        "EvidenceRecord": {
+            "additionalProperties": false,
+            "description": "Anchor unit. Grounded data anchored to a single source artifact via a typed locator. Referenced by Objects' evidence_record_ids and by Activities' inputs.",
+            "properties": {
+                "cited_from": {
+                    "description": "Identifier or marker for prior evidence this record derives from or cites. May be `unknown_external` when citation resolution has not happened.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_type": {
+                    "description": "CURIE identifying the kind of scientific content the locator anchors. No core-supplied permissible values; viewpoints supply the evidence-type vocabulary they use.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extracted_content": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extraction_confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "extraction_method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "lineage": {
+                    "$ref": "#/$defs/LineageType"
+                },
+                "locator": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CharRangeLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/BboxLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/SequencePositionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/ProcessingLogLineLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/TableCellLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/FileRegionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositeLocator"
+                        }
+                    ]
+                },
+                "normalized_payload": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_ref": {
+                    "$ref": "#/$defs/ContentReference",
+                    "description": "Single source artifact this evidence is extracted from."
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source_artifact_ref",
+                "locator",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "EvidenceRecord",
+            "type": "object"
+        },
+        "ExtractionGranularity": {
+            "description": "How finely an extraction profile expects content to be decomposed.",
+            "enum": [
+                "coarse",
+                "standard",
+                "detailed",
+                "exhaustive"
+            ],
+            "title": "ExtractionGranularity",
+            "type": "string"
+        },
+        "ExtractionProfile": {
+            "additionalProperties": false,
+            "description": "Extraction/grounding semantics: how finely content is decomposed, how densely claims are grounded, and what locator fidelity is expected. Core understands only abstract content kinds identified by CURIEs; the semantic meaning of those CURIEs is supplied by viewpoint vocabularies. This layer carries no infrastructure settings (no retry, OCR, chunking, parallelism, transport, or cache concerns). Supported composition modes: additive, overriding.",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                },
+                "evidence_density": {
+                    "$ref": "#/$defs/EvidenceDensity",
+                    "description": "How densely claims should be grounded in evidence."
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "granularity": {
+                    "$ref": "#/$defs/ExtractionGranularity",
+                    "description": "How finely content should be decomposed during extraction."
+                },
+                "high_fidelity_content_kinds": {
+                    "description": "Content kinds (viewpoint-supplied CURIEs) requiring high-fidelity locators and verbatim preservation.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "layer_name": {
+                    "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "locator_fidelity": {
+                    "$ref": "#/$defs/LocatorFidelity",
+                    "description": "Expected locator granularity for anchored content."
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "parent_extraction_profile_ids": {
+                    "description": "ExtractionProfile ids this profile composes from, parents-first.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "preserve_content_kinds": {
+                    "description": "Content kinds (viewpoint-supplied CURIEs) whose content must be preserved. Core assigns no meaning to these CURIEs.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "preserve_numeric_values": {
+                    "description": "Whether reported numeric values must be preserved verbatim.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "preserve_uncertainty_language": {
+                    "description": "Whether uncertainty/hedging language must be preserved verbatim.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "require_char_level_locators": {
+                    "description": "Whether anchored content requires character-level locators.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "require_grounding_for_content_kinds": {
+                    "description": "Content kinds (viewpoint-supplied CURIEs) that must be grounded in an evidence record.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "layer_name",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "ExtractionProfile",
+            "type": "object"
+        },
+        "FileRegionLocator": {
+            "additionalProperties": false,
+            "description": "Byte range within an opaque binary artifact.",
+            "properties": {
+                "byte_end": {
+                    "type": "integer"
+                },
+                "byte_start": {
+                    "type": "integer"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "FileRegionLocator"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "byte_start",
+                "byte_end",
+                "locator_type"
+            ],
+            "title": "FileRegionLocator",
+            "type": "object"
+        },
+        "Grit": {
+            "additionalProperties": false,
+            "description": "Abstract base for all pygrits graph nodes. Carries the discipline contract: identity, type, viewpoint, provenance, lifecycle, review state, should_not_claim, scope, generation mode. Three concrete role subclasses: Object, Activity, EvidenceRecord.",
+            "properties": {
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "Grit",
+            "type": "object"
+        },
+        "HashMode": {
+            "description": "How a ContentReference's sha256 is computed.",
+            "enum": [
+                "raw_bytes",
+                "linkml_canonical_jcs"
+            ],
+            "title": "HashMode",
+            "type": "string"
+        },
+        "LifecycleState": {
+            "description": "Lifecycle state of a grit.",
+            "enum": [
+                "ingested",
+                "parsed",
+                "evidence_extracted",
+                "interaction_ready",
+                "active",
+                "synthesized",
+                "deprecated",
+                "superseded",
+                "retracted"
+            ],
+            "title": "LifecycleState",
+            "type": "string"
+        },
+        "LineageType": {
+            "description": "Independence classification of an evidence record.",
+            "enum": [
+                "independent",
+                "derived",
+                "duplicated",
+                "cited",
+                "computational"
+            ],
+            "title": "LineageType",
+            "type": "string"
+        },
+        "Locator": {
+            "additionalProperties": false,
+            "description": "Polymorphic locator into a source artifact. Describes HOW an anchor into a source artifact is shaped (character range, bounding box, sequence position, etc.), not WHAT kind of content the source contains. Discriminator is locator_type.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "Locator"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "locator_type"
+            ],
+            "title": "Locator",
+            "type": "object"
+        },
+        "LocatorFidelity": {
+            "description": "The locator granularity an extraction profile expects on anchored content.",
+            "enum": [
+                "document",
+                "section",
+                "paragraph",
+                "span",
+                "char"
+            ],
+            "title": "LocatorFidelity",
+            "type": "string"
+        },
+        "NegativeEvidenceRecord": {
+            "additionalProperties": false,
+            "description": "First-class record of a search that returned no result under stated scope. Distinct from `unknown` (question not considered) and from `not_searched` (in scope but not attempted).",
+            "properties": {
+                "cited_from": {
+                    "description": "Identifier or marker for prior evidence this record derives from or cites. May be `unknown_external` when citation resolution has not happened.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_type": {
+                    "description": "CURIE identifying the kind of scientific content the locator anchors. No core-supplied permissible values; viewpoints supply the evidence-type vocabulary they use.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extracted_content": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extraction_confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "extraction_method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "lineage": {
+                    "$ref": "#/$defs/LineageType"
+                },
+                "locator": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CharRangeLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/BboxLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/SequencePositionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/ProcessingLogLineLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/TableCellLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/FileRegionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositeLocator"
+                        }
+                    ]
+                },
+                "normalized_payload": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "result": {
+                    "description": "One of `absent`, `weak_signal`, `excluded`, `inconclusive`.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "search_confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "search_method": {
+                    "type": "string"
+                },
+                "search_scope": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "search_timestamp": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_ref": {
+                    "$ref": "#/$defs/ContentReference",
+                    "description": "Single source artifact this evidence is extracted from."
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search_method",
+                "result",
+                "source_artifact_ref",
+                "locator",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "NegativeEvidenceRecord",
+            "type": "object"
+        },
+        "NotesOnlyScope": {
+            "additionalProperties": false,
+            "description": "Scope marker with only free-form notes; no domain dimensions.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "NotesOnlyScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "NotesOnlyScope",
+            "type": "object"
+        },
+        "Object": {
+            "additionalProperties": false,
+            "description": "Subject node. Holds source artifact refs, evidence refs, and descriptive payload slots.",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "Object",
+            "type": "object"
+        },
+        "OperationalLayer": {
+            "additionalProperties": false,
+            "description": "Abstract base for composable operational/interpretive layers that are not themselves viewpoint directives (ExtractionProfile, VocabularyPack, ReasoningPolicy). Inherits the full Object/Grit discipline. Reusable foundational layers set viewpoint_directive_id to the bootstrap meta-viewpoint (vpt:meta-v0).",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "layer_name": {
+                    "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "layer_name",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "OperationalLayer",
+            "type": "object"
+        },
+        "PaperParsingContentKind": {
+            "description": "Document-level content kinds for scientific-paper parsing. Emitted as pp:<term> CURIEs and referenced by ExtractionProfile content-kind slots (preserve_content_kinds, require_grounding_for_content_kinds, high_fidelity_content_kinds) and by EvidenceRecord.evidence_type.",
+            "enum": [
+                "section",
+                "figure",
+                "table",
+                "citation",
+                "equation",
+                "claim",
+                "measurement",
+                "evidence_span",
+                "extraction_provenance"
+            ],
+            "title": "PaperParsingContentKind",
+            "type": "string"
+        },
+        "PaperParsingScope": {
+            "additionalProperties": false,
+            "description": "Scope for generic paper parsing; no scientific-domain dimensions.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "PaperParsingScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "PaperParsingScope",
+            "type": "object"
+        },
+        "ProcessingLogLineLocator": {
+            "additionalProperties": false,
+            "description": "Line range within a processing log.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "ProcessingLogLineLocator"
+                    ],
+                    "type": "string"
+                },
+                "log_line_end": {
+                    "type": "integer"
+                },
+                "log_line_start": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "log_line_start",
+                "log_line_end",
+                "locator_type"
+            ],
+            "title": "ProcessingLogLineLocator",
+            "type": "object"
+        },
+        "ReasoningPolicy": {
+            "additionalProperties": false,
+            "description": "Inferential permission surface: what synthesis, inference, normalization, and adjudication a layer permits. Governs reasoning freedom only \u2014 it does not control extraction behavior. Supported composition modes: additive, restrictive.",
+            "properties": {
+                "allow_cross_document_synthesis": {
+                    "description": "Whether synthesis across multiple documents is permitted.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "allow_ontology_normalization": {
+                    "description": "Whether ontology normalization is permitted.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "allow_speculative_inference": {
+                    "description": "Whether speculative inference is permitted.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                },
+                "enable_contradiction_adjudication": {
+                    "description": "Whether contradiction adjudication is enabled.",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "layer_name": {
+                    "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text clarification of the reasoning posture.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "parent_reasoning_policy_ids": {
+                    "description": "ReasoningPolicy ids this policy composes from, parents-first.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "layer_name",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "ReasoningPolicy",
+            "type": "object"
+        },
+        "RefusalState": {
+            "description": "Five-state refusal taxonomy. Distinct from EpistemicStatus \u2014 RefusalState answers \"did we look, and what did we find?\", EpistemicStatus answers \"what kind of statement is this?\".",
+            "enum": [
+                "unknown",
+                "not_searched",
+                "searched_absent",
+                "out_of_viewpoint",
+                "contradicted"
+            ],
+            "title": "RefusalState",
+            "type": "string"
+        },
+        "ReviewState": {
+            "description": "Epistemic maturity of a derived grit.",
+            "enum": [
+                "unreviewed",
+                "machine_generated",
+                "curator_reviewed",
+                "experimentally_validated",
+                "disputed",
+                "deprecated"
+            ],
+            "title": "ReviewState",
+            "type": "string"
+        },
+        "Scope": {
+            "additionalProperties": false,
+            "description": "Container for viewpoint-supplied scope dimensions. The core defines no domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare the scope commitments they populate.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "Scope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "Scope",
+            "type": "object"
+        },
+        "SequencePositionLocator": {
+            "additionalProperties": false,
+            "description": "Position range within a reference sequence.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "SequencePositionLocator"
+                    ],
+                    "type": "string"
+                },
+                "reference_sequence_id": {
+                    "type": "string"
+                },
+                "seq_end": {
+                    "type": "integer"
+                },
+                "seq_start": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "reference_sequence_id",
+                "seq_start",
+                "seq_end",
+                "locator_type"
+            ],
+            "title": "SequencePositionLocator",
+            "type": "object"
+        },
+        "TableCellLocator": {
+            "additionalProperties": false,
+            "description": "A specific cell within an extracted table.",
+            "properties": {
+                "col": {
+                    "type": "integer"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "TableCellLocator"
+                    ],
+                    "type": "string"
+                },
+                "row": {
+                    "type": "integer"
+                },
+                "table_id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "table_id",
+                "row",
+                "col",
+                "locator_type"
+            ],
+            "title": "TableCellLocator",
+            "type": "object"
+        },
+        "ViewpointDirective": {
+            "additionalProperties": false,
+            "description": "The interpretive frame under which grits are extracted. Itself an Object \u2014 a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted grits. Composable against parent viewpoint directives. Supported composition modes: additive, restrictive, overriding.",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                },
+                "directive_name": {
+                    "description": "Human-readable name (e.g. viewpoint:materials_science:v1). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "exemplars": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "imposed_should_not_claim": {
+                    "description": "should_not_claim rules this directive imposes on every grit extracted under it. Combined with per-class defaults at extraction time.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "parent_viewpoint_ids": {
+                    "description": "ViewpointDirective ids this directive composes from, parents-first. Resolution is explicit (the caller supplies the registry); there is no implicit runtime parent lookup.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "prompts": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "target_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Reference to the LinkML schema (or schema profile) this directive commits to."
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "vocabulary_refs": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "directive_name",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "ViewpointDirective",
+            "type": "object"
+        },
+        "VocabularyPack": {
+            "additionalProperties": false,
+            "description": "Namespace/ontology binding surface: the vocabulary references, ontology references, and active CURIE-prefix namespaces a layer makes available. Ontology-neutral in core \u2014 the actual terms live in external referenced content. Supported composition modes: additive, isolated.",
+            "properties": {
+                "active_namespaces": {
+                    "description": "CURIE-prefix namespaces this pack activates (e.g. \"pp\", \"mse\").",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "composition_mode": {
+                    "$ref": "#/$defs/CompositionMode",
+                    "description": "How this layer folds against its declared parents during resolution. Defaults to additive."
+                },
+                "evidence_record_ids": {
+                    "description": "References to EvidenceRecord grits anchoring this Object's claims.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "features": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "layer_name": {
+                    "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "methods": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "observations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "ontology_refs": {
+                    "description": "Content-addressed references to ontology definitions.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "operation_link_ids": {
+                    "description": "Backward pointers to ACTION_EDGE Activities involving this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "parent_vocabulary_pack_ids": {
+                    "description": "VocabularyPack ids this pack composes from, parents-first.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "reported_claims": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/PaperParsingScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_refs": {
+                    "description": "ContentReferences to the source artifacts this Object derives from.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "synthesis_link_ids": {
+                    "description": "Backward pointers to Activities that referenced this Object as input or output.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "uncertainties": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "unspecified_items": {
+                    "description": "Dimensions or claims not bound under the current viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "vocabulary_refs": {
+                    "description": "Content-addressed references to vocabulary definitions.",
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "layer_name",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "VocabularyPack",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/grits/viewpoints/paper_parsing_v0",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": true,
+    "metamodel_version": "1.11.0",
+    "title": "paper_parsing_v0",
+    "type": "object",
+    "version": "0.1.0"
+}
+

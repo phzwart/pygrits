@@ -21,6 +21,7 @@ URI: [grits:exemplars](https://w3id.org/grits/exemplars)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | The frozen result of composing a ViewpointDirective with optional ExtractionP... |  no  |
 
 
 

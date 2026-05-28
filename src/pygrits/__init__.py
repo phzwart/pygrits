@@ -7,7 +7,7 @@ Python implementation of the pygrits core schema for structured epistemic
 containment in agentic scientific reasoning.
 """
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 from pygrits.canonical import (
     canonical_bytes_for_instance,
@@ -22,34 +22,52 @@ from pygrits.core import (
     CharRangeLocator,
     CompatibilityJudgment,
     CompatibilityStatus,
+    Composable,
+    ComposedViewpointDirective,
     CompositeLocator,
+    CompositionMode,
     Confidence,
     ConfidenceBasis,
     ContentReference,
     EpistemicStatus,
+    EvidenceDensity,
     EvidenceRecord,
+    ExtractionGranularity,
+    ExtractionProfile,
     FileRegionLocator,
     Grit,
     HashMode,
     LifecycleState,
     LineageType,
     Locator,
+    LocatorFidelity,
     NegativeEvidenceRecord,
     NotesOnlyScope,
     Object,
+    OperationalLayer,
     ProcessingLogLineLocator,
+    ReasoningPolicy,
     RefusalState,
     ReviewState,
     Scope,
     SequencePositionLocator,
     TableCellLocator,
     ViewpointDirective,
+    VocabularyPack,
 )
 from pygrits.resources import (
     json_schema_path,
     schema_path,
     viewpoint_json_schema_path,
     viewpoint_schema_path,
+)
+from pygrits.viewpoint_resolution import (
+    CompositionError,
+    compose_viewpoint,
+    resolve_extraction_profile,
+    resolve_reasoning_policy,
+    resolve_viewpoint,
+    resolve_vocabulary_pack,
 )
 
 __all__ = [
@@ -60,6 +78,16 @@ __all__ = [
     "EvidenceRecord",
     "ViewpointDirective",
     "NegativeEvidenceRecord",
+    "ComposedViewpointDirective",
+    "OperationalLayer",
+    "ExtractionProfile",
+    "VocabularyPack",
+    "ReasoningPolicy",
+    "Composable",
+    "CompositionMode",
+    "ExtractionGranularity",
+    "EvidenceDensity",
+    "LocatorFidelity",
     "ContentReference",
     "Scope",
     "NotesOnlyScope",
@@ -90,4 +118,10 @@ __all__ = [
     "json_schema_path",
     "viewpoint_schema_path",
     "viewpoint_json_schema_path",
+    "resolve_viewpoint",
+    "resolve_extraction_profile",
+    "resolve_vocabulary_pack",
+    "resolve_reasoning_policy",
+    "compose_viewpoint",
+    "CompositionError",
 ]

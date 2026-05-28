@@ -65,6 +65,27 @@ def test_shipped_core_yaml_contains_no_domain_tokens(core_yaml_text: str) -> Non
         )
 
 
+def test_shipped_core_yaml_contains_no_paper_semantics(core_yaml_text: str) -> None:
+    """Document-level paper semantics belong to viewpoint vocabularies, not core.
+
+    ExtractionProfile references content kinds only as opaque CURIEs, so these
+    document terms must never appear as literals in the core schema. (`section`
+    is excluded: it is a generic LocatorFidelity value; `citation` is excluded:
+    it appears in the cited_from description; `table` is excluded: it is the
+    structural TableCellLocator.)
+    """
+    forbidden = (
+        "figure",
+        "equation",
+        "measurement",
+    )
+    lowered = core_yaml_text.lower()
+    for token in forbidden:
+        assert token not in lowered, (
+            f"core.yaml must not contain paper-semantic token {token!r}"
+        )
+
+
 def test_core_still_exports_structural_primitives() -> None:
     for name in (
         "Grit",

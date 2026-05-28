@@ -77,6 +77,17 @@ URI: [grits:ContentReference](https://w3id.org/grits/ContentReference)
 | [ViewpointDirective](ViewpointDirective.md) | [target_schema](target_schema.md) | range | [ContentReference](ContentReference.md) |
 | [ViewpointDirective](ViewpointDirective.md) | [source_artifact_refs](source_artifact_refs.md) | range | [ContentReference](ContentReference.md) |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | [source_artifact_ref](source_artifact_ref.md) | range | [ContentReference](ContentReference.md) |
+| [OperationalLayer](OperationalLayer.md) | [source_artifact_refs](source_artifact_refs.md) | range | [ContentReference](ContentReference.md) |
+| [ExtractionProfile](ExtractionProfile.md) | [source_artifact_refs](source_artifact_refs.md) | range | [ContentReference](ContentReference.md) |
+| [VocabularyPack](VocabularyPack.md) | [vocabulary_refs](vocabulary_refs.md) | range | [ContentReference](ContentReference.md) |
+| [VocabularyPack](VocabularyPack.md) | [ontology_refs](ontology_refs.md) | range | [ContentReference](ContentReference.md) |
+| [VocabularyPack](VocabularyPack.md) | [source_artifact_refs](source_artifact_refs.md) | range | [ContentReference](ContentReference.md) |
+| [ReasoningPolicy](ReasoningPolicy.md) | [source_artifact_refs](source_artifact_refs.md) | range | [ContentReference](ContentReference.md) |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | [prompts](prompts.md) | range | [ContentReference](ContentReference.md) |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | [exemplars](exemplars.md) | range | [ContentReference](ContentReference.md) |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | [vocabulary_refs](vocabulary_refs.md) | range | [ContentReference](ContentReference.md) |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | [target_schema](target_schema.md) | range | [ContentReference](ContentReference.md) |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | [source_artifact_refs](source_artifact_refs.md) | range | [ContentReference](ContentReference.md) |
 
 
 

@@ -1,0 +1,54 @@
+# Example 01 — GenericScientificPaperView.
+#
+# A domain-neutral epistemic contract for parsing scientific papers. It commits
+# to document-level admissibility (sections, figures, tables, citations, etc. as
+# evidence kinds) but to NO scientific-domain vocabulary. It composes additively
+# over the bootstrap meta-viewpoint.
+#
+# Validate with:
+#   from pygrits import ViewpointDirective
+
+id: vpt:generic-paper-parse-v0
+type: grits:viewpoint_directive
+viewpoint_directive_id: vpt:meta-v0
+provenance: >-
+  Hand-authored generic scientific-paper parsing viewpoint v0. Adds no
+  scientific-domain vocabulary; document-level semantics only.
+
+should_not_claim:
+  - "Document structure is extracted; semantic domain meaning is not asserted by this viewpoint."
+  - "Section/figure/table boundaries are heuristic and may be imperfect."
+
+review_state: curator_reviewed
+lifecycle_state: active
+generation_mode: hand_authored_v0
+
+source_artifact_refs: []
+evidence_record_ids: []
+
+summary: >-
+  Generic scientific-paper parsing viewpoint. Commits to document-level content
+  kinds without any materials/biology/chemistry vocabulary.
+
+directive_name: "viewpoint:generic_paper_parse:v0"
+
+composition_mode: additive
+parent_viewpoint_ids:
+  - vpt:meta-v0
+
+prompts:
+  - uri: "file://./prompts/generic_paper_parse/extraction.v0.txt"
+    sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+    hash_mode: raw_bytes
+    media_type: "text/plain"
+
+exemplars: []
+vocabulary_refs:
+  - uri: "file://./viewpoints/paper_parsing_v0.yaml"
+    sha256: "1111111111111111111111111111111111111111111111111111111111111111"
+    hash_mode: raw_bytes
+    media_type: "application/yaml"
+
+imposed_should_not_claim:
+  - "Every grit must declare its viewpoint_directive_id."
+  - "Extracted document content is reported structure, not validated scientific claims."

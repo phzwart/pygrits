@@ -26,6 +26,7 @@ URI: [grits:directive_name](https://w3id.org/grits/directive_name)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | The frozen result of composing a ViewpointDirective with optional ExtractionP... |  no  |
 
 
 

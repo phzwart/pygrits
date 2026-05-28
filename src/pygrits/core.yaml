@@ -8,7 +8,7 @@ description: >-
   Confidence). All grits share the discipline contract (identity, type,
   viewpoint, provenance, should_not_claim) and differ by role. Domain
   vocabulary is supplied by viewpoint schemas that import or extend this core.
-version: 0.3.0
+version: 0.4.0
 license: TBD
 
 prefixes:
@@ -201,6 +201,54 @@ enums:
         description: Ad hoc; basis must be documented in calibration_scope.
       aggregated:
         description: Combined over heterogeneous evidence; combination method must be declared.
+
+  CompositionMode:
+    description: >-
+      How a composable layer folds against its declared parents during
+      deterministic resolution. Selected per layer; not every layer type
+      supports every mode.
+    permissible_values:
+      additive:
+        description: >-
+          Child contributes additional content without removing inherited
+          content. List fields union (dedup); most-derived non-null wins for
+          scalars. The default for most composition.
+      restrictive:
+        description: >-
+          Child narrows the admissible space relative to its parents.
+          Constraint lists union; permission booleans combine by logical AND.
+      overriding:
+        description: >-
+          Child intentionally replaces inherited values for overlapping fields.
+          Used sparingly and remains highly visible in resolved artifacts.
+      isolated:
+        description: >-
+          Child inherits no operational content from parents; parent ids are
+          retained only as source references for provenance.
+
+  ExtractionGranularity:
+    description: How finely an extraction profile expects content to be decomposed.
+    permissible_values:
+      coarse:
+      standard:
+      detailed:
+      exhaustive:
+
+  EvidenceDensity:
+    description: How densely an extraction profile expects claims to be grounded in evidence.
+    permissible_values:
+      sparse:
+      standard:
+      dense:
+
+  LocatorFidelity:
+    description: The locator granularity an extraction profile expects on anchored content.
+    permissible_values:
+      document:
+      section:
+      paragraph:
+      span:
+      char:
 
 
 # ----------------------------------------------------------------------
@@ -604,18 +652,29 @@ classes:
 
   ViewpointDirective:
     is_a: Object
+    mixins:
+      - Composable
     description: >-
       The interpretive frame under which grits are extracted. Itself an
       Object — a ViewpointDirective has its own viewpoint_directive_id
       (the bootstrap meta-viewpoint, or itself for the meta-viewpoint).
       Carries prompts, exemplars, vocabulary references, target schema,
       and the should_not_claim rules it imposes on extracted grits.
+      Composable against parent viewpoint directives. Supported composition
+      modes: additive, restrictive, overriding.
     attributes:
       directive_name:
         required: true
         description: >-
           Human-readable name (e.g. viewpoint:materials_science:v1). Combined
           with content hash, this gives identity-by-declaration.
+      parent_viewpoint_ids:
+        multivalued: true
+        range: GritId
+        description: >-
+          ViewpointDirective ids this directive composes from, parents-first.
+          Resolution is explicit (the caller supplies the registry); there is
+          no implicit runtime parent lookup.
       prompts:
         multivalued: true
         range: ContentReference
@@ -663,3 +722,192 @@ classes:
         required: true
         range: string
         description: One of `absent`, `weak_signal`, `excluded`, `inconclusive`.
+
+  # ====================================================================
+  # Composable epistemic layers — ExtractionProfile, VocabularyPack,
+  # ReasoningPolicy. All are Objects (first-class grits) bound to the
+  # bootstrap meta-viewpoint, so they share the one identity, provenance,
+  # and canonical-hashing discipline. Composition is explicit and
+  # field-local (see viewpoint_resolution.py); these classes carry only
+  # the structural data, not resolution logic.
+  # ====================================================================
+
+  Composable:
+    mixin: true
+    description: >-
+      Mixin granting a layer a composition_mode. Parent references are NOT in
+      this mixin — each composable class declares its own semantically explicit
+      parent slot (parent_viewpoint_ids, parent_extraction_profile_ids, etc.).
+    attributes:
+      composition_mode:
+        range: CompositionMode
+        ifabsent: string(additive)
+        description: >-
+          How this layer folds against its declared parents during resolution.
+          Defaults to additive.
+
+  OperationalLayer:
+    is_a: Object
+    abstract: true
+    mixins:
+      - Composable
+    description: >-
+      Abstract base for composable operational/interpretive layers that are not
+      themselves viewpoint directives (ExtractionProfile, VocabularyPack,
+      ReasoningPolicy). Inherits the full Object/Grit discipline. Reusable
+      foundational layers set viewpoint_directive_id to the bootstrap
+      meta-viewpoint (vpt:meta-v0).
+    attributes:
+      layer_name:
+        required: true
+        description: >-
+          Human-readable name (e.g. extraction_profile:detailed:v0). Combined
+          with content hash, this gives identity-by-declaration.
+
+  ExtractionProfile:
+    is_a: OperationalLayer
+    description: >-
+      Extraction/grounding semantics: how finely content is decomposed, how
+      densely claims are grounded, and what locator fidelity is expected. Core
+      understands only abstract content kinds identified by CURIEs; the semantic
+      meaning of those CURIEs is supplied by viewpoint vocabularies. This layer
+      carries no infrastructure settings (no retry, OCR, chunking, parallelism,
+      transport, or cache concerns). Supported composition modes: additive,
+      overriding.
+    attributes:
+      parent_extraction_profile_ids:
+        multivalued: true
+        range: GritId
+        description: ExtractionProfile ids this profile composes from, parents-first.
+      granularity:
+        range: ExtractionGranularity
+        description: How finely content should be decomposed during extraction.
+      evidence_density:
+        range: EvidenceDensity
+        description: How densely claims should be grounded in evidence.
+      locator_fidelity:
+        range: LocatorFidelity
+        description: Expected locator granularity for anchored content.
+      preserve_numeric_values:
+        range: boolean
+        description: Whether reported numeric values must be preserved verbatim.
+      preserve_uncertainty_language:
+        range: boolean
+        description: Whether uncertainty/hedging language must be preserved verbatim.
+      require_char_level_locators:
+        range: boolean
+        description: Whether anchored content requires character-level locators.
+      preserve_content_kinds:
+        multivalued: true
+        range: CurieOrUri
+        description: >-
+          Content kinds (viewpoint-supplied CURIEs) whose content must be
+          preserved. Core assigns no meaning to these CURIEs.
+      require_grounding_for_content_kinds:
+        multivalued: true
+        range: CurieOrUri
+        description: >-
+          Content kinds (viewpoint-supplied CURIEs) that must be grounded in
+          an evidence record.
+      high_fidelity_content_kinds:
+        multivalued: true
+        range: CurieOrUri
+        description: >-
+          Content kinds (viewpoint-supplied CURIEs) requiring high-fidelity
+          locators and verbatim preservation.
+
+  VocabularyPack:
+    is_a: OperationalLayer
+    description: >-
+      Namespace/ontology binding surface: the vocabulary references, ontology
+      references, and active CURIE-prefix namespaces a layer makes available.
+      Ontology-neutral in core — the actual terms live in external referenced
+      content. Supported composition modes: additive, isolated.
+    attributes:
+      parent_vocabulary_pack_ids:
+        multivalued: true
+        range: GritId
+        description: VocabularyPack ids this pack composes from, parents-first.
+      vocabulary_refs:
+        multivalued: true
+        range: ContentReference
+        inlined: true
+        inlined_as_list: true
+        description: Content-addressed references to vocabulary definitions.
+      ontology_refs:
+        multivalued: true
+        range: ContentReference
+        inlined: true
+        inlined_as_list: true
+        description: Content-addressed references to ontology definitions.
+      active_namespaces:
+        multivalued: true
+        range: string
+        description: CURIE-prefix namespaces this pack activates (e.g. "pp", "mse").
+
+  ReasoningPolicy:
+    is_a: OperationalLayer
+    description: >-
+      Inferential permission surface: what synthesis, inference, normalization,
+      and adjudication a layer permits. Governs reasoning freedom only — it does
+      not control extraction behavior. Supported composition modes: additive,
+      restrictive.
+    attributes:
+      parent_reasoning_policy_ids:
+        multivalued: true
+        range: GritId
+        description: ReasoningPolicy ids this policy composes from, parents-first.
+      allow_speculative_inference:
+        range: boolean
+        description: Whether speculative inference is permitted.
+      allow_cross_document_synthesis:
+        range: boolean
+        description: Whether synthesis across multiple documents is permitted.
+      allow_ontology_normalization:
+        range: boolean
+        description: Whether ontology normalization is permitted.
+      enable_contradiction_adjudication:
+        range: boolean
+        description: Whether contradiction adjudication is enabled.
+      notes:
+        range: string
+        description: Free-text clarification of the reasoning posture.
+
+  ComposedViewpointDirective:
+    is_a: ViewpointDirective
+    description: >-
+      The frozen result of composing a ViewpointDirective with optional
+      ExtractionProfile, VocabularyPack, and ReasoningPolicy layers. Still a
+      viewpoint-level interpretive contract (and still hashed by the one
+      canonical pipeline), it inlines the resolved operational layers and
+      records the flattened source chains for inspectability. Produced by
+      compose_viewpoint(); not hand-authored.
+    attributes:
+      resolved_extraction_profile:
+        range: ExtractionProfile
+        inlined: true
+        description: The resolved extraction profile, if one was composed.
+      resolved_vocabulary_pack:
+        range: VocabularyPack
+        inlined: true
+        description: The resolved vocabulary pack, if one was composed.
+      resolved_reasoning_policy:
+        range: ReasoningPolicy
+        inlined: true
+        description: The resolved reasoning policy, if one was composed.
+      source_viewpoint_ids:
+        multivalued: true
+        range: GritId
+        description: Flattened, parents-first chain of viewpoint directive ids that were composed.
+      source_extraction_profile_ids:
+        multivalued: true
+        range: GritId
+        description: Flattened, parents-first chain of extraction profile ids that were composed.
+      source_vocabulary_pack_ids:
+        multivalued: true
+        range: GritId
+        description: Flattened, parents-first chain of vocabulary pack ids that were composed.
+      source_reasoning_policy_ids:
+        multivalued: true
+        range: GritId
+        description: Flattened, parents-first chain of reasoning policy ids that were composed.

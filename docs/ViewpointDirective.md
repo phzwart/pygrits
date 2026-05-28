@@ -6,7 +6,7 @@ search:
 # Class: ViewpointDirective 
 
 
-_The interpretive frame under which grits are extracted. Itself an Object — a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted grits._
+_The interpretive frame under which grits are extracted. Itself an Object — a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted grits. Composable against parent viewpoint directives. Supported composition modes: additive, restrictive, overriding._
 
 
 
@@ -24,10 +24,28 @@ URI: [grits:ViewpointDirective](https://w3id.org/grits/ViewpointDirective)
  classDiagram
     class ViewpointDirective
     click ViewpointDirective href "../ViewpointDirective/"
+      Composable <|-- ViewpointDirective
+        click Composable href "../Composable/"
       Object <|-- ViewpointDirective
         click Object href "../Object/"
       
+
+      ViewpointDirective <|-- ComposedViewpointDirective
+        click ComposedViewpointDirective href "../ComposedViewpointDirective/"
+      
+
       ViewpointDirective : assumptions
+        
+      ViewpointDirective : composition_mode
+        
+          
+    
+        
+        
+        ViewpointDirective --> "0..1" CompositionMode : composition_mode
+        click CompositionMode href "../CompositionMode/"
+    
+
         
       ViewpointDirective : directive_name
         
@@ -68,6 +86,8 @@ URI: [grits:ViewpointDirective](https://w3id.org/grits/ViewpointDirective)
       ViewpointDirective : observations
         
       ViewpointDirective : operation_link_ids
+        
+      ViewpointDirective : parent_viewpoint_ids
         
       ViewpointDirective : prompts
         
@@ -163,7 +183,8 @@ URI: [grits:ViewpointDirective](https://w3id.org/grits/ViewpointDirective)
 ## Inheritance
 * [Grit](Grit.md)
     * [Object](Object.md)
-        * **ViewpointDirective**
+        * **ViewpointDirective** [ [Composable](Composable.md)]
+            * [ComposedViewpointDirective](ComposedViewpointDirective.md)
 
 
 ## Slots
@@ -171,11 +192,13 @@ URI: [grits:ViewpointDirective](https://w3id.org/grits/ViewpointDirective)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [directive_name](directive_name.md) | 1 <br/> [String](String.md) | Human-readable name (e | direct |
+| [parent_viewpoint_ids](parent_viewpoint_ids.md) | * <br/> [GritId](GritId.md) | ViewpointDirective ids this directive composes from, parents-first | direct |
 | [prompts](prompts.md) | * <br/> [ContentReference](ContentReference.md) |  | direct |
 | [exemplars](exemplars.md) | * <br/> [ContentReference](ContentReference.md) |  | direct |
 | [vocabulary_refs](vocabulary_refs.md) | * <br/> [ContentReference](ContentReference.md) |  | direct |
 | [target_schema](target_schema.md) | 0..1 <br/> [ContentReference](ContentReference.md) | Reference to the LinkML schema (or schema profile) this directive commits to | direct |
 | [imposed_should_not_claim](imposed_should_not_claim.md) | * <br/> [String](String.md) | should_not_claim rules this directive imposes on every grit extracted under i... | direct |
+| [composition_mode](composition_mode.md) | 0..1 <br/> [CompositionMode](CompositionMode.md) | How this layer folds against its declared parents during resolution | [Composable](Composable.md) |
 | [source_artifact_refs](source_artifact_refs.md) | * <br/> [ContentReference](ContentReference.md) | ContentReferences to the source artifacts this Object derives from | [Object](Object.md) |
 | [evidence_record_ids](evidence_record_ids.md) | * <br/> [GritId](GritId.md) | References to EvidenceRecord grits anchoring this Object's claims | [Object](Object.md) |
 | [summary](summary.md) | 0..1 <br/> [String](String.md) |  | [Object](Object.md) |
@@ -247,12 +270,16 @@ URI: [grits:ViewpointDirective](https://w3id.org/grits/ViewpointDirective)
 <details>
 ```yaml
 name: ViewpointDirective
-description: The interpretive frame under which grits are extracted. Itself an Object
+description: 'The interpretive frame under which grits are extracted. Itself an Object
   — a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint,
   or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references,
-  target schema, and the should_not_claim rules it imposes on extracted grits.
+  target schema, and the should_not_claim rules it imposes on extracted grits. Composable
+  against parent viewpoint directives. Supported composition modes: additive, restrictive,
+  overriding.'
 from_schema: https://w3id.org/grits/core
 is_a: Object
+mixins:
+- Composable
 attributes:
   directive_name:
     name: directive_name
@@ -263,6 +290,17 @@ attributes:
     domain_of:
     - ViewpointDirective
     required: true
+  parent_viewpoint_ids:
+    name: parent_viewpoint_ids
+    description: ViewpointDirective ids this directive composes from, parents-first.
+      Resolution is explicit (the caller supplies the registry); there is no implicit
+      runtime parent lookup.
+    from_schema: https://w3id.org/grits/core
+    rank: 1000
+    domain_of:
+    - ViewpointDirective
+    range: GritId
+    multivalued: true
   prompts:
     name: prompts
     from_schema: https://w3id.org/grits/core
@@ -289,6 +327,7 @@ attributes:
     rank: 1000
     domain_of:
     - ViewpointDirective
+    - VocabularyPack
     range: ContentReference
     multivalued: true
     inlined: true
@@ -322,12 +361,16 @@ attributes:
 <details>
 ```yaml
 name: ViewpointDirective
-description: The interpretive frame under which grits are extracted. Itself an Object
+description: 'The interpretive frame under which grits are extracted. Itself an Object
   — a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint,
   or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references,
-  target schema, and the should_not_claim rules it imposes on extracted grits.
+  target schema, and the should_not_claim rules it imposes on extracted grits. Composable
+  against parent viewpoint directives. Supported composition modes: additive, restrictive,
+  overriding.'
 from_schema: https://w3id.org/grits/core
 is_a: Object
+mixins:
+- Composable
 attributes:
   directive_name:
     name: directive_name
@@ -340,6 +383,18 @@ attributes:
     - ViewpointDirective
     range: string
     required: true
+  parent_viewpoint_ids:
+    name: parent_viewpoint_ids
+    description: ViewpointDirective ids this directive composes from, parents-first.
+      Resolution is explicit (the caller supplies the registry); there is no implicit
+      runtime parent lookup.
+    from_schema: https://w3id.org/grits/core
+    rank: 1000
+    owner: ViewpointDirective
+    domain_of:
+    - ViewpointDirective
+    range: GritId
+    multivalued: true
   prompts:
     name: prompts
     from_schema: https://w3id.org/grits/core
@@ -369,6 +424,7 @@ attributes:
     owner: ViewpointDirective
     domain_of:
     - ViewpointDirective
+    - VocabularyPack
     range: ContentReference
     multivalued: true
     inlined: true
@@ -395,6 +451,17 @@ attributes:
     - ViewpointDirective
     range: string
     multivalued: true
+  composition_mode:
+    name: composition_mode
+    description: How this layer folds against its declared parents during resolution.
+      Defaults to additive.
+    from_schema: https://w3id.org/grits/core
+    rank: 1000
+    ifabsent: string(additive)
+    owner: ViewpointDirective
+    domain_of:
+    - Composable
+    range: CompositionMode
   source_artifact_refs:
     name: source_artifact_refs
     description: ContentReferences to the source artifacts this Object derives from.

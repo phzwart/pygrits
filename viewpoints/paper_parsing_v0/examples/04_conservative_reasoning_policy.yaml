@@ -1,0 +1,40 @@
+# Example 04 — ConservativeReasoning policy.
+#
+# An inferential-permission layer. It forbids speculative inference, cross-
+# document synthesis, and ontology normalization, while enabling contradiction
+# adjudication. It governs reasoning freedom only; it says nothing about
+# extraction behavior or vocabulary.
+#
+# Validate with:
+#   from pygrits import ReasoningPolicy
+
+id: rpol:conservative-v0
+type: grits:reasoning_policy
+viewpoint_directive_id: vpt:meta-v0
+provenance: >-
+  Hand-authored conservative reasoning policy v0. Reusable across viewpoints;
+  composes restrictively to tighten inferential permissions.
+
+should_not_claim:
+  - "Disallowed inference modes must not be performed under this policy."
+
+review_state: curator_reviewed
+lifecycle_state: active
+generation_mode: hand_authored_v0
+
+source_artifact_refs: []
+evidence_record_ids: []
+
+layer_name: "reasoning_policy:conservative:v0"
+
+composition_mode: restrictive
+parent_reasoning_policy_ids: []
+
+allow_speculative_inference: false
+allow_cross_document_synthesis: false
+allow_ontology_normalization: false
+enable_contradiction_adjudication: true
+
+notes: >-
+  Conservative posture: no speculation, no cross-document synthesis, no
+  ontology normalization; contradictions are surfaced for adjudication.

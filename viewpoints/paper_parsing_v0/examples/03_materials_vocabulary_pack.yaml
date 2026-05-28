@@ -1,0 +1,42 @@
+# Example 03 — MaterialsScienceVocabulary pack.
+#
+# A vocabulary/namespace-binding layer that attaches materials-science ontology
+# references WITHOUT changing extraction density or epistemic admissibility. The
+# domain terms live entirely in the externally referenced content; core sees
+# only content-addressed references and CURIE-prefix namespaces.
+#
+# Validate with:
+#   from pygrits import VocabularyPack
+
+id: voc:materials-science-v0
+type: grits:vocabulary_pack
+viewpoint_directive_id: vpt:meta-v0
+provenance: >-
+  Hand-authored materials-science vocabulary pack v0. Binds the mse namespace
+  and references the materials_science_v0 viewpoint vocabulary.
+
+should_not_claim:
+  - "Activating a vocabulary does not assert that its terms apply to a given document."
+
+review_state: curator_reviewed
+lifecycle_state: active
+generation_mode: hand_authored_v0
+
+source_artifact_refs: []
+evidence_record_ids: []
+
+layer_name: "vocabulary_pack:materials_science:v0"
+
+composition_mode: additive
+parent_vocabulary_pack_ids: []
+
+vocabulary_refs:
+  - uri: "file://./viewpoints/materials_science_v0.yaml"
+    sha256: "2222222222222222222222222222222222222222222222222222222222222222"
+    hash_mode: raw_bytes
+    media_type: "application/yaml"
+
+ontology_refs: []
+
+active_namespaces:
+  - mse

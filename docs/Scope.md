@@ -66,6 +66,11 @@ URI: [grits:Scope](https://w3id.org/grits/Scope)
 | [EvidenceRecord](EvidenceRecord.md) | [scope](scope.md) | range | [Scope](Scope.md) |
 | [ViewpointDirective](ViewpointDirective.md) | [scope](scope.md) | range | [Scope](Scope.md) |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | [scope](scope.md) | range | [Scope](Scope.md) |
+| [OperationalLayer](OperationalLayer.md) | [scope](scope.md) | range | [Scope](Scope.md) |
+| [ExtractionProfile](ExtractionProfile.md) | [scope](scope.md) | range | [Scope](Scope.md) |
+| [VocabularyPack](VocabularyPack.md) | [scope](scope.md) | range | [Scope](Scope.md) |
+| [ReasoningPolicy](ReasoningPolicy.md) | [scope](scope.md) | range | [Scope](Scope.md) |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | [scope](scope.md) | range | [Scope](Scope.md) |
 
 
 
@@ -136,6 +141,7 @@ attributes:
     rank: 1000
     domain_of:
     - Scope
+    - ReasoningPolicy
     range: string
 
 ```
@@ -171,6 +177,7 @@ attributes:
     owner: Scope
     domain_of:
     - Scope
+    - ReasoningPolicy
     range: string
 
 ```

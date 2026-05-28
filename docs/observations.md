@@ -22,6 +22,11 @@ URI: [grits:observations](https://w3id.org/grits/observations)
 | --- | --- | --- |
 | [Object](Object.md) | Subject node |  no  |
 | [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
+| [OperationalLayer](OperationalLayer.md) | Abstract base for composable operational/interpretive layers that are not the... |  no  |
+| [ExtractionProfile](ExtractionProfile.md) | Extraction/grounding semantics: how finely content is decomposed, how densely... |  no  |
+| [VocabularyPack](VocabularyPack.md) | Namespace/ontology binding surface: the vocabulary references, ontology refer... |  no  |
+| [ReasoningPolicy](ReasoningPolicy.md) | Inferential permission surface: what synthesis, inference, normalization, and... |  no  |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | The frozen result of composing a ViewpointDirective with optional ExtractionP... |  no  |
 
 
 

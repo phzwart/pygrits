@@ -26,6 +26,7 @@ URI: [grits:target_schema](https://w3id.org/grits/target_schema)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | The frozen result of composing a ViewpointDirective with optional ExtractionP... |  no  |
 
 
 

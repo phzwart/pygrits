@@ -21,6 +21,8 @@ URI: [grits:vocabulary_refs](https://w3id.org/grits/vocabulary_refs)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
+| [VocabularyPack](VocabularyPack.md) | Namespace/ontology binding surface: the vocabulary references, ontology refer... |  no  |
+| [ComposedViewpointDirective](ComposedViewpointDirective.md) | The frozen result of composing a ViewpointDirective with optional ExtractionP... |  no  |
 
 
 
@@ -33,21 +35,13 @@ URI: [grits:vocabulary_refs](https://w3id.org/grits/vocabulary_refs)
 
 | Property | Value |
 | --- | --- |
-| Range | [ContentReference](ContentReference.md) |
-| Domain Of | [ViewpointDirective](ViewpointDirective.md) |
+| Range | [String](String.md) |
+| Domain Of | [ViewpointDirective](ViewpointDirective.md), [VocabularyPack](VocabularyPack.md) |
 
 ### Cardinality and Requirements
 
 | Property | Value |
 | --- | --- |
-| Multivalued | Yes |
-### Slot Characteristics
-
-| Property | Value |
-| --- | --- |
-| Owner | [ViewpointDirective](ViewpointDirective.md) |
-
-
 
 
 
@@ -61,13 +55,6 @@ URI: [grits:vocabulary_refs](https://w3id.org/grits/vocabulary_refs)
 ## Identifier and Mapping Information
 
 
-
-
-
-### Schema Source
-
-
-* from schema: https://w3id.org/grits/core
 
 
 
@@ -87,15 +74,10 @@ URI: [grits:vocabulary_refs](https://w3id.org/grits/vocabulary_refs)
 <details>
 ```yaml
 name: vocabulary_refs
-from_schema: https://w3id.org/grits/core
-rank: 1000
-owner: ViewpointDirective
 domain_of:
 - ViewpointDirective
-range: ContentReference
-multivalued: true
-inlined: true
-inlined_as_list: true
+- VocabularyPack
+range: string
 
 ```
 </details></div>
