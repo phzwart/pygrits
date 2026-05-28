@@ -22,7 +22,6 @@ from pygrits import (
     Object,
 )
 
-
 # -------- Missing MVE fields --------
 
 def test_object_missing_viewpoint_fails() -> None:

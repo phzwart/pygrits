@@ -1,8 +1,8 @@
 # Interactive Scientific Object Model — Core Schema
 
 Schema for the Interactive Scientific Object Model (ISOM).
-Defines the three classes of Entity (Object, Activity, EvidenceRecord), the ViewpointDirective construct, and primitives (ContentReference, Scope, Locator hierarchy, structured Confidence). All entities share the discipline contract (identity, type, viewpoint, provenance, should_not_claim) and differ by role. The schema implements the ISOM spec v0.
-This is a v0.1 draft schema covering the vertical slice needed for the first implementation milestone (NaCl-style epistemically-disciplined refusal). It does not yet model speech acts, reactions, threads, communities, wiki statement objects, or the harmonization process. Those are deferred to v0.2.
+Defines the three classes of Entity (Object, Activity, EvidenceRecord), the ViewpointDirective construct, and structural primitives (ContentReference, opaque Scope marker, Locator hierarchy, structured Confidence). All entities share the discipline contract (identity, type, viewpoint, provenance, should_not_claim) and differ by role. Domain vocabulary (scope dimensions, evidence types, entity kinds) is supplied by viewpoint schemas that import or extend this core.
+This is a v0.2 schema covering the vertical slice needed for the first implementation milestone (NaCl-style epistemically-disciplined refusal). It does not yet model speech acts, reactions, threads, communities, wiki statement objects, or the harmonization process.
 
 URI: https://w3id.org/isom/core
 
@@ -14,9 +14,7 @@ Name: isom_core
 
 | Class | Description |
 | --- | --- |
-| [BiologicalScope](BiologicalScope.md) | Organism, tissue, cell line, developmental stage |
 | [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |
-| [CompositionalScope](CompositionalScope.md) | Formula, purity, doping, isotopic composition |
 | [Confidence](Confidence.md) | Structured confidence carrying calibration metadata |
 | [ContentReference](ContentReference.md) | Content-addressed reference to externally stored content |
 | [Entity](Entity.md) | Abstract base for all ISOM entities |
@@ -33,12 +31,8 @@ Name: isom_core
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ProcessingLogLineLocator](ProcessingLogLineLocator.md) | Line range within a processing log |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference biological sequence |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TableCellLocator](TableCellLocator.md) | A specific cell within an extracted table |
-| [MethodologicalScope](MethodologicalScope.md) | Instrument, protocol, software version |
-| [Scope](Scope.md) | Composite scope |
-| [SpatialScope](SpatialScope.md) | Region, reference frame, length scale |
-| [StatisticalScope](StatisticalScope.md) | Sample size, population, sampling method |
-| [TemporalScope](TemporalScope.md) | Time window, sample age, instrument run, observation epoch |
-| [ThermodynamicScope](ThermodynamicScope.md) | Temperature, pressure, ionic strength |
+| [Scope](Scope.md) | Container for viewpoint-supplied scope dimensions |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NotesOnlyScope](NotesOnlyScope.md) | Scope marker with only free-form notes; no domain dimensions |
 
 
 
@@ -55,11 +49,9 @@ Name: isom_core
 | [bbox_x1](bbox_x1.md) |  |
 | [bbox_y0](bbox_y0.md) |  |
 | [bbox_y1](bbox_y1.md) |  |
-| [biological](biological.md) |  |
 | [byte_end](byte_end.md) |  |
 | [byte_start](byte_start.md) |  |
 | [calibration_scope](calibration_scope.md) | The data distribution under which the confidence was calibrated |
-| [cell_line](cell_line.md) |  |
 | [char_end](char_end.md) |  |
 | [char_start](char_start.md) |  |
 | [checked_scope_dimensions](checked_scope_dimensions.md) |  |
@@ -67,33 +59,24 @@ Name: isom_core
 | [col](col.md) |  |
 | [compared_entity_ids](compared_entity_ids.md) |  |
 | [compatibility_judgments](compatibility_judgments.md) |  |
-| [compositional](compositional.md) |  |
 | [confidence](confidence.md) |  |
 | [confidence_basis](confidence_basis.md) |  |
 | [confidence_domain](confidence_domain.md) | The input domain where the calibration applies |
-| [developmental_stage](developmental_stage.md) |  |
 | [directive_name](directive_name.md) | Human-readable name (e |
-| [doping](doping.md) |  |
 | [evidence_record_ids](evidence_record_ids.md) | References to EvidenceRecord entities anchoring this Object's claims |
-| [evidence_type](evidence_type.md) | Either a value from EvidenceTypeBase (e |
+| [evidence_type](evidence_type.md) | CURIE identifying the kind of scientific content the locator anchors |
 | [exemplars](exemplars.md) |  |
 | [extracted_content](extracted_content.md) |  |
 | [extraction_confidence](extraction_confidence.md) |  |
 | [extraction_method](extraction_method.md) |  |
 | [failure_modes](failure_modes.md) |  |
 | [features](features.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
-| [formula](formula.md) |  |
 | [gaps](gaps.md) |  |
 | [generation_mode](generation_mode.md) | Free-form descriptor of the process that generated this entity (parser name +... |
 | [hash_mode](hash_mode.md) | How the sha256 was computed |
 | [id](id.md) | Canonical entity identifier |
 | [imposed_should_not_claim](imposed_should_not_claim.md) | should_not_claim rules this directive imposes on every entity extracted under... |
 | [inputs](inputs.md) | Input entity IDs consumed by this Activity |
-| [instrument](instrument.md) |  |
-| [instrument_run](instrument_run.md) |  |
-| [ionic_strength_molar](ionic_strength_molar.md) |  |
-| [isotopic_composition](isotopic_composition.md) |  |
-| [length_scale](length_scale.md) |  |
 | [lifecycle_state](lifecycle_state.md) |  |
 | [lineage](lineage.md) |  |
 | [locator](locator.md) |  |
@@ -102,36 +85,25 @@ Name: isom_core
 | [log_line_start](log_line_start.md) |  |
 | [media_type](media_type.md) | MIME type for disambiguation |
 | [members](members.md) |  |
-| [methodological](methodological.md) |  |
 | [methods](methods.md) |  |
 | [needs](needs.md) |  |
 | [normalized_payload](normalized_payload.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
-| [notes](notes.md) |  |
-| [observation_epoch](observation_epoch.md) |  |
+| [notes](notes.md) | Free-text scope clarification |
 | [observations](observations.md) |  |
 | [offers](offers.md) |  |
-| [organism](organism.md) |  |
 | [outputs](outputs.md) | New entities produced by this Activity |
 | [page](page.md) |  |
-| [population](population.md) |  |
-| [pressure_pascal](pressure_pascal.md) |  |
 | [prompts](prompts.md) |  |
-| [protocol](protocol.md) |  |
 | [provenance](provenance.md) | Provenance description for v1 |
-| [purity](purity.md) |  |
 | [rationale](rationale.md) |  |
-| [reference_frame](reference_frame.md) |  |
 | [reference_sequence_id](reference_sequence_id.md) |  |
-| [region](region.md) |  |
 | [reported_claims](reported_claims.md) |  |
 | [result](result.md) | One of `absent`, `weak_signal`, `excluded`, `inconclusive` |
 | [retrieved_at](retrieved_at.md) | Last successful integrity verification timestamp |
 | [review_state](review_state.md) |  |
 | [row](row.md) |  |
-| [sample_age](sample_age.md) |  |
-| [sample_size](sample_size.md) |  |
-| [sampling_method](sampling_method.md) |  |
 | [scope](scope.md) | Optional but recommended |
+| [scope_type](scope_type.md) | Class name of the concrete Scope subclass (e |
 | [search_confidence](search_confidence.md) |  |
 | [search_method](search_method.md) |  |
 | [search_scope](search_scope.md) |  |
@@ -140,22 +112,13 @@ Name: isom_core
 | [seq_start](seq_start.md) |  |
 | [sha256](sha256.md) | Integrity check on the content |
 | [should_not_claim](should_not_claim.md) | Epistemic boundaries this entity must respect |
-| [software_version](software_version.md) |  |
 | [source_artifact_ref](source_artifact_ref.md) | Single source artifact this evidence is extracted from |
 | [source_artifact_refs](source_artifact_refs.md) | ContentReferences to the source artifacts this Object derives from |
-| [spatial](spatial.md) |  |
-| [statistical](statistical.md) |  |
 | [status](status.md) |  |
 | [summary](summary.md) |  |
 | [synthesis_link_ids](synthesis_link_ids.md) | Backward pointers to Activities that referenced this Object as input or outpu... |
 | [table_id](table_id.md) |  |
 | [target_schema](target_schema.md) | Reference to the LinkML schema (or schema profile) this directive commits to |
-| [temperature_kelvin](temperature_kelvin.md) |  |
-| [temporal](temporal.md) |  |
-| [thermodynamic](thermodynamic.md) |  |
-| [time_window_end](time_window_end.md) |  |
-| [time_window_start](time_window_start.md) |  |
-| [tissue](tissue.md) |  |
 | [type](type.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary |
 | [uncertainties](uncertainties.md) |  |
 | [uri](uri.md) | Locator (file path, https URL, did: |
@@ -173,7 +136,6 @@ Name: isom_core
 | [CompatibilityStatus](CompatibilityStatus.md) | Outcome of a compatibility judgment |
 | [ConfidenceBasis](ConfidenceBasis.md) | Source semantics of a confidence value |
 | [EpistemicStatus](EpistemicStatus.md) | Epistemic label on a consequential statement |
-| [EvidenceTypeBase](EvidenceTypeBase.md) | Built-in evidence categories |
 | [HashMode](HashMode.md) | How a ContentReference's sha256 is computed |
 | [LifecycleState](LifecycleState.md) | Lifecycle state of an entity |
 | [LineageType](LineageType.md) | Independence classification of an evidence record |

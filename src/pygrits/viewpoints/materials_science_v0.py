@@ -30,7 +30,7 @@ from pydantic import (
 
 
 metamodel_version = "1.11.0"
-version = "0.2.0"
+version = "0.1.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -66,93 +66,26 @@ class LinkMLMeta(RootModel):
         return key in self.root
 
 
-linkml_meta = LinkMLMeta({'default_prefix': 'isom',
+linkml_meta = LinkMLMeta({'default_prefix': 'mse',
      'default_range': 'string',
-     'description': 'Schema for the Interactive Scientific Object Model (ISOM).\n'
-                    'Defines the three classes of Entity (Object, Activity, '
-                    'EvidenceRecord), the ViewpointDirective construct, and '
-                    'structural primitives (ContentReference, opaque Scope marker, '
-                    'Locator hierarchy, structured Confidence). All entities share '
-                    'the discipline contract (identity, type, viewpoint, '
-                    'provenance, should_not_claim) and differ by role. Domain '
-                    'vocabulary (scope dimensions, evidence types, entity kinds) '
-                    'is supplied by viewpoint schemas that import or extend this '
-                    'core.\n'
-                    'This is a v0.2 schema covering the vertical slice needed for '
-                    'the first implementation milestone (NaCl-style '
-                    'epistemically-disciplined refusal). It does not yet model '
-                    'speech acts, reactions, threads, communities, wiki statement '
-                    'objects, or the harmonization process.',
-     'id': 'https://w3id.org/isom/core',
-     'imports': ['linkml:types'],
-     'license': 'TBD',
-     'name': 'isom_core',
-     'prefixes': {'dcterms': {'prefix_prefix': 'dcterms',
-                              'prefix_reference': 'http://purl.org/dc/terms/'},
+     'description': 'Example viewpoint for materials-science extraction. Supplies '
+                    'scope-dimension subclasses and a composite '
+                    'MaterialsScienceScope. Imports document_extraction_v0 for '
+                    'shared document-extraction evidence-type vocabulary.',
+     'id': 'https://w3id.org/isom/viewpoints/materials_science_v0',
+     'imports': ['linkml:types', '../src/pygrits/core', 'document_extraction_v0'],
+     'license': 'BSD-3-Clause',
+     'name': 'materials_science_v0',
+     'prefixes': {'de': {'prefix_prefix': 'de',
+                         'prefix_reference': 'https://w3id.org/isom/viewpoints/document_extraction_v0/'},
                   'isom': {'prefix_prefix': 'isom',
                            'prefix_reference': 'https://w3id.org/isom/'},
                   'linkml': {'prefix_prefix': 'linkml',
                              'prefix_reference': 'https://w3id.org/linkml/'},
-                  'prov': {'prefix_prefix': 'prov',
-                           'prefix_reference': 'http://www.w3.org/ns/prov#'},
-                  'schema': {'prefix_prefix': 'schema',
-                             'prefix_reference': 'http://schema.org/'},
-                  'xsd': {'prefix_prefix': 'xsd',
-                          'prefix_reference': 'http://www.w3.org/2001/XMLSchema#'}},
-     'source_file': 'src/pygrits/core.yaml',
-     'subsets': {'Full': {'description': 'Full object surface including '
-                                         'reported_claims, methods, assumptions, '
-                                         'uncertainties, and backward-pointer link '
-                                         'lists (synthesis_link_ids, '
-                                         'wiki_link_ids, action_link_ids).',
-                          'from_schema': 'https://w3id.org/isom/core',
-                          'name': 'Full'},
-                 'MVE': {'description': 'Minimum viable entity. The irreducible '
-                                        'discipline contract fields plus the '
-                                        'class-specific minimum that makes an '
-                                        'entity honest. Instances missing any '
-                                        'MVE-tagged required slot fail validation.',
-                         'from_schema': 'https://w3id.org/isom/core',
-                         'name': 'MVE'},
-                 'ParticipationReady': {'description': 'Object fields needed for '
-                                                       'community participation '
-                                                       '(offers, needs, gaps, '
-                                                       'features, summary, '
-                                                       'affordances).',
-                                        'from_schema': 'https://w3id.org/isom/core',
-                                        'name': 'ParticipationReady'}},
-     'title': 'Interactive Scientific Object Model — Core Schema',
-     'types': {'CurieOrUri': {'base': 'str',
-                              'description': 'A CURIE or URI identifying a '
-                                             'vocabulary term.',
-                              'from_schema': 'https://w3id.org/isom/core',
-                              'name': 'CurieOrUri',
-                              'uri': 'xsd:anyURI'},
-               'EntityId': {'base': 'str',
-                            'description': 'Canonical entity identifier of the '
-                                           'form scheme:value, where scheme is one '
-                                           'of obj, act, evi, vpt, src. '
-                                           'Hash-derived where applicable. '
-                                           'Identity is by declaration plus '
-                                           'content hash (for '
-                                           'ContentReference-bearing entities like '
-                                           'ViewpointDirective).',
-                            'from_schema': 'https://w3id.org/isom/core',
-                            'name': 'EntityId',
-                            'pattern': '^[a-z]+:[A-Za-z0-9._:-]+$',
-                            'uri': 'xsd:string'},
-               'Iso8601': {'base': 'str',
-                           'description': 'ISO 8601 datetime string.',
-                           'from_schema': 'https://w3id.org/isom/core',
-                           'name': 'Iso8601',
-                           'uri': 'xsd:dateTime'},
-               'Sha256Hex': {'base': 'str',
-                             'description': 'Hex-encoded SHA-256, lowercase, 64 '
-                                            'chars.',
-                             'from_schema': 'https://w3id.org/isom/core',
-                             'name': 'Sha256Hex',
-                             'pattern': '^[a-f0-9]{64}$',
-                             'uri': 'xsd:string'}}} )
+                  'mse': {'prefix_prefix': 'mse',
+                          'prefix_reference': 'https://w3id.org/isom/viewpoints/materials_science_v0/'}},
+     'source_file': 'viewpoints/materials_science_v0.yaml',
+     'title': 'Materials Science Viewpoint v0'} )
 
 class HashMode(str, Enum):
     """
@@ -322,6 +255,54 @@ class ConfidenceBasis(str, Enum):
     """
 
 
+class DocumentExtractionEvidenceType(str, Enum):
+    """
+    Evidence-type vocabulary for document extraction. Values are emitted as de:<term> CURIEs on EvidenceRecord.evidence_type.
+    """
+    text_span = "text_span"
+    """
+    Verbatim text span extracted from a source artifact.
+    """
+    figure = "figure"
+    """
+    Figure or image region in a source artifact.
+    """
+    table = "table"
+    """
+    Extracted table structure.
+    """
+    table_cell = "table_cell"
+    """
+    Individual table cell content.
+    """
+    bbox_region = "bbox_region"
+    """
+    Arbitrary bounding-box region on a rasterized page.
+    """
+    processing_log_line = "processing_log_line"
+    """
+    Line or range in a processing log.
+    """
+    metadata_field = "metadata_field"
+    """
+    Document metadata field (title, author, DOI, etc.).
+    """
+
+
+class MaterialsScienceEvidenceType(str, Enum):
+    """
+    Materials-science-specific evidence kinds beyond document extraction. Document-extraction kinds (de:text_span, de:figure, etc.) come from document_extraction_v0.
+    """
+    observation = "observation"
+    """
+    Direct experimental observation of a material property.
+    """
+    parameter = "parameter"
+    """
+    Measured or reported parameter value (e.g. melting point).
+    """
+
+
 
 class ContentReference(ConfiguredBaseModel):
     """
@@ -356,7 +337,7 @@ class Scope(ConfiguredBaseModel):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'https://w3id.org/isom/core'})
 
     scope_type: Literal["Scope"] = Field(default="Scope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
-    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
 
 
 class NotesOnlyScope(Scope):
@@ -366,7 +347,7 @@ class NotesOnlyScope(Scope):
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
 
     scope_type: Literal["NotesOnlyScope"] = Field(default="NotesOnlyScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
-    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
 
 
 class Locator(ConfiguredBaseModel):
@@ -502,7 +483,7 @@ class Entity(ConfiguredBaseModel):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -537,7 +518,7 @@ class Object(Entity):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -562,7 +543,7 @@ class Activity(Entity):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -589,7 +570,7 @@ class EvidenceRecord(Entity):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -630,7 +611,7 @@ class ViewpointDirective(Object):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -662,10 +643,132 @@ class NegativeEvidenceRecord(EvidenceRecord):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+
+
+class DocumentExtractionScope(NotesOnlyScope):
+    """
+    Scope for document extraction; no scientific domain dimensions.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/document_extraction_v0'})
+
+    scope_type: Literal["DocumentExtractionScope"] = Field(default="DocumentExtractionScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class ThermodynamicScope(Scope):
+    """
+    Temperature, pressure, ionic strength.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    temperature_kelvin: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ThermodynamicScope']} })
+    pressure_pascal: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ThermodynamicScope']} })
+    ionic_strength_molar: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ThermodynamicScope']} })
+    notes: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+    scope_type: Literal["ThermodynamicScope"] = Field(default="ThermodynamicScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+
+
+class TemporalScope(Scope):
+    """
+    Time window, sample age, instrument run, observation epoch.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    time_window_start: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
+    time_window_end: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
+    sample_age: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
+    instrument_run: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
+    observation_epoch: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
+    scope_type: Literal["TemporalScope"] = Field(default="TemporalScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class BiologicalScope(Scope):
+    """
+    Organism, tissue, cell line, developmental stage.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    organism: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['BiologicalScope']} })
+    tissue: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['BiologicalScope']} })
+    cell_line: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['BiologicalScope']} })
+    developmental_stage: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['BiologicalScope']} })
+    scope_type: Literal["BiologicalScope"] = Field(default="BiologicalScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class CompositionalScope(Scope):
+    """
+    Formula, purity, doping, isotopic composition.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    formula: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositionalScope']} })
+    purity: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositionalScope']} })
+    doping: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositionalScope']} })
+    isotopic_composition: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositionalScope']} })
+    scope_type: Literal["CompositionalScope"] = Field(default="CompositionalScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class StatisticalScope(Scope):
+    """
+    Sample size, population, sampling method.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    sample_size: Optional[int] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['StatisticalScope']} })
+    population: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['StatisticalScope']} })
+    sampling_method: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['StatisticalScope']} })
+    scope_type: Literal["StatisticalScope"] = Field(default="StatisticalScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class MethodologicalScope(Scope):
+    """
+    Instrument, protocol, software version.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    instrument: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MethodologicalScope']} })
+    protocol: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MethodologicalScope']} })
+    software_version: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MethodologicalScope']} })
+    scope_type: Literal["MethodologicalScope"] = Field(default="MethodologicalScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class SpatialScope(Scope):
+    """
+    Region, reference frame, length scale.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    region: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['SpatialScope']} })
+    reference_frame: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['SpatialScope']} })
+    length_scale: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['SpatialScope']} })
+    scope_type: Literal["SpatialScope"] = Field(default="SpatialScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+
+
+class MaterialsScienceScope(Scope):
+    """
+    Composite scope for materials-science viewpoints. Each dimension slot is optional; unset dimensions are operationally unspecified.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+
+    thermodynamic: Optional[ThermodynamicScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    temporal: Optional[TemporalScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    biological: Optional[BiologicalScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    compositional: Optional[CompositionalScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    statistical: Optional[StatisticalScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    methodological: Optional[MethodologicalScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    spatial: Optional[SpatialScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
+    scope_type: Literal["MaterialsScienceScope"] = Field(default="MaterialsScienceScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
 
 
 # Model rebuild
@@ -689,3 +792,12 @@ Activity.model_rebuild()
 EvidenceRecord.model_rebuild()
 ViewpointDirective.model_rebuild()
 NegativeEvidenceRecord.model_rebuild()
+DocumentExtractionScope.model_rebuild()
+ThermodynamicScope.model_rebuild()
+TemporalScope.model_rebuild()
+BiologicalScope.model_rebuild()
+CompositionalScope.model_rebuild()
+StatisticalScope.model_rebuild()
+MethodologicalScope.model_rebuild()
+SpatialScope.model_rebuild()
+MaterialsScienceScope.model_rebuild()

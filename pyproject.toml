@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygrits"
-version = "0.1.0"
-description = "Raisins in the pudding: evidence-grounded scientific entities with viewpoint-aware refusal. Python implementation of the ISOM schema."
+version = "0.2.0"
+description = "Raisins in the pudding: core ISOM schema with viewpoint-extension scaffolding for evidence-grounded scientific entities."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "BSD-3-Clause" }
@@ -62,6 +62,12 @@ packages = ["src/pygrits"]
 [tool.hatch.build.targets.wheel.force-include]
 "src/pygrits/core.yaml" = "pygrits/core.yaml"
 "src/pygrits/core.schema.json" = "pygrits/core.schema.json"
+"src/pygrits/viewpoints/blank_slate_v0.yaml" = "pygrits/viewpoints/blank_slate_v0.yaml"
+"src/pygrits/viewpoints/blank_slate_v0.schema.json" = "pygrits/viewpoints/blank_slate_v0.schema.json"
+"src/pygrits/viewpoints/document_extraction_v0.yaml" = "pygrits/viewpoints/document_extraction_v0.yaml"
+"src/pygrits/viewpoints/document_extraction_v0.schema.json" = "pygrits/viewpoints/document_extraction_v0.schema.json"
+"src/pygrits/viewpoints/materials_science_v0.yaml" = "pygrits/viewpoints/materials_science_v0.yaml"
+"src/pygrits/viewpoints/materials_science_v0.schema.json" = "pygrits/viewpoints/materials_science_v0.schema.json"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -71,6 +77,10 @@ addopts = "-v"
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+extend-exclude = [
+    "src/pygrits/core.py",
+    "src/pygrits/viewpoints/*.py",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B"]

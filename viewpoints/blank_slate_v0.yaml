@@ -1,0 +1,25 @@
+id: https://w3id.org/isom/viewpoints/blank_slate_v0
+name: blank_slate_v0
+title: Blank Slate Viewpoint v0
+description: >-
+  Bootstrap-honest viewpoint that adds no domain vocabulary. Scope carries
+  only optional notes. EvidenceRecord.evidence_type accepts any CURIE.
+version: 0.1.0
+license: BSD-3-Clause
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  isom: https://w3id.org/isom/
+  blank: https://w3id.org/isom/viewpoints/blank_slate_v0/
+
+default_prefix: blank
+default_range: string
+
+imports:
+  - linkml:types
+  - ../src/pygrits/core
+
+classes:
+  BlankSlateScope:
+    is_a: NotesOnlyScope
+    description: Empty scope with no domain dimensions beyond optional notes.

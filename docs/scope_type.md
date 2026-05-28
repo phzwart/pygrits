@@ -3,10 +3,10 @@ search:
   boost: 5.0
 ---
 
-# Slot: notes 
+# Slot: scope_type 
 
 
-_Free-text scope clarification._
+_Class name of the concrete Scope subclass (e.g. NotesOnlyScope)._
 
 
 
@@ -14,7 +14,7 @@ _Free-text scope clarification._
 
 
 
-URI: [isom:notes](https://w3id.org/isom/notes)
+URI: [isom:scope_type](https://w3id.org/isom/scope_type)
 <!-- no inheritance hierarchy -->
 
 
@@ -46,10 +46,12 @@ URI: [isom:notes](https://w3id.org/isom/notes)
 
 | Property | Value |
 | --- | --- |
+| Required | Yes |
 ### Slot Characteristics
 
 | Property | Value |
 | --- | --- |
+| Designates Type | Yes |
 | Owner | [Scope](Scope.md) |
 
 
@@ -81,8 +83,8 @@ URI: [isom:notes](https://w3id.org/isom/notes)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:notes |
-| native | isom:notes |
+| self | isom:scope_type |
+| native | isom:scope_type |
 
 
 
@@ -91,14 +93,16 @@ URI: [isom:notes](https://w3id.org/isom/notes)
 
 <details>
 ```yaml
-name: notes
-description: Free-text scope clarification.
+name: scope_type
+description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
 from_schema: https://w3id.org/isom/core
 rank: 1000
+designates_type: true
 owner: Scope
 domain_of:
 - Scope
 range: string
+required: true
 
 ```
 </details></div>

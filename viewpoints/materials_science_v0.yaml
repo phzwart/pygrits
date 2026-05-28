@@ -1,0 +1,116 @@
+id: https://w3id.org/isom/viewpoints/materials_science_v0
+name: materials_science_v0
+title: Materials Science Viewpoint v0
+description: >-
+  Example viewpoint for materials-science extraction. Supplies scope-dimension
+  subclasses and a composite MaterialsScienceScope. Imports document_extraction_v0
+  for shared document-extraction evidence-type vocabulary.
+version: 0.1.0
+license: BSD-3-Clause
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  isom: https://w3id.org/isom/
+  mse: https://w3id.org/isom/viewpoints/materials_science_v0/
+  de: https://w3id.org/isom/viewpoints/document_extraction_v0/
+
+default_prefix: mse
+default_range: string
+
+imports:
+  - linkml:types
+  - ../src/pygrits/core
+  - document_extraction_v0
+
+enums:
+  MaterialsScienceEvidenceType:
+    description: >-
+      Materials-science-specific evidence kinds beyond document extraction.
+      Document-extraction kinds (de:text_span, de:figure, etc.) come from
+      document_extraction_v0.
+    permissible_values:
+      observation:
+        meaning: mse:observation
+        description: Direct experimental observation of a material property.
+      parameter:
+        meaning: mse:parameter
+        description: Measured or reported parameter value (e.g. melting point).
+
+classes:
+  ThermodynamicScope:
+    is_a: Scope
+    description: Temperature, pressure, ionic strength.
+    attributes:
+      temperature_kelvin: {range: float}
+      pressure_pascal: {range: float}
+      ionic_strength_molar: {range: float}
+      notes: {range: string}
+
+  TemporalScope:
+    is_a: Scope
+    description: Time window, sample age, instrument run, observation epoch.
+    attributes:
+      time_window_start: {range: Iso8601}
+      time_window_end: {range: Iso8601}
+      sample_age: {range: string}
+      instrument_run: {range: string}
+      observation_epoch: {range: string}
+
+  BiologicalScope:
+    is_a: Scope
+    description: Organism, tissue, cell line, developmental stage.
+    attributes:
+      organism: {range: string}
+      tissue: {range: string}
+      cell_line: {range: string}
+      developmental_stage: {range: string}
+
+  CompositionalScope:
+    is_a: Scope
+    description: Formula, purity, doping, isotopic composition.
+    attributes:
+      formula: {range: string}
+      purity: {range: string}
+      doping: {range: string}
+      isotopic_composition: {range: string}
+
+  StatisticalScope:
+    is_a: Scope
+    description: Sample size, population, sampling method.
+    attributes:
+      sample_size: {range: integer}
+      population: {range: string}
+      sampling_method: {range: string}
+
+  MethodologicalScope:
+    is_a: Scope
+    description: Instrument, protocol, software version.
+    attributes:
+      instrument: {range: string}
+      protocol: {range: string}
+      software_version: {range: string}
+
+  SpatialScope:
+    is_a: Scope
+    description: Region, reference frame, length scale.
+    attributes:
+      region: {range: string}
+      reference_frame: {range: string}
+      length_scale: {range: string}
+
+  MaterialsScienceScope:
+    is_a: Scope
+    description: >-
+      Composite scope for materials-science viewpoints. Each dimension slot
+      is optional; unset dimensions are operationally unspecified.
+    attributes:
+      thermodynamic: {range: ThermodynamicScope, inlined: true}
+      temporal: {range: TemporalScope, inlined: true}
+      biological: {range: BiologicalScope, inlined: true}
+      compositional: {range: CompositionalScope, inlined: true}
+      statistical: {range: StatisticalScope, inlined: true}
+      methodological: {range: MethodologicalScope, inlined: true}
+      spatial: {range: SpatialScope, inlined: true}
+      notes:
+        range: string
+        description: Free-text scope clarification.

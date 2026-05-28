@@ -27,9 +27,7 @@ import yaml
 from pygrits import (
     Activity,
     ActivityType,
-    CharRangeLocator,
     ContentReference,
-    EvidenceRecord,
     HashMode,
     Object,
     canonical_bytes_for_instance,
@@ -37,7 +35,6 @@ from pygrits import (
     canonical_hash_instance,
     verify_content_reference,
 )
-
 
 EXAMPLES_DIR = Path(__file__).parent.parent / "examples"
 
@@ -50,7 +47,7 @@ def _load_example(name: str, cls: type):
 # -------- Hash format --------
 
 def test_hash_format() -> None:
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     h = canonical_hash_instance(obj)
     assert h.startswith("sha256:")
     digest = h[len("sha256:"):]
@@ -60,18 +57,18 @@ def test_hash_format() -> None:
 
 def test_canonical_bytes_is_valid_json() -> None:
     """The canonical bytes must be parseable as JSON by any JSON parser."""
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     raw = canonical_bytes_for_instance(obj)
     parsed = json.loads(raw)
     assert isinstance(parsed, dict)
-    assert parsed["id"] == "obj:paper-licl-demo-v0"
+    assert parsed["id"] == "obj:minimal-demo-v0"
 
 
 # -------- Determinism --------
 
 def test_hash_is_deterministic() -> None:
     """Hashing the same instance twice produces the same hash."""
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     h1 = canonical_hash_instance(obj)
     h2 = canonical_hash_instance(obj)
     assert h1 == h2
@@ -92,6 +89,7 @@ def test_hash_independent_of_construction_order() -> None:
     )
     # ContentReference is not an Entity; hash its dict form via JCS directly.
     import hashlib
+
     import jcs
     ha = hashlib.sha256(jcs.canonicalize(a.model_dump(exclude_none=True))).hexdigest()
     hb = hashlib.sha256(jcs.canonicalize(b.model_dump(exclude_none=True))).hexdigest()
@@ -101,7 +99,7 @@ def test_hash_independent_of_construction_order() -> None:
 def test_hash_independent_of_yaml_key_order() -> None:
     """Loading an example through YAML and re-loading the JSON form yields
     the same hash."""
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     h_yaml = canonical_hash_instance(obj)
 
     # Round-trip via JSON
@@ -115,7 +113,7 @@ def test_hash_independent_of_yaml_key_order() -> None:
 # -------- Change detection --------
 
 def test_changing_a_field_changes_the_hash() -> None:
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     h_before = canonical_hash_instance(obj)
 
     obj_modified = obj.model_copy(update={"summary": "different summary"})
@@ -125,7 +123,7 @@ def test_changing_a_field_changes_the_hash() -> None:
 
 
 def test_changing_should_not_claim_changes_the_hash() -> None:
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     h_before = canonical_hash_instance(obj)
 
     obj_modified = obj.model_copy(
@@ -173,7 +171,7 @@ def test_verify_content_reference_raw_bytes_mismatch() -> None:
 
 
 def test_verify_content_reference_jcs_match() -> None:
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     expected = canonical_hash_instance(obj)[len("sha256:"):]
     ref = ContentReference(
         uri="file://obj.json",
@@ -184,7 +182,7 @@ def test_verify_content_reference_jcs_match() -> None:
 
 
 def test_verify_content_reference_jcs_mismatch() -> None:
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     ref = ContentReference(
         uri="file://obj.json",
         sha256="a" * 64,
@@ -206,7 +204,7 @@ def test_verify_content_reference_wrong_content_type() -> None:
 
 def test_verify_content_reference_raw_bytes_wrong_content_type() -> None:
     """raw_bytes mode requires bytes, not Entity."""
-    obj = _load_example("03_paper_licl.yaml", Object)
+    obj = _load_example("03_object_minimal.yaml", Object)
     ref = ContentReference(
         uri="file://prompt.txt",
         sha256="a" * 64,
@@ -220,8 +218,8 @@ def test_verify_content_reference_raw_bytes_wrong_content_type() -> None:
 
 def test_different_examples_hash_differently() -> None:
     """Every example file should hash to a unique value."""
-    paper = _load_example("03_paper_licl.yaml", Object)
-    claim = _load_example("06_claim_licl_mp.yaml", Object)
+    paper = _load_example("03_object_minimal.yaml", Object)
+    claim = _load_example("06_claim_minimal.yaml", Object)
 
     h_paper = canonical_hash_instance(paper)
     h_claim = canonical_hash_instance(claim)

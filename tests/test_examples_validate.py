@@ -20,17 +20,16 @@ from pygrits import (
     ViewpointDirective,
 )
 
-
 EXAMPLES_DIR = Path(__file__).parent.parent / "examples"
 
 # Map example filename → expected Pydantic class
 EXAMPLE_CLASSES = {
     "01_viewpoint_meta.yaml": ViewpointDirective,
-    "02_viewpoint_alkali_halide.yaml": ViewpointDirective,
-    "03_paper_licl.yaml": Object,
-    "04_evidence_licl_span.yaml": EvidenceRecord,
-    "05_synthesis_activity.yaml": Activity,
-    "06_claim_licl_mp.yaml": Object,
+    "02_viewpoint_blank_slate.yaml": ViewpointDirective,
+    "03_object_minimal.yaml": Object,
+    "04_evidence_minimal.yaml": EvidenceRecord,
+    "05_synthesis_activity_minimal.yaml": Activity,
+    "06_claim_minimal.yaml": Object,
 }
 
 
@@ -58,19 +57,19 @@ def test_all_examples_present() -> None:
     )
 
 
-def test_synthesis_activity_consumes_paper_and_evidence() -> None:
-    """The synthesis Activity must reference the paper and the evidence."""
-    with open(EXAMPLES_DIR / "05_synthesis_activity.yaml") as f:
+def test_synthesis_activity_consumes_object_and_evidence() -> None:
+    """The synthesis Activity must reference the demo object and evidence."""
+    with open(EXAMPLES_DIR / "05_synthesis_activity_minimal.yaml") as f:
         data = yaml.safe_load(f)
     activity = Activity(**data)
-    assert "obj:paper-licl-demo-v0" in activity.inputs
-    assert "evi:span-licl-mp-v0" in activity.inputs
-    assert "obj:claim-licl-mp-v0" in activity.outputs
+    assert "obj:minimal-demo-v0" in activity.inputs
+    assert "evi:minimal-span-v0" in activity.inputs
+    assert "obj:claim-minimal-v0" in activity.outputs
 
 
 def test_claim_object_links_back_to_activity() -> None:
     """The output claim Object must back-link to the synthesis Activity."""
-    with open(EXAMPLES_DIR / "06_claim_licl_mp.yaml") as f:
+    with open(EXAMPLES_DIR / "06_claim_minimal.yaml") as f:
         data = yaml.safe_load(f)
     claim = Object(**data)
-    assert "act:synth-licl-mp-v0" in claim.synthesis_link_ids
+    assert "act:synth-minimal-v0" in claim.synthesis_link_ids

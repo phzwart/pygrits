@@ -89,6 +89,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/BlankSlateScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -173,6 +176,31 @@
                 "locator_type"
             ],
             "title": "BboxLocator",
+            "type": "object"
+        },
+        "BlankSlateScope": {
+            "additionalProperties": false,
+            "description": "Empty scope with no domain dimensions beyond optional notes.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "BlankSlateScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "BlankSlateScope",
             "type": "object"
         },
         "CharRangeLocator": {
@@ -456,6 +484,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/BlankSlateScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -610,6 +641,9 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BlankSlateScope"
                         },
                         {
                             "type": "null"
@@ -838,6 +872,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/BlankSlateScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -1059,6 +1096,9 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BlankSlateScope"
                         },
                         {
                             "type": "null"
@@ -1441,6 +1481,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/BlankSlateScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -1542,12 +1585,12 @@
             "type": "object"
         }
     },
-    "$id": "https://w3id.org/isom/core",
+    "$id": "https://w3id.org/isom/viewpoints/blank_slate_v0",
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "additionalProperties": true,
     "metamodel_version": "1.11.0",
-    "title": "isom_core",
+    "title": "blank_slate_v0",
     "type": "object",
-    "version": "0.2.0"
+    "version": "0.1.0"
 }
 

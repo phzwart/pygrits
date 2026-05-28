@@ -89,6 +89,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -424,6 +427,45 @@
             "title": "ContentReference",
             "type": "object"
         },
+        "DocumentExtractionEvidenceType": {
+            "description": "Evidence-type vocabulary for document extraction. Values are emitted as de:<term> CURIEs on EvidenceRecord.evidence_type.",
+            "enum": [
+                "text_span",
+                "figure",
+                "table",
+                "table_cell",
+                "bbox_region",
+                "processing_log_line",
+                "metadata_field"
+            ],
+            "title": "DocumentExtractionEvidenceType",
+            "type": "string"
+        },
+        "DocumentExtractionScope": {
+            "additionalProperties": false,
+            "description": "Scope for document extraction; no scientific domain dimensions.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "DocumentExtractionScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "DocumentExtractionScope",
+            "type": "object"
+        },
         "Entity": {
             "additionalProperties": false,
             "description": "Abstract base for all ISOM entities. Carries the discipline contract: identity, type, viewpoint, provenance, lifecycle, review state, should_not_claim, scope, generation mode. Three concrete subclasses: Object, Activity, EvidenceRecord.",
@@ -454,6 +496,9 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
                         },
                         {
                             "type": "null"
@@ -610,6 +655,9 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
                         },
                         {
                             "type": "null"
@@ -838,6 +886,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -1059,6 +1110,9 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
                         },
                         {
                             "type": "null"
@@ -1441,6 +1495,9 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -1542,12 +1599,12 @@
             "type": "object"
         }
     },
-    "$id": "https://w3id.org/isom/core",
+    "$id": "https://w3id.org/isom/viewpoints/document_extraction_v0",
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "additionalProperties": true,
     "metamodel_version": "1.11.0",
-    "title": "isom_core",
+    "title": "document_extraction_v0",
     "type": "object",
-    "version": "0.2.0"
+    "version": "0.1.0"
 }
 

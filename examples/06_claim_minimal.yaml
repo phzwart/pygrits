@@ -1,0 +1,51 @@
+# Example 06 — Claim Object produced by the minimal synthesis Activity.
+
+id: obj:claim-minimal-v0
+type: isom:object
+viewpoint_directive_id: vpt:blank-slate-v0
+provenance: >-
+  Output of synthesis activity act:synth-minimal-v0. Schema-validation example.
+
+should_not_claim:
+  - "This claim is a synthesized proposition for schema validation only."
+
+scope:
+  scope_type: NotesOnlyScope
+  notes: "Inherited from synthesis inputs."
+
+review_state: machine_generated
+lifecycle_state: synthesized
+generation_mode: synthesis_v0_from_act:synth-minimal-v0
+
+source_artifact_refs: []
+
+evidence_record_ids:
+  - evi:minimal-span-v0
+
+summary: >-
+  Minimal claim Object demonstrating synthesis output under the blank-slate
+  viewpoint.
+
+features: '{"claim_kind": "example_assertion"}'
+
+observations:
+  - "Placeholder synthesized claim for schema validation."
+
+gaps: []
+needs: []
+offers: []
+affordances: []
+
+reported_claims:
+  - "Example synthesized claim (schema validation only)."
+
+assumptions:
+  - "Single-input synthesis under blank-slate viewpoint."
+
+uncertainties:
+  - "Not validated against external sources."
+
+synthesis_link_ids:
+  - act:synth-minimal-v0
+wiki_link_ids: []
+action_link_ids: []

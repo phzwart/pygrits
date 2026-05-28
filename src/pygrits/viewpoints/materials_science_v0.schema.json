@@ -89,6 +89,33 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MaterialsScienceScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -173,6 +200,55 @@
                 "locator_type"
             ],
             "title": "BboxLocator",
+            "type": "object"
+        },
+        "BiologicalScope": {
+            "additionalProperties": false,
+            "description": "Organism, tissue, cell line, developmental stage.",
+            "properties": {
+                "cell_line": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "developmental_stage": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "organism": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "BiologicalScope"
+                    ],
+                    "type": "string"
+                },
+                "tissue": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "BiologicalScope",
             "type": "object"
         },
         "CharRangeLocator": {
@@ -320,6 +396,55 @@
             "title": "CompositeLocator",
             "type": "object"
         },
+        "CompositionalScope": {
+            "additionalProperties": false,
+            "description": "Formula, purity, doping, isotopic composition.",
+            "properties": {
+                "doping": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "formula": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "isotopic_composition": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "purity": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "CompositionalScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "CompositionalScope",
+            "type": "object"
+        },
         "Confidence": {
             "additionalProperties": false,
             "description": "Structured confidence carrying calibration metadata. A calibrated confidence outside its calibration_domain or under a different viewpoint is no longer calibrated \u2014 downstream consumers must downgrade to heuristic.",
@@ -424,6 +549,45 @@
             "title": "ContentReference",
             "type": "object"
         },
+        "DocumentExtractionEvidenceType": {
+            "description": "Evidence-type vocabulary for document extraction. Values are emitted as de:<term> CURIEs on EvidenceRecord.evidence_type.",
+            "enum": [
+                "text_span",
+                "figure",
+                "table",
+                "table_cell",
+                "bbox_region",
+                "processing_log_line",
+                "metadata_field"
+            ],
+            "title": "DocumentExtractionEvidenceType",
+            "type": "string"
+        },
+        "DocumentExtractionScope": {
+            "additionalProperties": false,
+            "description": "Scope for document extraction; no scientific domain dimensions.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "DocumentExtractionScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "DocumentExtractionScope",
+            "type": "object"
+        },
         "Entity": {
             "additionalProperties": false,
             "description": "Abstract base for all ISOM entities. Carries the discipline contract: identity, type, viewpoint, provenance, lifecycle, review state, should_not_claim, scope, generation mode. Three concrete subclasses: Object, Activity, EvidenceRecord.",
@@ -454,6 +618,33 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MaterialsScienceScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
                         },
                         {
                             "type": "null"
@@ -612,6 +803,33 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MaterialsScienceScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -731,6 +949,153 @@
             "title": "Locator",
             "type": "object"
         },
+        "MaterialsScienceEvidenceType": {
+            "description": "Materials-science-specific evidence kinds beyond document extraction. Document-extraction kinds (de:text_span, de:figure, etc.) come from document_extraction_v0.",
+            "enum": [
+                "observation",
+                "parameter"
+            ],
+            "title": "MaterialsScienceEvidenceType",
+            "type": "string"
+        },
+        "MaterialsScienceScope": {
+            "additionalProperties": false,
+            "description": "Composite scope for materials-science viewpoints. Each dimension slot is optional; unset dimensions are operationally unspecified.",
+            "properties": {
+                "biological": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "compositional": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "methodological": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "MaterialsScienceScope"
+                    ],
+                    "type": "string"
+                },
+                "spatial": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "statistical": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "temporal": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "thermodynamic": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "MaterialsScienceScope",
+            "type": "object"
+        },
+        "MethodologicalScope": {
+            "additionalProperties": false,
+            "description": "Instrument, protocol, software version.",
+            "properties": {
+                "instrument": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "protocol": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "MethodologicalScope"
+                    ],
+                    "type": "string"
+                },
+                "software_version": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "MethodologicalScope",
+            "type": "object"
+        },
         "NegativeEvidenceRecord": {
             "additionalProperties": false,
             "description": "First-class record of a search that returned no result under stated scope. Distinct from `unknown` (question not considered) and from `not_searched` (in scope but not attempted).",
@@ -836,6 +1201,33 @@
                     "anyOf": [
                         {
                             "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MaterialsScienceScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
                         },
                         {
                             "type": "null"
@@ -1061,6 +1453,33 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MaterialsScienceScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -1246,6 +1665,92 @@
             "title": "SequencePositionLocator",
             "type": "object"
         },
+        "SpatialScope": {
+            "additionalProperties": false,
+            "description": "Region, reference frame, length scale.",
+            "properties": {
+                "length_scale": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "reference_frame": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "region": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "SpatialScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "SpatialScope",
+            "type": "object"
+        },
+        "StatisticalScope": {
+            "additionalProperties": false,
+            "description": "Sample size, population, sampling method.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "population": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sample_size": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "sampling_method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "StatisticalScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "StatisticalScope",
+            "type": "object"
+        },
         "TableCellLocator": {
             "additionalProperties": false,
             "description": "A specific cell within an extracted table.",
@@ -1274,6 +1779,103 @@
                 "locator_type"
             ],
             "title": "TableCellLocator",
+            "type": "object"
+        },
+        "TemporalScope": {
+            "additionalProperties": false,
+            "description": "Time window, sample age, instrument run, observation epoch.",
+            "properties": {
+                "instrument_run": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "observation_epoch": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sample_age": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "TemporalScope"
+                    ],
+                    "type": "string"
+                },
+                "time_window_end": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "time_window_start": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "TemporalScope",
+            "type": "object"
+        },
+        "ThermodynamicScope": {
+            "additionalProperties": false,
+            "description": "Temperature, pressure, ionic strength.",
+            "properties": {
+                "ionic_strength_molar": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "notes": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "pressure_pascal": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "ThermodynamicScope"
+                    ],
+                    "type": "string"
+                },
+                "temperature_kelvin": {
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "ThermodynamicScope",
             "type": "object"
         },
         "ViewpointDirective": {
@@ -1441,6 +2043,33 @@
                             "$ref": "#/$defs/NotesOnlyScope"
                         },
                         {
+                            "$ref": "#/$defs/ThermodynamicScope"
+                        },
+                        {
+                            "$ref": "#/$defs/TemporalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/BiologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositionalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/StatisticalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MethodologicalScope"
+                        },
+                        {
+                            "$ref": "#/$defs/SpatialScope"
+                        },
+                        {
+                            "$ref": "#/$defs/MaterialsScienceScope"
+                        },
+                        {
+                            "$ref": "#/$defs/DocumentExtractionScope"
+                        },
+                        {
                             "type": "null"
                         }
                     ],
@@ -1542,12 +2171,12 @@
             "type": "object"
         }
     },
-    "$id": "https://w3id.org/isom/core",
+    "$id": "https://w3id.org/isom/viewpoints/materials_science_v0",
     "$schema": "https://json-schema.org/draft/2019-09/schema",
     "additionalProperties": true,
     "metamodel_version": "1.11.0",
-    "title": "isom_core",
+    "title": "materials_science_v0",
     "type": "object",
-    "version": "0.2.0"
+    "version": "0.1.0"
 }
 

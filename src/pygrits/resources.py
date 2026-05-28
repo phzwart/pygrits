@@ -26,3 +26,26 @@ def json_schema_path() -> Path:
         resources.files("pygrits").joinpath("core.schema.json")
     ) as p:
         return Path(p)
+
+
+def viewpoint_schema_path(name: str) -> Path:
+    """Return the on-disk path to a bundled viewpoint LinkML schema.
+
+    ``name`` is the viewpoint basename without extension, e.g.
+    ``"materials_science_v0"`` resolves ``pygrits/viewpoints/materials_science_v0.yaml``.
+    """
+    filename = f"{name}.yaml" if not name.endswith(".yaml") else name
+    with resources.as_file(
+        resources.files("pygrits.viewpoints").joinpath(filename)
+    ) as p:
+        return Path(p)
+
+
+def viewpoint_json_schema_path(name: str) -> Path:
+    """Return the on-disk path to a bundled viewpoint JSON Schema."""
+    basename = name.removesuffix(".yaml").removesuffix(".schema.json")
+    filename = f"{basename}.schema.json"
+    with resources.as_file(
+        resources.files("pygrits.viewpoints").joinpath(filename)
+    ) as p:
+        return Path(p)

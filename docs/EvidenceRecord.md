@@ -152,7 +152,7 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
 | [locator](locator.md) | 1 <br/> [Locator](Locator.md) |  | direct |
 | [extracted_content](extracted_content.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [normalized_payload](normalized_payload.md) | 0..1 <br/> [String](String.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 | direct |
-| [evidence_type](evidence_type.md) | 0..1 <br/> [CurieOrUri](CurieOrUri.md) | Either a value from EvidenceTypeBase (e | direct |
+| [evidence_type](evidence_type.md) | 0..1 <br/> [CurieOrUri](CurieOrUri.md) | CURIE identifying the kind of scientific content the locator anchors | direct |
 | [extraction_method](extraction_method.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [extraction_confidence](extraction_confidence.md) | 0..1 <br/> [Confidence](Confidence.md) |  | direct |
 | [lineage](lineage.md) | 0..1 <br/> [LineageType](LineageType.md) |  | direct |
@@ -263,8 +263,9 @@ attributes:
     range: string
   evidence_type:
     name: evidence_type
-    description: Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE
-      into a viewpoint-extended evidence vocabulary.
+    description: CURIE identifying the kind of scientific content the locator anchors.
+      No core-supplied permissible values; viewpoints supply the evidence-type vocabulary
+      they use.
     from_schema: https://w3id.org/isom/core
     rank: 1000
     domain_of:
@@ -361,8 +362,9 @@ attributes:
     range: string
   evidence_type:
     name: evidence_type
-    description: Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE
-      into a viewpoint-extended evidence vocabulary.
+    description: CURIE identifying the kind of scientific content the locator anchors.
+      No core-supplied permissible values; viewpoints supply the evidence-type vocabulary
+      they use.
     from_schema: https://w3id.org/isom/core
     rank: 1000
     owner: EvidenceRecord
@@ -475,8 +477,9 @@ attributes:
     multivalued: true
   scope:
     name: scope
-    description: Optional but recommended. Sets the conditions under which this entity's
-      statements apply. Unset dimensions are operationally `unspecified`, not wildcards.
+    description: Optional but recommended. Viewpoint-supplied scope dimensions describing
+      the conditions under which this entity's statements apply. The core Scope marker
+      carries no domain dimensions; load a viewpoint schema to populate them.
     from_schema: https://w3id.org/isom/core
     rank: 1000
     owner: EvidenceRecord

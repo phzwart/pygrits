@@ -1,0 +1,48 @@
+# Example 04 — Minimal EvidenceRecord under the blank-slate viewpoint.
+#
+# evidence_type is an open CURIE (de:text_span); no core enum restricts it.
+
+id: evi:minimal-span-v0
+type: isom:evidence_record
+viewpoint_directive_id: vpt:blank-slate-v0
+provenance: >-
+  Minimal core-schema evidence record. CharRangeLocator anchors a text span
+  in a placeholder source artifact.
+
+should_not_claim:
+  - "Extracted content is verbatim text only; no semantic interpretation."
+
+scope:
+  scope_type: NotesOnlyScope
+  notes: "No domain scope dimensions bound."
+
+review_state: machine_generated
+lifecycle_state: evidence_extracted
+generation_mode: core_example_v0
+
+source_artifact_ref:
+  uri: "file://./sources/demo/artifact.txt"
+  sha256: "4444444444444444444444444444444444444444444444444444444444444444"
+  hash_mode: raw_bytes
+  media_type: "text/plain"
+
+locator:
+  locator_type: CharRangeLocator
+  char_start: 0
+  char_end: 42
+  page: 1
+
+extracted_content: "Example extracted text for schema validation."
+
+normalized_payload: '{"example": true}'
+
+evidence_type: de:text_span
+
+extraction_method: core_example_v0
+extraction_confidence:
+  value: 0.95
+  confidence_basis: parser_self_report
+  calibration_scope: "Not calibrated; example only."
+  viewpoint_directive_id: vpt:blank-slate-v0
+
+lineage: independent

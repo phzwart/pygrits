@@ -1,0 +1,42 @@
+# Example 05 — Minimal SYNTHESIS_EDGE Activity under the blank-slate viewpoint.
+
+id: act:synth-minimal-v0
+type: isom:activity_type/synthesis_edge
+viewpoint_directive_id: vpt:blank-slate-v0
+provenance: >-
+  Minimal synthesis Activity linking the demo Object and EvidenceRecord
+  into a claim Object.
+
+should_not_claim:
+  - "This activity records a schema-validation synthesis step only."
+
+scope:
+  scope_type: NotesOnlyScope
+  notes: "No domain scope dimensions bound."
+
+review_state: machine_generated
+lifecycle_state: synthesized
+generation_mode: core_example_v0
+
+activity_type: SYNTHESIS_EDGE
+
+inputs:
+  - obj:minimal-demo-v0
+  - evi:minimal-span-v0
+
+outputs:
+  - obj:claim-minimal-v0
+
+assumptions:
+  - "Inputs share the blank-slate viewpoint."
+
+admissibility_rationale: >-
+  Demo synthesis under blank-slate viewpoint for core-schema validation.
+
+compatibility_judgments: []
+
+confidence:
+  value: 0.80
+  confidence_basis: heuristic
+  calibration_scope: "Example only; not calibrated."
+  viewpoint_directive_id: vpt:blank-slate-v0

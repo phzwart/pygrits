@@ -1,0 +1,79 @@
+# Example 02 — A paper Object reporting LiCl melting point.
+#
+# Extracted under viewpoint:alkali_halide_thermo:v0. Validates against
+# materials_science_v0 viewpoint schema.
+
+id: obj:paper-licl-demo-v0
+type: mse:paper
+viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+provenance: >-
+  Hypothetical paper for the first implementation milestone. Ingested
+  via the v0 paper extraction pipeline (paperqa-A + claim_extract_llm).
+  Not a real publication; constructed to exercise the schema.
+
+should_not_claim:
+  - "Source claims are reported, not independently validated."
+  - "Knowledge graph entities are LLM-extracted abstractions, not curated."
+  - "Citation lineage of the reported melting point is unresolved."
+
+scope:
+  scope_type: MaterialsScienceScope
+  thermodynamic:
+    scope_type: ThermodynamicScope
+    pressure_pascal: 101325.0
+    notes: "Ambient pressure inherited from viewpoint scope."
+
+review_state: machine_generated
+lifecycle_state: evidence_extracted
+generation_mode: paperqa_a_v0_plus_claim_extract_llm
+
+source_artifact_refs:
+  - uri: "file://./sources/papers/licl_demo.pdf"
+    sha256: "4444444444444444444444444444444444444444444444444444444444444444"
+    hash_mode: raw_bytes
+    media_type: "application/pdf"
+    retrieved_at: "2026-05-27T00:00:00Z"
+
+evidence_record_ids:
+  - evi:span-licl-mp-v0
+
+summary: >-
+  Reports the melting point of LiCl as measured under ambient pressure.
+  Single experimental value, no validation against external sources.
+
+features: '{"doi": "10.0000/demo.licl", "title": "Demonstration LiCl Paper", "year": 2026, "page_count": 1}'
+
+observations:
+  - "LiCl melting point reported under ambient pressure (see evidence evi:span-licl-mp-v0)."
+
+gaps:
+  - "No NaCl observation in this paper."
+  - "No comparison with other alkali halides in this paper."
+
+needs:
+  - "Comparison alkali-halide melting points to establish family trend."
+  - "Citation resolution for the reported LiCl value."
+
+offers:
+  - "LiCl melting-point observation under ambient pressure (single value, lineage:cited unresolved)."
+
+affordances:
+  - "Family-trend interpolation contribution."
+  - "Citation graph anchor for LiCl thermodynamic literature."
+
+reported_claims:
+  - "Paper reports a melting-point value for LiCl. Status: reported_by_source. Not independently validated."
+
+methods:
+  - "Reported as experimental measurement; specific protocol not extracted in v0."
+
+assumptions:
+  - "Ambient pressure conditions inferred from viewpoint, not explicitly stated in extracted text."
+
+uncertainties:
+  - "Citation lineage unresolved — value may be original measurement or citation of prior work."
+  - "Methodological scope incompletely populated."
+
+synthesis_link_ids: []
+wiki_link_ids: []
+action_link_ids: []

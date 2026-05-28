@@ -30,7 +30,7 @@ from pydantic import (
 
 
 metamodel_version = "1.11.0"
-version = "0.2.0"
+version = "0.1.0"
 
 
 class ConfiguredBaseModel(BaseModel):
@@ -66,93 +66,23 @@ class LinkMLMeta(RootModel):
         return key in self.root
 
 
-linkml_meta = LinkMLMeta({'default_prefix': 'isom',
+linkml_meta = LinkMLMeta({'default_prefix': 'blank',
      'default_range': 'string',
-     'description': 'Schema for the Interactive Scientific Object Model (ISOM).\n'
-                    'Defines the three classes of Entity (Object, Activity, '
-                    'EvidenceRecord), the ViewpointDirective construct, and '
-                    'structural primitives (ContentReference, opaque Scope marker, '
-                    'Locator hierarchy, structured Confidence). All entities share '
-                    'the discipline contract (identity, type, viewpoint, '
-                    'provenance, should_not_claim) and differ by role. Domain '
-                    'vocabulary (scope dimensions, evidence types, entity kinds) '
-                    'is supplied by viewpoint schemas that import or extend this '
-                    'core.\n'
-                    'This is a v0.2 schema covering the vertical slice needed for '
-                    'the first implementation milestone (NaCl-style '
-                    'epistemically-disciplined refusal). It does not yet model '
-                    'speech acts, reactions, threads, communities, wiki statement '
-                    'objects, or the harmonization process.',
-     'id': 'https://w3id.org/isom/core',
-     'imports': ['linkml:types'],
-     'license': 'TBD',
-     'name': 'isom_core',
-     'prefixes': {'dcterms': {'prefix_prefix': 'dcterms',
-                              'prefix_reference': 'http://purl.org/dc/terms/'},
+     'description': 'Bootstrap-honest viewpoint that adds no domain vocabulary. '
+                    'Scope carries only optional notes. '
+                    'EvidenceRecord.evidence_type accepts any CURIE.',
+     'id': 'https://w3id.org/isom/viewpoints/blank_slate_v0',
+     'imports': ['linkml:types', '../src/pygrits/core'],
+     'license': 'BSD-3-Clause',
+     'name': 'blank_slate_v0',
+     'prefixes': {'blank': {'prefix_prefix': 'blank',
+                            'prefix_reference': 'https://w3id.org/isom/viewpoints/blank_slate_v0/'},
                   'isom': {'prefix_prefix': 'isom',
                            'prefix_reference': 'https://w3id.org/isom/'},
                   'linkml': {'prefix_prefix': 'linkml',
-                             'prefix_reference': 'https://w3id.org/linkml/'},
-                  'prov': {'prefix_prefix': 'prov',
-                           'prefix_reference': 'http://www.w3.org/ns/prov#'},
-                  'schema': {'prefix_prefix': 'schema',
-                             'prefix_reference': 'http://schema.org/'},
-                  'xsd': {'prefix_prefix': 'xsd',
-                          'prefix_reference': 'http://www.w3.org/2001/XMLSchema#'}},
-     'source_file': 'src/pygrits/core.yaml',
-     'subsets': {'Full': {'description': 'Full object surface including '
-                                         'reported_claims, methods, assumptions, '
-                                         'uncertainties, and backward-pointer link '
-                                         'lists (synthesis_link_ids, '
-                                         'wiki_link_ids, action_link_ids).',
-                          'from_schema': 'https://w3id.org/isom/core',
-                          'name': 'Full'},
-                 'MVE': {'description': 'Minimum viable entity. The irreducible '
-                                        'discipline contract fields plus the '
-                                        'class-specific minimum that makes an '
-                                        'entity honest. Instances missing any '
-                                        'MVE-tagged required slot fail validation.',
-                         'from_schema': 'https://w3id.org/isom/core',
-                         'name': 'MVE'},
-                 'ParticipationReady': {'description': 'Object fields needed for '
-                                                       'community participation '
-                                                       '(offers, needs, gaps, '
-                                                       'features, summary, '
-                                                       'affordances).',
-                                        'from_schema': 'https://w3id.org/isom/core',
-                                        'name': 'ParticipationReady'}},
-     'title': 'Interactive Scientific Object Model — Core Schema',
-     'types': {'CurieOrUri': {'base': 'str',
-                              'description': 'A CURIE or URI identifying a '
-                                             'vocabulary term.',
-                              'from_schema': 'https://w3id.org/isom/core',
-                              'name': 'CurieOrUri',
-                              'uri': 'xsd:anyURI'},
-               'EntityId': {'base': 'str',
-                            'description': 'Canonical entity identifier of the '
-                                           'form scheme:value, where scheme is one '
-                                           'of obj, act, evi, vpt, src. '
-                                           'Hash-derived where applicable. '
-                                           'Identity is by declaration plus '
-                                           'content hash (for '
-                                           'ContentReference-bearing entities like '
-                                           'ViewpointDirective).',
-                            'from_schema': 'https://w3id.org/isom/core',
-                            'name': 'EntityId',
-                            'pattern': '^[a-z]+:[A-Za-z0-9._:-]+$',
-                            'uri': 'xsd:string'},
-               'Iso8601': {'base': 'str',
-                           'description': 'ISO 8601 datetime string.',
-                           'from_schema': 'https://w3id.org/isom/core',
-                           'name': 'Iso8601',
-                           'uri': 'xsd:dateTime'},
-               'Sha256Hex': {'base': 'str',
-                             'description': 'Hex-encoded SHA-256, lowercase, 64 '
-                                            'chars.',
-                             'from_schema': 'https://w3id.org/isom/core',
-                             'name': 'Sha256Hex',
-                             'pattern': '^[a-f0-9]{64}$',
-                             'uri': 'xsd:string'}}} )
+                             'prefix_reference': 'https://w3id.org/linkml/'}},
+     'source_file': 'viewpoints/blank_slate_v0.yaml',
+     'title': 'Blank Slate Viewpoint v0'} )
 
 class HashMode(str, Enum):
     """
@@ -502,7 +432,7 @@ class Entity(ConfiguredBaseModel):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,BlankSlateScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -537,7 +467,7 @@ class Object(Entity):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,BlankSlateScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -562,7 +492,7 @@ class Activity(Entity):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,BlankSlateScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -589,7 +519,7 @@ class EvidenceRecord(Entity):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,BlankSlateScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -630,7 +560,7 @@ class ViewpointDirective(Object):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,BlankSlateScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
@@ -662,10 +592,20 @@ class NegativeEvidenceRecord(EvidenceRecord):
          'in_subset': ['MVE']} })
     provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
     should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,BlankSlateScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
     generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+
+
+class BlankSlateScope(NotesOnlyScope):
+    """
+    Empty scope with no domain dimensions beyond optional notes.
+    """
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/blank_slate_v0'})
+
+    scope_type: Literal["BlankSlateScope"] = Field(default="BlankSlateScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
+    notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope']} })
 
 
 # Model rebuild
@@ -689,3 +629,4 @@ Activity.model_rebuild()
 EvidenceRecord.model_rebuild()
 ViewpointDirective.model_rebuild()
 NegativeEvidenceRecord.model_rebuild()
+BlankSlateScope.model_rebuild()

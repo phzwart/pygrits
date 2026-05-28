@@ -8,7 +8,7 @@ The motivating failure case is concrete. An agent asked *"What is the melting po
 
 ## Status
 
-**Alpha.** Schema is at v0.1; expect breaking changes between commits until the first real ingestion adapter has bent the schema against actual data. Stability is not a goal yet.
+**Alpha.** Core schema is at v0.2; expect breaking changes between commits until the first real ingestion adapter has bent the schema against actual data. Stability is not a goal yet.
 
 ## Install
 
@@ -30,54 +30,77 @@ Python 3.11+.
 ```python
 from pygrits import (
     Object, Activity, EvidenceRecord, ContentReference,
-    ActivityType, HashMode, LineageType,
+    ActivityType, HashMode, NotesOnlyScope,
     CharRangeLocator,
     canonical_hash_instance, verify_content_reference,
 )
 
-# Build a paper Object under a declared viewpoint
+# Build a minimal Object under a declared viewpoint (core schema only)
 paper = Object(
-    id="obj:paper-licl-demo",
-    type="isom:paper",
-    viewpoint_directive_id="vpt:alkali-halide-thermo-v0",
-    provenance="ingested via paperqa-A v0",
+    id="obj:minimal-demo",
+    type="isom:object",
+    viewpoint_directive_id="vpt:blank-slate-v0",
+    provenance="ingested via demo pipeline v0",
     should_not_claim=[
         "Source claims are reported, not independently validated.",
-        "Citation lineage of values is unresolved at ingestion.",
     ],
+    scope=NotesOnlyScope(
+        scope_type="NotesOnlyScope",
+        notes="No domain scope dimensions bound.",
+    ),
     source_artifact_refs=[
         ContentReference(
-            uri="file://./sources/papers/licl_demo.pdf",
+            uri="file://./sources/demo/artifact.txt",
             sha256="a" * 64,
             hash_mode=HashMode.raw_bytes,
         )
     ],
-    evidence_record_ids=["evi:span-licl-mp-v0"],
+    evidence_record_ids=["evi:minimal-span-v0"],
 )
 
 # Canonical, deterministic content hash
 h = canonical_hash_instance(paper)
 print(h)  # sha256:<64 hex>
-
-# Verify a ContentReference matches the actual content
-ok = verify_content_reference(paper.source_artifact_refs[0], b"<pdf bytes>")
 ```
 
-See `examples/` for six complete end-to-end instances: a bootstrap meta-viewpoint, a domain viewpoint, a paper Object, an EvidenceRecord with a CharRangeLocator, a SYNTHESIS_EDGE Activity, and the claim Object the Activity produces.
+For domain-specific scope dimensions, load a viewpoint schema:
+
+```python
+from pygrits.viewpoints.materials_science_v0 import ThermodynamicScope
+
+scope = ThermodynamicScope(
+    scope_type="ThermodynamicScope",
+    pressure_pascal=101325.0,
+)
+```
+
+See `examples/` for core-level instances that validate against the bare core schema alone. See `viewpoints/materials_science_v0/examples/` for alkali-halide thermodynamics instances that require the materials-science viewpoint.
 
 ## What this package gives you
 
+**Core schema (`pygrits.core`)** — structural primitives only:
+
 - **`Entity` hierarchy** — `Object`, `Activity`, `EvidenceRecord` (three siblings sharing an abstract discipline contract), plus `ViewpointDirective` and `NegativeEvidenceRecord` specializations.
-- **Primitives** — `ContentReference` (content-addressed with mandatory sha256 + hash_mode), `Scope` (composite of seven optional dimension classes), the `Locator` hierarchy (seven concrete subtypes for different anchor styles), `Confidence` (structured with calibration metadata), `CompatibilityJudgment`.
-- **Enums** — `ActivityType` (the seven hyperedge types), `LifecycleState`, `ReviewState`, `EpistemicStatus`, `LineageType`, `RefusalState` (five-state taxonomy), `CompatibilityStatus`, `ConfidenceBasis`, `HashMode`.
-- **Canonical hashing** — `canonical_hash_instance(entity)` returns a stable SHA-256 over any entity, via LinkML normalization + RFC 8785 JCS. The hash is invariant to Python-runtime field ordering, OS, library version, and unicode rendering choices.
-- **ContentReference verification** — `verify_content_reference(ref, content)` checks the declared hash matches actual content, dispatching on `hash_mode`.
-- **The LinkML source schema** is shipped with the package (`pygrits.schema_path()`), so downstream tools can use the LinkML validator against it.
-- **The generated JSON Schema** is shipped (`pygrits.json_schema_path()`), so non-Python consumers can validate against it.
+- **`Scope` marker** — opaque container for viewpoint-supplied scope dimensions. Core ships `NotesOnlyScope` (free-form notes only). No domain dimensions (temperature, organism, formula, etc.) are defined in core.
+- **`Locator` hierarchy** — seven concrete subtypes describing *how* an anchor into a source artifact is shaped (character range, bounding box, sequence position, etc.), not *what* content the source contains.
+- **`ContentReference`** — content-addressed with mandatory sha256 + hash_mode.
+- **`Confidence`**, **`CompatibilityJudgment`** — universal structured metadata.
+- **Enums** — `ActivityType` (the seven hyperedge types), `LifecycleState`, `ReviewState`, `EpistemicStatus`, `LineageType`, `RefusalState`, `CompatibilityStatus`, `ConfidenceBasis`, `HashMode`.
+- **`EvidenceRecord.evidence_type`** — open CURIE; no core-supplied vocabulary.
+- **Canonical hashing** — `canonical_hash_instance(entity)` returns a stable SHA-256 over any entity, via LinkML normalization + RFC 8785 JCS.
+- **Bundled schemas** — `pygrits.schema_path()`, `pygrits.json_schema_path()`, and viewpoint helpers `viewpoint_schema_path(name)`.
+
+**Viewpoint schemas (`pygrits.viewpoints.*`)** — domain vocabulary layered on core:
+
+- `blank_slate_v0` — bootstrap-honest; no domain vocabulary.
+- `document_extraction_v0` — evidence-type CURIEs for document extraction (`de:text_span`, `de:figure`, etc.).
+- `materials_science_v0` — scope-dimension subclasses (`ThermodynamicScope`, etc.) and composite `MaterialsScienceScope`.
+
+Type and vocabulary are viewpoint-defined, not schema-defined. Domain labels (`mse:paper`, `de:text_span`, thermodynamic scope dimensions) live in viewpoint schemas that import or extend the core.
 
 ## What this package does *not* (yet) give you
 
-Deferred to v0.2+:
+Deferred to future versions:
 
 - Speech acts, reactions, threads, communities (spec §16–§18).
 - Wiki statement Objects with append-only graph + mutable rendering.
@@ -92,7 +115,7 @@ Deferred to v0.2+:
 
 The conceptual underpinning is the **Interactive Scientific Object Model** specification. The key ideas:
 
-1. **Everything is an entity.** Three classes — `Object`, `Activity`, `EvidenceRecord` — share an abstract discipline contract (identity, type, viewpoint, provenance, scope, should_not_claim, review state, lifecycle, generation mode). Domain-specific labels (`paper`, `diffraction_dataset`, `material_entry`, etc.) are CURIE values of the `type` field, drawn from viewpoint vocabulary — not Python classes.
+1. **Everything is an entity.** Three classes — `Object`, `Activity`, `EvidenceRecord` — share an abstract discipline contract (identity, type, viewpoint, provenance, scope, should_not_claim, review state, lifecycle, generation mode). Domain-specific labels (`mse:paper`, `mse:claim`, etc.) are CURIE values of the `type` field, drawn from viewpoint vocabulary — not Python classes in core.
 
 2. **Activities are not Objects.** Activities transform inputs to outputs; they don't participate in conversations. They record how a step of reasoning happened. Outputs are *new* entities — Activities never mutate their inputs. This makes the append-only graph mechanical, not aspirational.
 
@@ -110,7 +133,7 @@ The full specification document lives separately; pygrits is the Python implemen
 bash scripts/regenerate.sh
 ```
 
-This runs `gen-pydantic`, `gen-json-schema`, and `gen-doc` against `src/pygrits/core.yaml` and writes the outputs back into the package and into `docs/`. CI guards that the checked-in artifacts match the source.
+This runs `gen-pydantic`, `gen-json-schema`, and `gen-doc` against `src/pygrits/core.yaml`, then regenerates viewpoint artifacts from `viewpoints/*.yaml`. CI guards that the checked-in artifacts match the sources.
 
 ## Tests
 
@@ -120,14 +143,13 @@ pytest
 
 Test suite covers:
 
-- All example YAML files load as valid Pydantic instances.
+- Core-level example YAML files load as valid Pydantic instances against bare core.
+- Materials-science viewpoint examples validate when loaded with `pygrits.viewpoints.materials_science_v0`.
+- Core alone defines no domain vocabulary (`ThermodynamicScope`, `EvidenceTypeBase`, etc.).
+- `evidence_type` accepts arbitrary CURIEs under core.
 - Missing MVE fields fail with `ValidationError`.
-- Malformed sha256 patterns fail.
-- Pydantic `extra="forbid"` catches undeclared fields.
 - Canonical hashes are deterministic across construction order and YAML/JSON round-trip.
-- Any field change changes the hash.
 - `verify_content_reference` accepts matches and rejects mismatches under both hash modes.
-- Activities with identical discriminating content hash identically (the property that enables idempotent synthesis detection).
 
 ## License
 

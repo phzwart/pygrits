@@ -54,8 +54,11 @@ jobs:
 
       - name: Assert no drift
         run: |
-          if ! git diff --exit-code src/pygrits/core.py src/pygrits/core.schema.json; then
-            echo "Generated artifacts are out of date with src/pygrits/core.yaml"
+          if ! git diff --exit-code \
+              src/pygrits/core.py \
+              src/pygrits/core.schema.json \
+              src/pygrits/viewpoints/; then
+            echo "Generated artifacts are out of date with LinkML sources"
             echo "Run scripts/regenerate.sh and commit the result"
             exit 1
           fi

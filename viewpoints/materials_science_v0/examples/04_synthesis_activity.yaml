@@ -1,0 +1,69 @@
+# Example 04 — A SYNTHESIS_EDGE Activity for LiCl melting point.
+
+id: act:synth-licl-mp-v0
+type: isom:activity_type/synthesis_edge
+viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+provenance: >-
+  Synthesis Activity that promotes the LiCl melting-point claim statement
+  attached to obj:paper-licl-demo-v0 into a first-class claim Object
+  obj:claim-licl-mp-v0.
+
+should_not_claim:
+  - "This activity records the synthesis step; the produced claim object's epistemic status is what carries forward."
+  - "Synthesis under v0 viewpoint with unresolved citation lineage is not a validation of the underlying value."
+
+scope:
+  scope_type: MaterialsScienceScope
+  thermodynamic:
+    scope_type: ThermodynamicScope
+    pressure_pascal: 101325.0
+    notes: "Synthesis inherits ambient-pressure scope from inputs."
+
+review_state: machine_generated
+lifecycle_state: synthesized
+generation_mode: synthesis_v0
+
+activity_type: SYNTHESIS_EDGE
+
+inputs:
+  - obj:paper-licl-demo-v0
+  - evi:span-licl-mp-v0
+
+outputs:
+  - obj:claim-licl-mp-v0
+
+assumptions:
+  - "The extracted value (883 K) is the value the paper intends to report (extraction_confidence sufficient)."
+  - "Ambient pressure scope inherited from viewpoint and consistent across inputs."
+  - "The claim's lineage inherits its source EvidenceRecord's lineage (cited, unresolved)."
+
+admissibility_rationale: >-
+  Inputs share viewpoint vpt:alkali-halide-thermo-v0 and thermodynamic scope
+  (ambient pressure). EvidenceRecord directly grounds the value with a
+  CharRangeLocator.
+
+compatibility_judgments:
+  - compared_entity_ids:
+      - obj:paper-licl-demo-v0
+      - evi:span-licl-mp-v0
+    checked_scope_dimensions:
+      - thermodynamic
+      - methodological
+    assumptions:
+      - "Both inputs operate under inherited ambient-pressure scope."
+    rationale: >-
+      Paper Object and its anchoring EvidenceRecord share viewpoint and
+      inherited scope.
+    status: conditionally_compatible
+    viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+
+confidence:
+  value: 0.78
+  confidence_basis: aggregated
+  calibration_scope: >-
+    Aggregated from input EvidenceRecord's parser_self_report (0.92) with
+    a discount for unresolved citation lineage. Not a calibrated guarantee.
+  confidence_domain: undefined
+  failure_modes:
+    - "Citation lineage unresolved."
+  viewpoint_directive_id: vpt:alkali-halide-thermo-v0

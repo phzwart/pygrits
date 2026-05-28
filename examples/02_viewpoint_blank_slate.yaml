@@ -1,0 +1,45 @@
+# Example 02 — Blank-slate viewpoint directive.
+#
+# Bootstrap-honest viewpoint that adds no domain vocabulary. Validates against
+# the core schema alone; no viewpoint-specific scope dimensions or evidence types.
+#
+# Validate with:
+#   python -c "from pygrits import ViewpointDirective; import yaml; ..."
+
+id: vpt:blank-slate-v0
+type: isom:viewpoint_directive
+viewpoint_directive_id: vpt:meta-v0
+provenance: >-
+  Hand-authored blank-slate viewpoint v0. Adds no domain vocabulary beyond
+  what the core schema provides.
+
+should_not_claim:
+  - "This viewpoint commits to no domain-specific scope dimensions."
+  - "Evidence types are not restricted; any CURIE is accepted."
+
+review_state: curator_reviewed
+lifecycle_state: participating
+generation_mode: hand_authored_v0
+
+source_artifact_refs: []
+evidence_record_ids: []
+
+summary: >-
+  Blank-slate viewpoint for core-schema-only validation. No domain vocabulary
+  beyond structural entity kinds.
+
+directive_name: "viewpoint:blank_slate:v0"
+
+prompts: []
+exemplars: []
+vocabulary_refs: []
+
+target_schema:
+  uri: "file://./src/pygrits/core.yaml"
+  sha256: "0000000000000000000000000000000000000000000000000000000000000000"
+  hash_mode: raw_bytes
+  media_type: "application/yaml"
+
+imposed_should_not_claim:
+  - "Every entity must declare its viewpoint_directive_id."
+  - "Every entity must declare its should_not_claim."

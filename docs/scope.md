@@ -6,7 +6,7 @@ search:
 # Slot: scope 
 
 
-_Optional but recommended. Sets the conditions under which this entity's statements apply. Unset dimensions are operationally `unspecified`, not wildcards._
+_Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them._
 
 
 
@@ -96,8 +96,9 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 <details>
 ```yaml
 name: scope
-description: Optional but recommended. Sets the conditions under which this entity's
-  statements apply. Unset dimensions are operationally `unspecified`, not wildcards.
+description: Optional but recommended. Viewpoint-supplied scope dimensions describing
+  the conditions under which this entity's statements apply. The core Scope marker
+  carries no domain dimensions; load a viewpoint schema to populate them.
 from_schema: https://w3id.org/isom/core
 rank: 1000
 owner: Entity

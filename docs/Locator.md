@@ -6,7 +6,7 @@ search:
 # Class: Locator 
 
 
-_Polymorphic locator into a source artifact. Discriminator is locator_type._
+_Polymorphic locator into a source artifact. Describes HOW an anchor into a source artifact is shaped (character range, bounding box, sequence position, etc.), not WHAT kind of content the source contains. Discriminator is locator_type._
 
 
 
@@ -125,7 +125,9 @@ URI: [isom:Locator](https://w3id.org/isom/Locator)
 <details>
 ```yaml
 name: Locator
-description: Polymorphic locator into a source artifact. Discriminator is locator_type.
+description: Polymorphic locator into a source artifact. Describes HOW an anchor into
+  a source artifact is shaped (character range, bounding box, sequence position, etc.),
+  not WHAT kind of content the source contains. Discriminator is locator_type.
 from_schema: https://w3id.org/isom/core
 abstract: true
 attributes:
@@ -148,7 +150,9 @@ attributes:
 <details>
 ```yaml
 name: Locator
-description: Polymorphic locator into a source artifact. Discriminator is locator_type.
+description: Polymorphic locator into a source artifact. Describes HOW an anchor into
+  a source artifact is shaped (character range, bounding box, sequence position, etc.),
+  not WHAT kind of content the source contains. Discriminator is locator_type.
 from_schema: https://w3id.org/isom/core
 abstract: true
 attributes:

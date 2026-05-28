@@ -5,16 +5,18 @@ description: >-
   Schema for the Interactive Scientific Object Model (ISOM).
 
   Defines the three classes of Entity (Object, Activity, EvidenceRecord),
-  the ViewpointDirective construct, and primitives (ContentReference, Scope,
-  Locator hierarchy, structured Confidence). All entities share the discipline
-  contract (identity, type, viewpoint, provenance, should_not_claim) and differ
-  by role. The schema implements the ISOM spec v0.
+  the ViewpointDirective construct, and structural primitives (ContentReference,
+  opaque Scope marker, Locator hierarchy, structured Confidence). All entities
+  share the discipline contract (identity, type, viewpoint, provenance,
+  should_not_claim) and differ by role. Domain vocabulary (scope dimensions,
+  evidence types, entity kinds) is supplied by viewpoint schemas that import
+  or extend this core.
 
-  This is a v0.1 draft schema covering the vertical slice needed for the
-  first implementation milestone (NaCl-style epistemically-disciplined refusal).
+  This is a v0.2 schema covering the vertical slice needed for the first
+  implementation milestone (NaCl-style epistemically-disciplined refusal).
   It does not yet model speech acts, reactions, threads, communities, wiki
-  statement objects, or the harmonization process. Those are deferred to v0.2.
-version: 0.1.0
+  statement objects, or the harmonization process.
+version: 0.2.0
 license: TBD
 
 prefixes:
@@ -208,19 +210,6 @@ enums:
       aggregated:
         description: Combined over heterogeneous evidence; combination method must be declared.
 
-  EvidenceTypeBase:
-    description: >-
-      Built-in evidence categories. Viewpoints may extend evidence_type with
-      additional CURIEs, but these base values are structural and always available.
-    permissible_values:
-      text_span:
-      figure:
-      table:
-      observation:
-      claim_statement:
-      processing_statistic:
-      parameter:
-      metadata_field:
 
 # ----------------------------------------------------------------------
 # Classes
@@ -229,7 +218,7 @@ enums:
 classes:
 
   # ====================================================================
-  # Primitives — ContentReference, Scope dimensions, Locator hierarchy,
+  # Primitives — ContentReference, Scope marker, Locator hierarchy,
   # Confidence, CompatibilityJudgment
   # ====================================================================
 
@@ -260,84 +249,37 @@ classes:
         range: Iso8601
         description: Last successful integrity verification timestamp.
 
-  # ----- Scope dimensions -----
-
-  ThermodynamicScope:
-    description: Temperature, pressure, ionic strength.
-    attributes:
-      temperature_kelvin: {range: float}
-      pressure_pascal: {range: float}
-      ionic_strength_molar: {range: float}
-      notes: {range: string}
-
-  TemporalScope:
-    description: Time window, sample age, instrument run, observation epoch.
-    attributes:
-      time_window_start: {range: Iso8601}
-      time_window_end: {range: Iso8601}
-      sample_age: {range: string}
-      instrument_run: {range: string}
-      observation_epoch: {range: string}
-
-  BiologicalScope:
-    description: Organism, tissue, cell line, developmental stage.
-    attributes:
-      organism: {range: string}
-      tissue: {range: string}
-      cell_line: {range: string}
-      developmental_stage: {range: string}
-
-  CompositionalScope:
-    description: Formula, purity, doping, isotopic composition.
-    attributes:
-      formula: {range: string}
-      purity: {range: string}
-      doping: {range: string}
-      isotopic_composition: {range: string}
-
-  StatisticalScope:
-    description: Sample size, population, sampling method.
-    attributes:
-      sample_size: {range: integer}
-      population: {range: string}
-      sampling_method: {range: string}
-
-  MethodologicalScope:
-    description: Instrument, protocol, software version.
-    attributes:
-      instrument: {range: string}
-      protocol: {range: string}
-      software_version: {range: string}
-
-  SpatialScope:
-    description: Region, reference frame, length scale.
-    attributes:
-      region: {range: string}
-      reference_frame: {range: string}
-      length_scale: {range: string}
+  # ----- Scope marker -----
 
   Scope:
+    abstract: true
     description: >-
-      Composite scope. Each dimension is optional. An unset dimension is
-      operationally `unspecified` — not a wildcard, but an honest acknowledgement
-      that the viewpoint did not bind it.
+      Container for viewpoint-supplied scope dimensions. The core defines no
+      domain dimensions. Viewpoints subclass Scope in their own LinkML schemas
+      to declare the scope commitments they populate.
     attributes:
-      thermodynamic: {range: ThermodynamicScope, inlined: true}
-      temporal: {range: TemporalScope, inlined: true}
-      biological: {range: BiologicalScope, inlined: true}
-      compositional: {range: CompositionalScope, inlined: true}
-      statistical: {range: StatisticalScope, inlined: true}
-      methodological: {range: MethodologicalScope, inlined: true}
-      spatial: {range: SpatialScope, inlined: true}
+      scope_type:
+        required: true
+        range: string
+        designates_type: true
+        description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
       notes:
         range: string
         description: Free-text scope clarification.
+
+  NotesOnlyScope:
+    is_a: Scope
+    description: Scope marker with only free-form notes; no domain dimensions.
 
   # ----- Locator hierarchy -----
 
   Locator:
     abstract: true
-    description: Polymorphic locator into a source artifact. Discriminator is locator_type.
+    description: >-
+      Polymorphic locator into a source artifact. Describes HOW an anchor into
+      a source artifact is shaped (character range, bounding box, sequence
+      position, etc.), not WHAT kind of content the source contains. Discriminator
+      is locator_type.
     attributes:
       locator_type:
         required: true
@@ -506,9 +448,10 @@ classes:
         range: Scope
         inlined: true
         description: >-
-          Optional but recommended. Sets the conditions under which this
-          entity's statements apply. Unset dimensions are operationally
-          `unspecified`, not wildcards.
+          Optional but recommended. Viewpoint-supplied scope dimensions
+          describing the conditions under which this entity's statements apply.
+          The core Scope marker carries no domain dimensions; load a viewpoint
+          schema to populate them.
       review_state:
         range: ReviewState
       lifecycle_state:
@@ -669,8 +612,9 @@ classes:
       evidence_type:
         range: CurieOrUri
         description: >-
-          Either a value from EvidenceTypeBase (e.g. isom:text_span) or a
-          CURIE into a viewpoint-extended evidence vocabulary.
+          CURIE identifying the kind of scientific content the locator anchors.
+          No core-supplied permissible values; viewpoints supply the evidence-type
+          vocabulary they use.
       extraction_method:
         range: string
       extraction_confidence:

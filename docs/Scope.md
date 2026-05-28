@@ -6,12 +6,14 @@ search:
 # Class: Scope 
 
 
-_Composite scope. Each dimension is optional. An unset dimension is operationally `unspecified` — not a wildcard, but an honest acknowledgement that the viewpoint did not bind it._
+_Container for viewpoint-supplied scope dimensions. The core defines no domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare the scope commitments they populate._
 
 
 
 <div data-search-exclude markdown="1">
 
+
+* __NOTE__: this is an abstract class and should not be instantiated directly
 
 
 URI: [isom:Scope](https://w3id.org/isom/Scope)
@@ -24,84 +26,12 @@ URI: [isom:Scope](https://w3id.org/isom/Scope)
  classDiagram
     class Scope
     click Scope href "../Scope/"
-      Scope : biological
-        
-          
-    
-        
-        
-        Scope --> "0..1" BiologicalScope : biological
-        click BiologicalScope href "../BiologicalScope/"
-    
-
-        
-      Scope : compositional
-        
-          
-    
-        
-        
-        Scope --> "0..1" CompositionalScope : compositional
-        click CompositionalScope href "../CompositionalScope/"
-    
-
-        
-      Scope : methodological
-        
-          
-    
-        
-        
-        Scope --> "0..1" MethodologicalScope : methodological
-        click MethodologicalScope href "../MethodologicalScope/"
-    
-
-        
+      Scope <|-- NotesOnlyScope
+        click NotesOnlyScope href "../NotesOnlyScope/"
+      
       Scope : notes
         
-      Scope : spatial
-        
-          
-    
-        
-        
-        Scope --> "0..1" SpatialScope : spatial
-        click SpatialScope href "../SpatialScope/"
-    
-
-        
-      Scope : statistical
-        
-          
-    
-        
-        
-        Scope --> "0..1" StatisticalScope : statistical
-        click StatisticalScope href "../StatisticalScope/"
-    
-
-        
-      Scope : temporal
-        
-          
-    
-        
-        
-        Scope --> "0..1" TemporalScope : temporal
-        click TemporalScope href "../TemporalScope/"
-    
-
-        
-      Scope : thermodynamic
-        
-          
-    
-        
-        
-        Scope --> "0..1" ThermodynamicScope : thermodynamic
-        click ThermodynamicScope href "../ThermodynamicScope/"
-    
-
+      Scope : scope_type
         
       
 ```
@@ -109,19 +39,17 @@ URI: [isom:Scope](https://w3id.org/isom/Scope)
 
 
 
-<!-- no inheritance hierarchy -->
+
+## Inheritance
+* **Scope**
+    * [NotesOnlyScope](NotesOnlyScope.md)
+
 
 ## Slots
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [thermodynamic](thermodynamic.md) | 0..1 <br/> [ThermodynamicScope](ThermodynamicScope.md) |  | direct |
-| [temporal](temporal.md) | 0..1 <br/> [TemporalScope](TemporalScope.md) |  | direct |
-| [biological](biological.md) | 0..1 <br/> [BiologicalScope](BiologicalScope.md) |  | direct |
-| [compositional](compositional.md) | 0..1 <br/> [CompositionalScope](CompositionalScope.md) |  | direct |
-| [statistical](statistical.md) | 0..1 <br/> [StatisticalScope](StatisticalScope.md) |  | direct |
-| [methodological](methodological.md) | 0..1 <br/> [MethodologicalScope](MethodologicalScope.md) |  | direct |
-| [spatial](spatial.md) | 0..1 <br/> [SpatialScope](SpatialScope.md) |  | direct |
+| [scope_type](scope_type.md) | 1 <br/> [String](String.md) | Class name of the concrete Scope subclass (e | direct |
 | [notes](notes.md) | 0..1 <br/> [String](String.md) | Free-text scope clarification | direct |
 
 
@@ -185,73 +113,28 @@ URI: [isom:Scope](https://w3id.org/isom/Scope)
 <details>
 ```yaml
 name: Scope
-description: Composite scope. Each dimension is optional. An unset dimension is operationally
-  `unspecified` — not a wildcard, but an honest acknowledgement that the viewpoint
-  did not bind it.
+description: Container for viewpoint-supplied scope dimensions. The core defines no
+  domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare
+  the scope commitments they populate.
 from_schema: https://w3id.org/isom/core
+abstract: true
 attributes:
-  thermodynamic:
-    name: thermodynamic
+  scope_type:
+    name: scope_type
+    description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
     from_schema: https://w3id.org/isom/core
     rank: 1000
+    designates_type: true
     domain_of:
     - Scope
-    range: ThermodynamicScope
-    inlined: true
-  temporal:
-    name: temporal
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    domain_of:
-    - Scope
-    range: TemporalScope
-    inlined: true
-  biological:
-    name: biological
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    domain_of:
-    - Scope
-    range: BiologicalScope
-    inlined: true
-  compositional:
-    name: compositional
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    domain_of:
-    - Scope
-    range: CompositionalScope
-    inlined: true
-  statistical:
-    name: statistical
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    domain_of:
-    - Scope
-    range: StatisticalScope
-    inlined: true
-  methodological:
-    name: methodological
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    domain_of:
-    - Scope
-    range: MethodologicalScope
-    inlined: true
-  spatial:
-    name: spatial
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    domain_of:
-    - Scope
-    range: SpatialScope
-    inlined: true
+    range: string
+    required: true
   notes:
     name: notes
     description: Free-text scope clarification.
     from_schema: https://w3id.org/isom/core
+    rank: 1000
     domain_of:
-    - ThermodynamicScope
     - Scope
     range: string
 
@@ -263,81 +146,30 @@ attributes:
 <details>
 ```yaml
 name: Scope
-description: Composite scope. Each dimension is optional. An unset dimension is operationally
-  `unspecified` — not a wildcard, but an honest acknowledgement that the viewpoint
-  did not bind it.
+description: Container for viewpoint-supplied scope dimensions. The core defines no
+  domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare
+  the scope commitments they populate.
 from_schema: https://w3id.org/isom/core
+abstract: true
 attributes:
-  thermodynamic:
-    name: thermodynamic
+  scope_type:
+    name: scope_type
+    description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
     from_schema: https://w3id.org/isom/core
     rank: 1000
+    designates_type: true
     owner: Scope
     domain_of:
     - Scope
-    range: ThermodynamicScope
-    inlined: true
-  temporal:
-    name: temporal
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    owner: Scope
-    domain_of:
-    - Scope
-    range: TemporalScope
-    inlined: true
-  biological:
-    name: biological
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    owner: Scope
-    domain_of:
-    - Scope
-    range: BiologicalScope
-    inlined: true
-  compositional:
-    name: compositional
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    owner: Scope
-    domain_of:
-    - Scope
-    range: CompositionalScope
-    inlined: true
-  statistical:
-    name: statistical
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    owner: Scope
-    domain_of:
-    - Scope
-    range: StatisticalScope
-    inlined: true
-  methodological:
-    name: methodological
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    owner: Scope
-    domain_of:
-    - Scope
-    range: MethodologicalScope
-    inlined: true
-  spatial:
-    name: spatial
-    from_schema: https://w3id.org/isom/core
-    rank: 1000
-    owner: Scope
-    domain_of:
-    - Scope
-    range: SpatialScope
-    inlined: true
+    range: string
+    required: true
   notes:
     name: notes
     description: Free-text scope clarification.
     from_schema: https://w3id.org/isom/core
+    rank: 1000
     owner: Scope
     domain_of:
-    - ThermodynamicScope
     - Scope
     range: string
 

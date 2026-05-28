@@ -6,7 +6,7 @@ search:
 # Slot: evidence_type 
 
 
-_Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE into a viewpoint-extended evidence vocabulary._
+_CURIE identifying the kind of scientific content the locator anchors. No core-supplied permissible values; viewpoints supply the evidence-type vocabulary they use._
 
 
 
@@ -92,8 +92,9 @@ URI: [isom:evidence_type](https://w3id.org/isom/evidence_type)
 <details>
 ```yaml
 name: evidence_type
-description: Either a value from EvidenceTypeBase (e.g. isom:text_span) or a CURIE
-  into a viewpoint-extended evidence vocabulary.
+description: CURIE identifying the kind of scientific content the locator anchors.
+  No core-supplied permissible values; viewpoints supply the evidence-type vocabulary
+  they use.
 from_schema: https://w3id.org/isom/core
 rank: 1000
 owner: EvidenceRecord

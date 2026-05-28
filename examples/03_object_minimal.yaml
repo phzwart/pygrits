@@ -1,0 +1,54 @@
+# Example 03 — Minimal Object under the blank-slate viewpoint.
+#
+# Validates against the core schema alone. Scope carries only free-form notes.
+
+id: obj:minimal-demo-v0
+type: isom:object
+viewpoint_directive_id: vpt:blank-slate-v0
+provenance: >-
+  Minimal core-schema example object. Constructed to exercise the discipline
+  contract without domain vocabulary.
+
+should_not_claim:
+  - "This object carries no domain-specific claims."
+  - "Source artifacts are placeholders for schema validation."
+
+scope:
+  scope_type: NotesOnlyScope
+  notes: "No domain scope dimensions bound under blank-slate viewpoint."
+
+review_state: machine_generated
+lifecycle_state: ingested
+generation_mode: core_example_v0
+
+source_artifact_refs:
+  - uri: "file://./sources/demo/artifact.txt"
+    sha256: "4444444444444444444444444444444444444444444444444444444444444444"
+    hash_mode: raw_bytes
+    media_type: "text/plain"
+
+evidence_record_ids:
+  - evi:minimal-span-v0
+
+summary: >-
+  Minimal Object demonstrating the core discipline contract under the
+  blank-slate viewpoint.
+
+features: '{"example": true}'
+
+observations:
+  - "Placeholder observation for schema validation."
+
+gaps: []
+needs: []
+offers: []
+affordances: []
+
+reported_claims: []
+methods: []
+assumptions: []
+uncertainties: []
+
+synthesis_link_ids: []
+wiki_link_ids: []
+action_link_ids: []

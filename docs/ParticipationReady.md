@@ -68,18 +68,7 @@ URI: [ParticipationReady](ParticipationReady.md)
 
 
 
-
-
-
-
-
-
         
-
-
-
-
-
 
 
 
@@ -109,7 +98,6 @@ URI: [ParticipationReady](ParticipationReady.md)
 
         
 
-
         
 
 
@@ -126,14 +114,7 @@ URI: [ParticipationReady](ParticipationReady.md)
 
 
 
-
-
-
-
-
-
         
-
 
 
 
@@ -165,26 +146,7 @@ URI: [ParticipationReady](ParticipationReady.md)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         
-
-
-
-
-
-
-
 
 
 

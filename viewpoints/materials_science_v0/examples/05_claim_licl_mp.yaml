@@ -1,0 +1,66 @@
+# Example 05 — The claim Object produced by the synthesis Activity.
+
+id: obj:claim-licl-mp-v0
+type: mse:claim
+viewpoint_directive_id: vpt:alkali-halide-thermo-v0
+provenance: >-
+  Promoted from claim statement attached to obj:paper-licl-demo-v0
+  by synthesis activity act:synth-licl-mp-v0 on 2026-05-27.
+
+should_not_claim:
+  - "This claim is a synthesized proposition under viewpoint v0; its truth is contingent on the inherited evidence lineage and assumptions."
+  - "Citation lineage of the underlying value is unresolved; this claim does not constitute independent confirmation."
+
+scope:
+  scope_type: MaterialsScienceScope
+  thermodynamic:
+    scope_type: ThermodynamicScope
+    pressure_pascal: 101325.0
+    notes: "Inherited from synthesis Activity inputs."
+
+review_state: machine_generated
+lifecycle_state: synthesized
+generation_mode: synthesis_v0_from_act:synth-licl-mp-v0
+
+source_artifact_refs: []
+
+evidence_record_ids:
+  - evi:span-licl-mp-v0
+
+summary: >-
+  Persistent claim object stating the melting point of LiCl under ambient
+  pressure based on the value reported in obj:paper-licl-demo-v0.
+
+features: '{"property": "melting_point", "material": "LiCl", "value_kelvin": 883, "conditions": "ambient pressure", "claim_kind": "value_assertion"}'
+
+observations:
+  - "Asserts LiCl melting point at 883 K under ambient pressure."
+
+gaps:
+  - "Independent measurement under specified instrument/protocol not yet linked."
+  - "Citation resolution for original measurement not yet performed."
+
+needs:
+  - "VALIDATION_EDGE from an independently-measured LiCl value."
+  - "Citation resolution to identify whether obj:paper-licl-demo-v0 is the original source."
+
+offers:
+  - "Anchor claim for alkali-halide family-trend analysis under ambient pressure."
+
+affordances:
+  - "Cation/anion family interpolation contribution."
+
+reported_claims:
+  - "LiCl melting point = 883 K @ ambient pressure (epistemic status: synthesized; lineage: cited/unresolved)."
+
+assumptions:
+  - "Single-paper synthesis under v0 viewpoint."
+
+uncertainties:
+  - "Methodological scope partially unspecified."
+  - "Citation lineage unresolved."
+
+synthesis_link_ids:
+  - act:synth-licl-mp-v0
+wiki_link_ids: []
+action_link_ids: []

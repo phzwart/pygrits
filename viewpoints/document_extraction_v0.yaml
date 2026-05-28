@@ -1,0 +1,55 @@
+id: https://w3id.org/isom/viewpoints/document_extraction_v0
+name: document_extraction_v0
+title: Document Extraction Viewpoint v0
+description: >-
+  Viewpoint vocabulary for document and data extraction pipelines. Declares
+  evidence-type CURIEs for anchored content kinds (text spans, figures,
+  tables, etc.). These are document-extraction concepts, not domain-specific
+  scientific content kinds.
+version: 0.1.0
+license: BSD-3-Clause
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  isom: https://w3id.org/isom/
+  de: https://w3id.org/isom/viewpoints/document_extraction_v0/
+
+default_prefix: de
+default_range: string
+
+imports:
+  - linkml:types
+  - ../src/pygrits/core
+
+enums:
+  DocumentExtractionEvidenceType:
+    description: >-
+      Evidence-type vocabulary for document extraction. Values are emitted
+      as de:<term> CURIEs on EvidenceRecord.evidence_type.
+    permissible_values:
+      text_span:
+        meaning: de:text_span
+        description: Verbatim text span extracted from a source artifact.
+      figure:
+        meaning: de:figure
+        description: Figure or image region in a source artifact.
+      table:
+        meaning: de:table
+        description: Extracted table structure.
+      table_cell:
+        meaning: de:table_cell
+        description: Individual table cell content.
+      bbox_region:
+        meaning: de:bbox_region
+        description: Arbitrary bounding-box region on a rasterized page.
+      processing_log_line:
+        meaning: de:processing_log_line
+        description: Line or range in a processing log.
+      metadata_field:
+        meaning: de:metadata_field
+        description: Document metadata field (title, author, DOI, etc.).
+
+classes:
+  DocumentExtractionScope:
+    is_a: NotesOnlyScope
+    description: Scope for document extraction; no scientific domain dimensions.
