@@ -1,16 +1,14 @@
 """
 pygrits — raisins in the pudding.
 
-Evidence-grounded scientific entities with viewpoint-aware refusal.
+Evidence-grounded scientific grits with viewpoint-aware refusal.
 
-Python implementation of the ISOM schema (Interactive Scientific Object Model)
-for structured epistemic containment in agentic scientific reasoning.
+Python implementation of the pygrits core schema for structured epistemic
+containment in agentic scientific reasoning.
 """
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
-# Re-export the entity classes
-# Canonicalization helpers
 from pygrits.canonical import (
     canonical_bytes_for_instance,
     canonical_hash_bytes,
@@ -27,21 +25,17 @@ from pygrits.core import (
     CompositeLocator,
     Confidence,
     ConfidenceBasis,
-    # Primitives
     ContentReference,
-    # Abstract base
-    Entity,
     EpistemicStatus,
     EvidenceRecord,
     FileRegionLocator,
-    # Enums
+    Grit,
     HashMode,
     LifecycleState,
     LineageType,
     Locator,
     NegativeEvidenceRecord,
     NotesOnlyScope,
-    # Concrete entity classes
     Object,
     ProcessingLogLineLocator,
     RefusalState,
@@ -51,8 +45,6 @@ from pygrits.core import (
     TableCellLocator,
     ViewpointDirective,
 )
-
-# Schema file path for runtime validators that want it
 from pygrits.resources import (
     json_schema_path,
     schema_path,
@@ -62,14 +54,12 @@ from pygrits.resources import (
 
 __all__ = [
     "__version__",
-    # Entity classes
-    "Entity",
+    "Grit",
     "Object",
     "Activity",
     "EvidenceRecord",
     "ViewpointDirective",
     "NegativeEvidenceRecord",
-    # Primitives
     "ContentReference",
     "Scope",
     "NotesOnlyScope",
@@ -83,7 +73,6 @@ __all__ = [
     "CompositeLocator",
     "Confidence",
     "CompatibilityJudgment",
-    # Enums
     "HashMode",
     "ActivityType",
     "LifecycleState",
@@ -93,12 +82,10 @@ __all__ = [
     "RefusalState",
     "CompatibilityStatus",
     "ConfidenceBasis",
-    # Canonicalization
     "canonical_hash_instance",
     "canonical_hash_bytes",
     "verify_content_reference",
     "canonical_bytes_for_instance",
-    # Resources
     "schema_path",
     "json_schema_path",
     "viewpoint_schema_path",

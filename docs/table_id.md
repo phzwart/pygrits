@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:table_id](https://w3id.org/isom/table_id)
+URI: [grits:table_id](https://w3id.org/grits/table_id)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:table_id](https://w3id.org/isom/table_id)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:table_id](https://w3id.org/isom/table_id)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:table_id |
-| native | isom:table_id |
+| self | grits:table_id |
+| native | grits:table_id |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:table_id](https://w3id.org/isom/table_id)
 <details>
 ```yaml
 name: table_id
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: TableCellLocator
 domain_of:

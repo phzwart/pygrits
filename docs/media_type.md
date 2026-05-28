@@ -14,7 +14,7 @@ _MIME type for disambiguation._
 
 
 
-URI: [isom:media_type](https://w3id.org/isom/media_type)
+URI: [grits:media_type](https://w3id.org/grits/media_type)
 <!-- no inheritance hierarchy -->
 
 
@@ -71,7 +71,7 @@ URI: [isom:media_type](https://w3id.org/isom/media_type)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:media_type](https://w3id.org/isom/media_type)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:media_type |
-| native | isom:media_type |
+| self | grits:media_type |
+| native | grits:media_type |
 
 
 
@@ -92,7 +92,7 @@ URI: [isom:media_type](https://w3id.org/isom/media_type)
 ```yaml
 name: media_type
 description: MIME type for disambiguation.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ContentReference
 domain_of:

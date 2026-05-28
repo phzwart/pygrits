@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:checked_scope_dimensions](https://w3id.org/isom/checked_scope_dimensions)
+URI: [grits:checked_scope_dimensions](https://w3id.org/grits/checked_scope_dimensions)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:checked_scope_dimensions](https://w3id.org/isom/checked_scope_dimensi
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |  no  |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:checked_scope_dimensions](https://w3id.org/isom/checked_scope_dimensi
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:checked_scope_dimensions](https://w3id.org/isom/checked_scope_dimensi
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:checked_scope_dimensions |
-| native | isom:checked_scope_dimensions |
+| self | grits:checked_scope_dimensions |
+| native | grits:checked_scope_dimensions |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:checked_scope_dimensions](https://w3id.org/isom/checked_scope_dimensi
 <details>
 ```yaml
 name: checked_scope_dimensions
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CompatibilityJudgment
 domain_of:

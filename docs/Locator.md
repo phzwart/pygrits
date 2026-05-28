@@ -16,7 +16,7 @@ _Polymorphic locator into a source artifact. Describes HOW an anchor into a sour
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [isom:Locator](https://w3id.org/isom/Locator)
+URI: [grits:Locator](https://w3id.org/grits/Locator)
 
 
 
@@ -99,7 +99,7 @@ URI: [isom:Locator](https://w3id.org/isom/Locator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -108,8 +108,8 @@ URI: [isom:Locator](https://w3id.org/isom/Locator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:Locator |
-| native | isom:Locator |
+| self | grits:Locator |
+| native | grits:Locator |
 
 
 
@@ -128,13 +128,13 @@ name: Locator
 description: Polymorphic locator into a source artifact. Describes HOW an anchor into
   a source artifact is shaped (character range, bounding box, sequence position, etc.),
   not WHAT kind of content the source contains. Discriminator is locator_type.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 abstract: true
 attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     domain_of:
@@ -153,13 +153,13 @@ name: Locator
 description: Polymorphic locator into a source artifact. Describes HOW an anchor into
   a source artifact is shaped (character range, bounding box, sequence position, etc.),
   not WHAT kind of content the source contains. Discriminator is locator_type.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 abstract: true
 attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: Locator

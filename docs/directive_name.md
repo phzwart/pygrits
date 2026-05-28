@@ -14,7 +14,7 @@ _Human-readable name (e.g. viewpoint:materials_science:v1). Combined with conten
 
 
 
-URI: [isom:directive_name](https://w3id.org/isom/directive_name)
+URI: [grits:directive_name](https://w3id.org/grits/directive_name)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:directive_name](https://w3id.org/isom/directive_name)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -72,7 +72,7 @@ URI: [isom:directive_name](https://w3id.org/isom/directive_name)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:directive_name](https://w3id.org/isom/directive_name)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:directive_name |
-| native | isom:directive_name |
+| self | grits:directive_name |
+| native | grits:directive_name |
 
 
 
@@ -94,7 +94,7 @@ URI: [isom:directive_name](https://w3id.org/isom/directive_name)
 name: directive_name
 description: Human-readable name (e.g. viewpoint:materials_science:v1). Combined with
   content hash, this gives identity-by-declaration.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ViewpointDirective
 domain_of:

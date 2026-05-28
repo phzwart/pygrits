@@ -14,7 +14,7 @@ _Why this Activity is valid given its inputs and viewpoint._
 
 
 
-URI: [isom:admissibility_rationale](https://w3id.org/isom/admissibility_rationale)
+URI: [grits:admissibility_rationale](https://w3id.org/grits/admissibility_rationale)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:admissibility_rationale](https://w3id.org/isom/admissibility_rational
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Activity](Activity.md) | Transformation |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
 
 
 
@@ -71,7 +71,7 @@ URI: [isom:admissibility_rationale](https://w3id.org/isom/admissibility_rational
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:admissibility_rationale](https://w3id.org/isom/admissibility_rational
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:admissibility_rationale |
-| native | isom:admissibility_rationale |
+| self | grits:admissibility_rationale |
+| native | grits:admissibility_rationale |
 
 
 
@@ -92,7 +92,7 @@ URI: [isom:admissibility_rationale](https://w3id.org/isom/admissibility_rational
 ```yaml
 name: admissibility_rationale
 description: Why this Activity is valid given its inputs and viewpoint.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Activity
 domain_of:

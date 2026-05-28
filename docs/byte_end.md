@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:byte_end](https://w3id.org/isom/byte_end)
+URI: [grits:byte_end](https://w3id.org/grits/byte_end)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:byte_end](https://w3id.org/isom/byte_end)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:byte_end](https://w3id.org/isom/byte_end)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:byte_end |
-| native | isom:byte_end |
+| self | grits:byte_end |
+| native | grits:byte_end |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:byte_end](https://w3id.org/isom/byte_end)
 <details>
 ```yaml
 name: byte_end
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: FileRegionLocator
 domain_of:

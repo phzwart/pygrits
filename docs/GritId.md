@@ -1,12 +1,12 @@
 ---
 search:
   boost: 1.0
----# Type: EntityId 
+---# Type: GritId 
 
 
 
 
-_Canonical entity identifier of the form scheme:value, where scheme is one of obj, act, evi, vpt, src. Hash-derived where applicable. Identity is by declaration plus content hash (for ContentReference-bearing entities like ViewpointDirective)._
+_Canonical grit identifier of the form scheme:value, where scheme is one of obj, act, evi, vpt, src. Hash-derived where applicable. Identity is by declaration plus content hash (for ContentReference-bearing grits like ViewpointDirective)._
 
 
 
@@ -44,7 +44,7 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -54,7 +54,7 @@ URI: [xsd:string](http://www.w3.org/2001/XMLSchema#string)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | xsd:string |
-| native | isom:EntityId |
+| native | grits:GritId |
 
 
 

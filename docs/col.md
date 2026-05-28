@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:col](https://w3id.org/isom/col)
+URI: [grits:col](https://w3id.org/grits/col)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:col](https://w3id.org/isom/col)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:col](https://w3id.org/isom/col)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:col |
-| native | isom:col |
+| self | grits:col |
+| native | grits:col |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:col](https://w3id.org/isom/col)
 <details>
 ```yaml
 name: col
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: TableCellLocator
 domain_of:

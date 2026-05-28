@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:locator](https://w3id.org/isom/locator)
+URI: [grits:locator](https://w3id.org/grits/locator)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:locator](https://w3id.org/isom/locator)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -74,7 +74,7 @@ URI: [isom:locator](https://w3id.org/isom/locator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -83,8 +83,8 @@ URI: [isom:locator](https://w3id.org/isom/locator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:locator |
-| native | isom:locator |
+| self | grits:locator |
+| native | grits:locator |
 
 
 
@@ -96,7 +96,7 @@ URI: [isom:locator](https://w3id.org/isom/locator)
 name: locator
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: EvidenceRecord
 domain_of:

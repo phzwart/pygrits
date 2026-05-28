@@ -6,7 +6,7 @@ search:
 # Slot: should_not_claim 
 
 
-_Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint._
+_Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint._
 
 
 
@@ -14,7 +14,7 @@ _Epistemic boundaries this entity must respect. Combination of per-class default
 
 
 
-URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
+URI: [grits:should_not_claim](https://w3id.org/grits/should_not_claim)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,11 +25,11 @@ URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Entity](Entity.md) | Abstract base for all ISOM entities |  no  |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [Activity](Activity.md) | Transformation |  no  |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Grit](Grit.md) | Abstract base for all pygrits graph nodes |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -44,7 +44,7 @@ URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
 | Property | Value |
 | --- | --- |
 | Range | [String](String.md) |
-| Domain Of | [Entity](Entity.md) |
+| Domain Of | [Grit](Grit.md) |
 
 ### Cardinality and Requirements
 
@@ -56,7 +56,7 @@ URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
 
 | Property | Value |
 | --- | --- |
-| Owner | [Entity](Entity.md) |
+| Owner | [Grit](Grit.md) |
 
 
 
@@ -84,7 +84,7 @@ URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -93,8 +93,8 @@ URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:should_not_claim |
-| native | isom:should_not_claim |
+| self | grits:should_not_claim |
+| native | grits:should_not_claim |
 
 
 
@@ -104,15 +104,15 @@ URI: [isom:should_not_claim](https://w3id.org/isom/should_not_claim)
 <details>
 ```yaml
 name: should_not_claim
-description: Epistemic boundaries this entity must respect. Combination of per-class
+description: Epistemic boundaries this grit must respect. Combination of per-class
   defaults plus directive-imposed rules from the viewpoint.
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
-owner: Entity
+owner: Grit
 domain_of:
-- Entity
+- Grit
 range: string
 required: true
 multivalued: true

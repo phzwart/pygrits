@@ -1,7 +1,7 @@
 # Example 04 — A SYNTHESIS_EDGE Activity for LiCl melting point.
 
 id: act:synth-licl-mp-v0
-type: isom:activity_type/synthesis_edge
+type: grits:activity_type/synthesis_edge
 viewpoint_directive_id: vpt:alkali-halide-thermo-v0
 provenance: >-
   Synthesis Activity that promotes the LiCl melting-point claim statement
@@ -43,7 +43,7 @@ admissibility_rationale: >-
   CharRangeLocator.
 
 compatibility_judgments:
-  - compared_entity_ids:
+  - compared_grit_ids:
       - obj:paper-licl-demo-v0
       - evi:span-licl-mp-v0
     checked_scope_dimensions:

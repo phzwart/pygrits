@@ -14,7 +14,7 @@ _A specific cell within an extracted table._
 
 
 
-URI: [isom:TableCellLocator](https://w3id.org/isom/TableCellLocator)
+URI: [grits:TableCellLocator](https://w3id.org/grits/TableCellLocator)
 
 
 
@@ -79,7 +79,7 @@ URI: [isom:TableCellLocator](https://w3id.org/isom/TableCellLocator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:TableCellLocator](https://w3id.org/isom/TableCellLocator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:TableCellLocator |
-| native | isom:TableCellLocator |
+| self | grits:TableCellLocator |
+| native | grits:TableCellLocator |
 
 
 
@@ -106,19 +106,19 @@ URI: [isom:TableCellLocator](https://w3id.org/isom/TableCellLocator)
 ```yaml
 name: TableCellLocator
 description: A specific cell within an extracted table.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   table_id:
     name: table_id
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - TableCellLocator
     required: true
   row:
     name: row
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - TableCellLocator
@@ -126,7 +126,7 @@ attributes:
     required: true
   col:
     name: col
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - TableCellLocator
@@ -142,12 +142,12 @@ attributes:
 ```yaml
 name: TableCellLocator
 description: A specific cell within an extracted table.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   table_id:
     name: table_id
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: TableCellLocator
     domain_of:
@@ -156,7 +156,7 @@ attributes:
     required: true
   row:
     name: row
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: TableCellLocator
     domain_of:
@@ -165,7 +165,7 @@ attributes:
     required: true
   col:
     name: col
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: TableCellLocator
     domain_of:
@@ -175,7 +175,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: TableCellLocator

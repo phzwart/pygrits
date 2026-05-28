@@ -3,10 +3,10 @@ search:
   boost: 5.0
 ---
 
-# Slot: wiki_link_ids 
+# Slot: operation_link_ids 
 
 
-_Backward pointers to wiki statement Objects citing this Object._
+_Backward pointers to ACTION_EDGE Activities involving this Object._
 
 
 
@@ -14,7 +14,7 @@ _Backward pointers to wiki statement Objects citing this Object._
 
 
 
-URI: [isom:wiki_link_ids](https://w3id.org/isom/wiki_link_ids)
+URI: [grits:operation_link_ids](https://w3id.org/grits/operation_link_ids)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,8 +25,8 @@ URI: [isom:wiki_link_ids](https://w3id.org/isom/wiki_link_ids)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -39,7 +39,7 @@ URI: [isom:wiki_link_ids](https://w3id.org/isom/wiki_link_ids)
 
 | Property | Value |
 | --- | --- |
-| Range | [EntityId](EntityId.md) |
+| Range | [GritId](GritId.md) |
 | Domain Of | [Object](Object.md) |
 
 ### Cardinality and Requirements
@@ -79,7 +79,7 @@ URI: [isom:wiki_link_ids](https://w3id.org/isom/wiki_link_ids)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:wiki_link_ids](https://w3id.org/isom/wiki_link_ids)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:wiki_link_ids |
-| native | isom:wiki_link_ids |
+| self | grits:operation_link_ids |
+| native | grits:operation_link_ids |
 
 
 
@@ -98,16 +98,16 @@ URI: [isom:wiki_link_ids](https://w3id.org/isom/wiki_link_ids)
 
 <details>
 ```yaml
-name: wiki_link_ids
-description: Backward pointers to wiki statement Objects citing this Object.
+name: operation_link_ids
+description: Backward pointers to ACTION_EDGE Activities involving this Object.
 in_subset:
 - Full
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:
 - Object
-range: EntityId
+range: GritId
 multivalued: true
 
 ```

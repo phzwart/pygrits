@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:confidence](https://w3id.org/isom/confidence)
+URI: [grits:confidence](https://w3id.org/grits/confidence)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:confidence](https://w3id.org/isom/confidence)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Activity](Activity.md) | Transformation |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
 
 
 
@@ -66,7 +66,7 @@ URI: [isom:confidence](https://w3id.org/isom/confidence)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -75,8 +75,8 @@ URI: [isom:confidence](https://w3id.org/isom/confidence)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:confidence |
-| native | isom:confidence |
+| self | grits:confidence |
+| native | grits:confidence |
 
 
 
@@ -86,7 +86,7 @@ URI: [isom:confidence](https://w3id.org/isom/confidence)
 <details>
 ```yaml
 name: confidence
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Activity
 domain_of:

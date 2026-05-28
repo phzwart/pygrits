@@ -1,0 +1,1229 @@
+{
+    "$defs": {
+        "Activity": {
+            "additionalProperties": false,
+            "description": "Hyperedge. Consumes input grits, applies an interpretation under stated assumptions, emits output grits. Records a transform step in the hyperDAG topology.",
+            "properties": {
+                "activity_type": {
+                    "$ref": "#/$defs/ActivityType"
+                },
+                "admissibility_rationale": {
+                    "description": "Why this Activity is valid given its inputs and viewpoint.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "compatibility_judgments": {
+                    "items": {
+                        "$ref": "#/$defs/CompatibilityJudgment"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "inputs": {
+                    "description": "Input grit IDs consumed by this Activity.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "outputs": {
+                    "description": "New grits produced by this Activity. May be empty for declarative edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "activity_type",
+                "inputs",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "Activity",
+            "type": "object"
+        },
+        "ActivityType": {
+            "description": "Structural type of an Activity (hyperedge in the topology).",
+            "enum": [
+                "SYNTHESIS_EDGE",
+                "SUPPORT_EDGE",
+                "CONTRADICTION_EDGE",
+                "COMPATIBILITY_EDGE",
+                "VALIDATION_EDGE",
+                "ACTION_EDGE",
+                "ADJUDICATION_EDGE"
+            ],
+            "title": "ActivityType",
+            "type": "string"
+        },
+        "BboxLocator": {
+            "additionalProperties": false,
+            "description": "Axis-aligned bounding box on a rasterized page.",
+            "properties": {
+                "bbox_x0": {
+                    "type": "number"
+                },
+                "bbox_x1": {
+                    "type": "number"
+                },
+                "bbox_y0": {
+                    "type": "number"
+                },
+                "bbox_y1": {
+                    "type": "number"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "BboxLocator"
+                    ],
+                    "type": "string"
+                },
+                "page": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "page",
+                "bbox_x0",
+                "bbox_y0",
+                "bbox_x1",
+                "bbox_y1",
+                "locator_type"
+            ],
+            "title": "BboxLocator",
+            "type": "object"
+        },
+        "CharRangeLocator": {
+            "additionalProperties": false,
+            "description": "Character range within extracted text of a source artifact.",
+            "properties": {
+                "char_end": {
+                    "type": "integer"
+                },
+                "char_start": {
+                    "type": "integer"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "CharRangeLocator"
+                    ],
+                    "type": "string"
+                },
+                "page": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "char_start",
+                "char_end",
+                "locator_type"
+            ],
+            "title": "CharRangeLocator",
+            "type": "object"
+        },
+        "CompatibilityJudgment": {
+            "additionalProperties": false,
+            "description": "A recorded compatibility judgment over a set of grits/evidence.",
+            "properties": {
+                "assumptions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "checked_scope_dimensions": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "compared_grit_ids": {
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "rationale": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "status": {
+                    "$ref": "#/$defs/CompatibilityStatus"
+                },
+                "viewpoint_directive_id": {
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "compared_grit_ids",
+                "status"
+            ],
+            "title": "CompatibilityJudgment",
+            "type": "object"
+        },
+        "CompatibilityStatus": {
+            "description": "Outcome of a compatibility judgment.",
+            "enum": [
+                "compatible",
+                "conditionally_compatible",
+                "incompatible",
+                "unknown"
+            ],
+            "title": "CompatibilityStatus",
+            "type": "string"
+        },
+        "CompositeLocator": {
+            "additionalProperties": false,
+            "description": "A locator that combines multiple sub-locators.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "CompositeLocator"
+                    ],
+                    "type": "string"
+                },
+                "members": {
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/$defs/CharRangeLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/BboxLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/SequencePositionLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/ProcessingLogLineLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/TableCellLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/FileRegionLocator"
+                            },
+                            {
+                                "$ref": "#/$defs/CompositeLocator"
+                            }
+                        ]
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "locator_type"
+            ],
+            "title": "CompositeLocator",
+            "type": "object"
+        },
+        "Confidence": {
+            "additionalProperties": false,
+            "description": "Structured confidence carrying calibration metadata. A calibrated confidence outside its calibration_domain or under a different viewpoint is no longer calibrated \u2014 downstream consumers must downgrade to heuristic.",
+            "properties": {
+                "calibration_scope": {
+                    "description": "The data distribution under which the confidence was calibrated.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "confidence_basis": {
+                    "$ref": "#/$defs/ConfidenceBasis"
+                },
+                "confidence_domain": {
+                    "description": "The input domain where the calibration applies.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "failure_modes": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "value": {
+                    "description": "Numeric confidence; semantics depend on confidence_basis.",
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "viewpoint_directive_id": {
+                    "description": "Viewpoint under which calibration was performed.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "confidence_basis"
+            ],
+            "title": "Confidence",
+            "type": "object"
+        },
+        "ConfidenceBasis": {
+            "description": "Source semantics of a confidence value.",
+            "enum": [
+                "parser_self_report",
+                "conformal",
+                "bayesian",
+                "heuristic",
+                "aggregated"
+            ],
+            "title": "ConfidenceBasis",
+            "type": "string"
+        },
+        "ContentReference": {
+            "additionalProperties": false,
+            "description": "Content-addressed reference to externally stored content. Identity by uri + sha256 + hash_mode. At resolution time, the system fetches uri, recomputes the hash under hash_mode, and refuses to use the content if the hash does not match.",
+            "properties": {
+                "hash_mode": {
+                    "$ref": "#/$defs/HashMode",
+                    "description": "How the sha256 was computed."
+                },
+                "media_type": {
+                    "description": "MIME type for disambiguation.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "retrieved_at": {
+                    "description": "Last successful integrity verification timestamp.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "sha256": {
+                    "description": "Integrity check on the content.",
+                    "pattern": "^[a-f0-9]{64}$",
+                    "type": "string"
+                },
+                "uri": {
+                    "description": "Locator (file path, https URL, did:..., cid:...).",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "uri",
+                "sha256",
+                "hash_mode"
+            ],
+            "title": "ContentReference",
+            "type": "object"
+        },
+        "EpistemicStatus": {
+            "description": "Epistemic label on a consequential statement.",
+            "enum": [
+                "direct_evidence",
+                "reported_by_source",
+                "extracted",
+                "computed",
+                "inferred",
+                "synthesized",
+                "speculative",
+                "negative_evidence",
+                "out_of_viewpoint",
+                "action_proposal",
+                "contradicted",
+                "unresolved",
+                "deprecated",
+                "unknown"
+            ],
+            "title": "EpistemicStatus",
+            "type": "string"
+        },
+        "EvidenceRecord": {
+            "additionalProperties": false,
+            "description": "Anchor unit. Grounded data anchored to a single source artifact via a typed locator. Referenced by Objects' evidence_record_ids and by Activities' inputs.",
+            "properties": {
+                "cited_from": {
+                    "description": "Identifier or marker for prior evidence this record derives from or cites. May be `unknown_external` when citation resolution has not happened.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_type": {
+                    "description": "CURIE identifying the kind of scientific content the locator anchors. No core-supplied permissible values; viewpoints supply the evidence-type vocabulary they use.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extracted_content": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extraction_confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "extraction_method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "lineage": {
+                    "$ref": "#/$defs/LineageType"
+                },
+                "locator": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CharRangeLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/BboxLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/SequencePositionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/ProcessingLogLineLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/TableCellLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/FileRegionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositeLocator"
+                        }
+                    ]
+                },
+                "normalized_payload": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_ref": {
+                    "$ref": "#/$defs/ContentReference",
+                    "description": "Single source artifact this evidence is extracted from."
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "source_artifact_ref",
+                "locator",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "EvidenceRecord",
+            "type": "object"
+        },
+        "FileRegionLocator": {
+            "additionalProperties": false,
+            "description": "Byte range within an opaque binary artifact.",
+            "properties": {
+                "byte_end": {
+                    "type": "integer"
+                },
+                "byte_start": {
+                    "type": "integer"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "FileRegionLocator"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "byte_start",
+                "byte_end",
+                "locator_type"
+            ],
+            "title": "FileRegionLocator",
+            "type": "object"
+        },
+        "Grit": {
+            "additionalProperties": false,
+            "description": "Abstract base for all pygrits graph nodes. Carries the discipline contract: identity, type, viewpoint, provenance, lifecycle, review state, should_not_claim, scope, generation mode. Three concrete role subclasses: Object, Activity, EvidenceRecord.",
+            "properties": {
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "Grit",
+            "type": "object"
+        },
+        "HashMode": {
+            "description": "How a ContentReference's sha256 is computed.",
+            "enum": [
+                "raw_bytes",
+                "linkml_canonical_jcs"
+            ],
+            "title": "HashMode",
+            "type": "string"
+        },
+        "LifecycleState": {
+            "description": "Lifecycle state of a grit.",
+            "enum": [
+                "ingested",
+                "parsed",
+                "evidence_extracted",
+                "interaction_ready",
+                "active",
+                "synthesized",
+                "deprecated",
+                "superseded",
+                "retracted"
+            ],
+            "title": "LifecycleState",
+            "type": "string"
+        },
+        "LineageType": {
+            "description": "Independence classification of an evidence record.",
+            "enum": [
+                "independent",
+                "derived",
+                "duplicated",
+                "cited",
+                "computational"
+            ],
+            "title": "LineageType",
+            "type": "string"
+        },
+        "Locator": {
+            "additionalProperties": false,
+            "description": "Polymorphic locator into a source artifact. Describes HOW an anchor into a source artifact is shaped (character range, bounding box, sequence position, etc.), not WHAT kind of content the source contains. Discriminator is locator_type.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "Locator"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "locator_type"
+            ],
+            "title": "Locator",
+            "type": "object"
+        },
+        "NegativeEvidenceRecord": {
+            "additionalProperties": false,
+            "description": "First-class record of a search that returned no result under stated scope. Distinct from `unknown` (question not considered) and from `not_searched` (in scope but not attempted).",
+            "properties": {
+                "cited_from": {
+                    "description": "Identifier or marker for prior evidence this record derives from or cites. May be `unknown_external` when citation resolution has not happened.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_type": {
+                    "description": "CURIE identifying the kind of scientific content the locator anchors. No core-supplied permissible values; viewpoints supply the evidence-type vocabulary they use.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extracted_content": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "extraction_confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "extraction_method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "generation_mode": {
+                    "description": "Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "description": "Canonical grit identifier.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                },
+                "lifecycle_state": {
+                    "$ref": "#/$defs/LifecycleState"
+                },
+                "lineage": {
+                    "$ref": "#/$defs/LineageType"
+                },
+                "locator": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CharRangeLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/BboxLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/SequencePositionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/ProcessingLogLineLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/TableCellLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/FileRegionLocator"
+                        },
+                        {
+                            "$ref": "#/$defs/CompositeLocator"
+                        }
+                    ]
+                },
+                "normalized_payload": {
+                    "description": "Viewpoint-defined structured payload, serialized as a JSON string in v1.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
+                    "type": "string"
+                },
+                "result": {
+                    "description": "One of `absent`, `weak_signal`, `excluded`, `inconclusive`.",
+                    "type": "string"
+                },
+                "review_state": {
+                    "$ref": "#/$defs/ReviewState"
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/NotesOnlyScope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them."
+                },
+                "search_confidence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Confidence"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "search_method": {
+                    "type": "string"
+                },
+                "search_scope": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "search_timestamp": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "should_not_claim": {
+                    "description": "Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "source_artifact_ref": {
+                    "$ref": "#/$defs/ContentReference",
+                    "description": "Single source artifact this evidence is extracted from."
+                },
+                "type": {
+                    "description": "For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).",
+                    "type": "string"
+                },
+                "viewpoint_directive_id": {
+                    "description": "Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.",
+                    "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "search_method",
+                "result",
+                "source_artifact_ref",
+                "locator",
+                "id",
+                "type",
+                "viewpoint_directive_id",
+                "provenance",
+                "should_not_claim"
+            ],
+            "title": "NegativeEvidenceRecord",
+            "type": "object"
+        },
+        "NotesOnlyScope": {
+            "additionalProperties": false,
+            "description": "Scope marker with only free-form notes; no domain dimensions.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "NotesOnlyScope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "NotesOnlyScope",
+            "type": "object"
+        },
+        "Object": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "available_operations": {
+                    "description": "Operations downstream consumers may invoke on this Object.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "citation_link_ids": {
+                    "description": "Backward pointers to grits that cite this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "declared_contributions": {
+                    "description": "Outputs or data this Object declares as available.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "required_inputs": {
+                    "description": "Inputs or dependencies this Object declares as required.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "title": "Object",
+            "type": "object"
+        },
+        "ProcessingLogLineLocator": {
+            "additionalProperties": false,
+            "description": "Line range within a processing log.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "ProcessingLogLineLocator"
+                    ],
+                    "type": "string"
+                },
+                "log_line_end": {
+                    "type": "integer"
+                },
+                "log_line_start": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "log_line_start",
+                "log_line_end",
+                "locator_type"
+            ],
+            "title": "ProcessingLogLineLocator",
+            "type": "object"
+        },
+        "RefusalState": {
+            "description": "Five-state refusal taxonomy. Distinct from EpistemicStatus \u2014 RefusalState answers \"did we look, and what did we find?\", EpistemicStatus answers \"what kind of statement is this?\".",
+            "enum": [
+                "unknown",
+                "not_searched",
+                "searched_absent",
+                "out_of_viewpoint",
+                "contradicted"
+            ],
+            "title": "RefusalState",
+            "type": "string"
+        },
+        "ReviewState": {
+            "description": "Epistemic maturity of a derived grit.",
+            "enum": [
+                "unreviewed",
+                "machine_generated",
+                "curator_reviewed",
+                "experimentally_validated",
+                "disputed",
+                "deprecated"
+            ],
+            "title": "ReviewState",
+            "type": "string"
+        },
+        "Scope": {
+            "additionalProperties": false,
+            "description": "Container for viewpoint-supplied scope dimensions. The core defines no domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare the scope commitments they populate.",
+            "properties": {
+                "notes": {
+                    "description": "Free-text scope clarification.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "scope_type": {
+                    "description": "Class name of the concrete Scope subclass (e.g. NotesOnlyScope).",
+                    "enum": [
+                        "Scope"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "scope_type"
+            ],
+            "title": "Scope",
+            "type": "object"
+        },
+        "SequencePositionLocator": {
+            "additionalProperties": false,
+            "description": "Position range within a reference sequence.",
+            "properties": {
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "SequencePositionLocator"
+                    ],
+                    "type": "string"
+                },
+                "reference_sequence_id": {
+                    "type": "string"
+                },
+                "seq_end": {
+                    "type": "integer"
+                },
+                "seq_start": {
+                    "type": "integer"
+                }
+            },
+            "required": [
+                "reference_sequence_id",
+                "seq_start",
+                "seq_end",
+                "locator_type"
+            ],
+            "title": "SequencePositionLocator",
+            "type": "object"
+        },
+        "TableCellLocator": {
+            "additionalProperties": false,
+            "description": "A specific cell within an extracted table.",
+            "properties": {
+                "col": {
+                    "type": "integer"
+                },
+                "locator_type": {
+                    "description": "Class name of the concrete Locator subclass (e.g. CharRangeLocator).",
+                    "enum": [
+                        "TableCellLocator"
+                    ],
+                    "type": "string"
+                },
+                "row": {
+                    "type": "integer"
+                },
+                "table_id": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "table_id",
+                "row",
+                "col",
+                "locator_type"
+            ],
+            "title": "TableCellLocator",
+            "type": "object"
+        },
+        "ViewpointDirective": {
+            "additionalProperties": false,
+            "description": "The interpretive frame under which grits are extracted. Itself an Object \u2014 a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted grits.",
+            "properties": {
+                "available_operations": {
+                    "description": "Operations downstream consumers may invoke on this Object.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "citation_link_ids": {
+                    "description": "Backward pointers to grits that cite this Object.",
+                    "items": {
+                        "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "declared_contributions": {
+                    "description": "Outputs or data this Object declares as available.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "directive_name": {
+                    "description": "Human-readable name (e.g. viewpoint:materials_science:v1). Combined with content hash, this gives identity-by-declaration.",
+                    "type": "string"
+                },
+                "exemplars": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "imposed_should_not_claim": {
+                    "description": "should_not_claim rules this directive imposes on every grit extracted under it. Combined with per-class defaults at extraction time.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "prompts": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "required_inputs": {
+                    "description": "Inputs or dependencies this Object declares as required.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "target_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Reference to the LinkML schema (or schema profile) this directive commits to."
+                },
+                "vocabulary_refs": {
+                    "items": {
+                        "$ref": "#/$defs/ContentReference"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "directive_name"
+            ],
+            "title": "ViewpointDirective",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/grits/viewpoints/coordination_v0",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": true,
+    "metamodel_version": "1.11.0",
+    "title": "coordination_v0",
+    "type": "object",
+    "version": "0.1.0"
+}
+

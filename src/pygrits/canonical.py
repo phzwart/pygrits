@@ -1,14 +1,14 @@
 """
-Canonicalization and integrity helpers for ISOM entities.
+Canonicalization and integrity helpers for pygrits grits.
 
 The contract is simple but strict:
 
-- ``canonical_bytes_for_instance(entity)`` returns the bytes that uniquely
-  identify the entity's logical content, under the ``linkml_canonical_jcs``
+- ``canonical_bytes_for_instance(grit)`` returns the bytes that uniquely
+  identify the grit's logical content, under the ``linkml_canonical_jcs``
   hash mode. Pipeline: Pydantic JSON dump → parse to dict → RFC 8785 JCS
   canonicalize → bytes.
 
-- ``canonical_hash_instance(entity)`` returns ``"sha256:<hex>"`` over those
+- ``canonical_hash_instance(grit)`` returns ``"sha256:<hex>"`` over those
   bytes.
 
 - ``canonical_hash_bytes(data)`` returns ``"sha256:<hex>"`` over raw bytes,
@@ -18,12 +18,11 @@ The contract is simple but strict:
   declared hash against actual content, choosing the right pipeline based on
   the reference's ``hash_mode``.
 
-Why this matters: the entire content-addressed-reference discipline in the
-ISOM spec (ViewpointDirective integrity, idempotent Activity detection,
-auditable provenance) depends on the canonical form being stable across
-machines, library versions, and operating systems. JSON serialization alone
-is not stable — key ordering, number formatting, whitespace, and unicode
-normalization all vary. RFC 8785 JCS pins those choices.
+The content-addressed-reference discipline (ViewpointDirective integrity,
+idempotent Activity detection, auditable provenance) depends on the canonical
+form being stable across machines, library versions, and operating systems.
+JSON serialization alone is not stable — key ordering, number formatting,
+whitespace, and unicode normalization all vary. RFC 8785 JCS pins those choices.
 """
 
 from __future__ import annotations
@@ -34,15 +33,15 @@ from typing import Any
 
 import jcs
 
-from pygrits.core import ContentReference, Entity, HashMode
+from pygrits.core import ContentReference, Grit, HashMode
 
 
-def canonical_bytes_for_instance(entity: Entity) -> bytes:
+def canonical_bytes_for_instance(grit: Grit) -> bytes:
     """
-    Produce the canonical byte representation of a Pydantic entity instance.
+    Produce the canonical byte representation of a Pydantic grit instance.
 
     Pipeline:
-        1. Dump the entity to JSON via Pydantic's `model_dump_json` with
+        1. Dump the grit to JSON via Pydantic's `model_dump_json` with
            ``exclude_none=True`` (None-valued optional fields are omitted, so
            absent and explicitly-None are treated identically for hashing).
         2. Parse the JSON string back to a Python dict.
@@ -53,27 +52,27 @@ def canonical_bytes_for_instance(entity: Entity) -> bytes:
     int-vs-float distinctions in number rendering) and gives JCS a clean
     Python dict to canonicalize.
     """
-    if not isinstance(entity, Entity):
+    if not isinstance(grit, Grit):
         raise TypeError(
-            f"canonical_bytes_for_instance expects an Entity subclass instance, "
-            f"got {type(entity).__name__}"
+            f"canonical_bytes_for_instance expects a Grit subclass instance, "
+            f"got {type(grit).__name__}"
         )
-    json_str = entity.model_dump_json(exclude_none=True, by_alias=True)
+    json_str = grit.model_dump_json(exclude_none=True, by_alias=True)
     obj = json.loads(json_str)
     return jcs.canonicalize(obj)
 
 
-def canonical_hash_instance(entity: Entity) -> str:
+def canonical_hash_instance(grit: Grit) -> str:
     """
-    Compute the canonical SHA-256 of an entity instance.
+    Compute the canonical SHA-256 of a grit instance.
 
     Returns a string of the form ``"sha256:<64 lowercase hex chars>"``.
 
-    Two entities with the same logical content (same field values, modulo
+    Two grits with the same logical content (same field values, modulo
     None-vs-absent which are treated as equivalent) produce the same hash,
     regardless of field ordering or Python runtime.
     """
-    canonical_bytes = canonical_bytes_for_instance(entity)
+    canonical_bytes = canonical_bytes_for_instance(grit)
     digest = hashlib.sha256(canonical_bytes).hexdigest()
     return f"sha256:{digest}"
 
@@ -104,7 +103,7 @@ def _strip_scheme(hash_value: str) -> str:
 
 def verify_content_reference(
     ref: ContentReference,
-    content: bytes | Entity | dict[str, Any],
+    content: bytes | Grit | dict[str, Any],
 ) -> bool:
     """
     Verify that a ContentReference's declared hash matches the actual content.
@@ -113,7 +112,7 @@ def verify_content_reference(
 
     - ``HashMode.raw_bytes`` — ``content`` must be bytes; compares
       SHA-256 of those bytes to ``ref.sha256``.
-    - ``HashMode.linkml_canonical_jcs`` — ``content`` may be an Entity
+    - ``HashMode.linkml_canonical_jcs`` — ``content`` may be a Grit
       instance or a dict; applies the canonical pipeline and compares the
       resulting SHA-256 to ``ref.sha256``.
 
@@ -132,13 +131,13 @@ def verify_content_reference(
         return actual == expected
 
     if ref.hash_mode == HashMode.linkml_canonical_jcs:
-        if isinstance(content, Entity):
+        if isinstance(content, Grit):
             canonical = canonical_bytes_for_instance(content)
         elif isinstance(content, dict):
             canonical = jcs.canonicalize(content)
         else:
             raise TypeError(
-                f"hash_mode=linkml_canonical_jcs requires Entity or dict content, "
+                f"hash_mode=linkml_canonical_jcs requires Grit or dict content, "
                 f"got {type(content).__name__}"
             )
         actual = hashlib.sha256(canonical).hexdigest()

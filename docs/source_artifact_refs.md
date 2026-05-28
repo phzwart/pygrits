@@ -14,7 +14,7 @@ _ContentReferences to the source artifacts this Object derives from._
 
 
 
-URI: [isom:source_artifact_refs](https://w3id.org/isom/source_artifact_refs)
+URI: [grits:source_artifact_refs](https://w3id.org/grits/source_artifact_refs)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,8 +25,8 @@ URI: [isom:source_artifact_refs](https://w3id.org/isom/source_artifact_refs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -79,7 +79,7 @@ URI: [isom:source_artifact_refs](https://w3id.org/isom/source_artifact_refs)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:source_artifact_refs](https://w3id.org/isom/source_artifact_refs)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:source_artifact_refs |
-| native | isom:source_artifact_refs |
+| self | grits:source_artifact_refs |
+| native | grits:source_artifact_refs |
 
 
 
@@ -102,7 +102,7 @@ name: source_artifact_refs
 description: ContentReferences to the source artifacts this Object derives from.
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

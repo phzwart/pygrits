@@ -15,7 +15,7 @@ _How a ContentReference's sha256 is computed._
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:HashMode](https://w3id.org/isom/HashMode)
+URI: [grits:HashMode](https://w3id.org/grits/HashMode)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -50,7 +50,7 @@ URI: [isom:HashMode](https://w3id.org/isom/HashMode)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -63,7 +63,7 @@ URI: [isom:HashMode](https://w3id.org/isom/HashMode)
 ```yaml
 name: HashMode
 description: How a ContentReference's sha256 is computed.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   raw_bytes:

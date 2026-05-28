@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:confidence_basis](https://w3id.org/isom/confidence_basis)
+URI: [grits:confidence_basis](https://w3id.org/grits/confidence_basis)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:confidence_basis](https://w3id.org/isom/confidence_basis)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:confidence_basis](https://w3id.org/isom/confidence_basis)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:confidence_basis |
-| native | isom:confidence_basis |
+| self | grits:confidence_basis |
+| native | grits:confidence_basis |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:confidence_basis](https://w3id.org/isom/confidence_basis)
 <details>
 ```yaml
 name: confidence_basis
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Confidence
 domain_of:

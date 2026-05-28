@@ -14,7 +14,7 @@ _Structured confidence carrying calibration metadata. A calibrated confidence ou
 
 
 
-URI: [isom:Confidence](https://w3id.org/isom/Confidence)
+URI: [grits:Confidence](https://w3id.org/grits/Confidence)
 
 
 
@@ -62,7 +62,7 @@ URI: [isom:Confidence](https://w3id.org/isom/Confidence)
 | [calibration_scope](calibration_scope.md) | 0..1 <br/> [String](String.md) | The data distribution under which the confidence was calibrated | direct |
 | [confidence_domain](confidence_domain.md) | 0..1 <br/> [String](String.md) | The input domain where the calibration applies | direct |
 | [failure_modes](failure_modes.md) | * <br/> [String](String.md) |  | direct |
-| [viewpoint_directive_id](viewpoint_directive_id.md) | 0..1 <br/> [EntityId](EntityId.md) | Viewpoint under which calibration was performed | direct |
+| [viewpoint_directive_id](viewpoint_directive_id.md) | 0..1 <br/> [GritId](GritId.md) | Viewpoint under which calibration was performed | direct |
 
 
 
@@ -97,7 +97,7 @@ URI: [isom:Confidence](https://w3id.org/isom/Confidence)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -106,8 +106,8 @@ URI: [isom:Confidence](https://w3id.org/isom/Confidence)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:Confidence |
-| native | isom:Confidence |
+| self | grits:Confidence |
+| native | grits:Confidence |
 
 
 
@@ -126,19 +126,19 @@ name: Confidence
 description: Structured confidence carrying calibration metadata. A calibrated confidence
   outside its calibration_domain or under a different viewpoint is no longer calibrated
   — downstream consumers must downgrade to heuristic.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 attributes:
   value:
     name: value
     description: Numeric confidence; semantics depend on confidence_basis.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Confidence
     range: float
   confidence_basis:
     name: confidence_basis
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Confidence
@@ -147,7 +147,7 @@ attributes:
   calibration_scope:
     name: calibration_scope
     description: The data distribution under which the confidence was calibrated.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Confidence
@@ -155,14 +155,14 @@ attributes:
   confidence_domain:
     name: confidence_domain
     description: The input domain where the calibration applies.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Confidence
     range: string
   failure_modes:
     name: failure_modes
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Confidence
@@ -171,13 +171,13 @@ attributes:
   viewpoint_directive_id:
     name: viewpoint_directive_id
     description: Viewpoint under which calibration was performed.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
 
 ```
 </details>
@@ -190,12 +190,12 @@ name: Confidence
 description: Structured confidence carrying calibration metadata. A calibrated confidence
   outside its calibration_domain or under a different viewpoint is no longer calibrated
   — downstream consumers must downgrade to heuristic.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 attributes:
   value:
     name: value
     description: Numeric confidence; semantics depend on confidence_basis.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Confidence
     domain_of:
@@ -203,7 +203,7 @@ attributes:
     range: float
   confidence_basis:
     name: confidence_basis
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Confidence
     domain_of:
@@ -213,7 +213,7 @@ attributes:
   calibration_scope:
     name: calibration_scope
     description: The data distribution under which the confidence was calibrated.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Confidence
     domain_of:
@@ -222,7 +222,7 @@ attributes:
   confidence_domain:
     name: confidence_domain
     description: The input domain where the calibration applies.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Confidence
     domain_of:
@@ -230,7 +230,7 @@ attributes:
     range: string
   failure_modes:
     name: failure_modes
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Confidence
     domain_of:
@@ -240,14 +240,14 @@ attributes:
   viewpoint_directive_id:
     name: viewpoint_directive_id
     description: Viewpoint under which calibration was performed.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Confidence
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
 
 ```
 </details></div>

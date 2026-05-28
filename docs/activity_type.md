@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:activity_type](https://w3id.org/isom/activity_type)
+URI: [grits:activity_type](https://w3id.org/grits/activity_type)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:activity_type](https://w3id.org/isom/activity_type)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Activity](Activity.md) | Transformation |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
 
 
 
@@ -73,7 +73,7 @@ URI: [isom:activity_type](https://w3id.org/isom/activity_type)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -82,8 +82,8 @@ URI: [isom:activity_type](https://w3id.org/isom/activity_type)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:activity_type |
-| native | isom:activity_type |
+| self | grits:activity_type |
+| native | grits:activity_type |
 
 
 
@@ -95,7 +95,7 @@ URI: [isom:activity_type](https://w3id.org/isom/activity_type)
 name: activity_type
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Activity
 domain_of:

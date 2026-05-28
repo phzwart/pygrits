@@ -67,7 +67,7 @@ def test_shipped_core_yaml_contains_no_domain_tokens(core_yaml_text: str) -> Non
 
 def test_core_still_exports_structural_primitives() -> None:
     for name in (
-        "Entity",
+        "Grit",
         "Object",
         "Activity",
         "EvidenceRecord",

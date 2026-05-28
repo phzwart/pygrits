@@ -14,7 +14,7 @@ _Single source artifact this evidence is extracted from._
 
 
 
-URI: [isom:source_artifact_ref](https://w3id.org/isom/source_artifact_ref)
+URI: [grits:source_artifact_ref](https://w3id.org/grits/source_artifact_ref)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:source_artifact_ref](https://w3id.org/isom/source_artifact_ref)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -79,7 +79,7 @@ URI: [isom:source_artifact_ref](https://w3id.org/isom/source_artifact_ref)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:source_artifact_ref](https://w3id.org/isom/source_artifact_ref)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:source_artifact_ref |
-| native | isom:source_artifact_ref |
+| self | grits:source_artifact_ref |
+| native | grits:source_artifact_ref |
 
 
 
@@ -102,7 +102,7 @@ name: source_artifact_ref
 description: Single source artifact this evidence is extracted from.
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: EvidenceRecord
 domain_of:

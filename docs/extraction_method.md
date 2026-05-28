@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:extraction_method](https://w3id.org/isom/extraction_method)
+URI: [grits:extraction_method](https://w3id.org/grits/extraction_method)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:extraction_method](https://w3id.org/isom/extraction_method)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -67,7 +67,7 @@ URI: [isom:extraction_method](https://w3id.org/isom/extraction_method)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:extraction_method](https://w3id.org/isom/extraction_method)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:extraction_method |
-| native | isom:extraction_method |
+| self | grits:extraction_method |
+| native | grits:extraction_method |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:extraction_method](https://w3id.org/isom/extraction_method)
 <details>
 ```yaml
 name: extraction_method
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: EvidenceRecord
 domain_of:

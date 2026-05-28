@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:failure_modes](https://w3id.org/isom/failure_modes)
+URI: [grits:failure_modes](https://w3id.org/grits/failure_modes)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:failure_modes](https://w3id.org/isom/failure_modes)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:failure_modes](https://w3id.org/isom/failure_modes)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:failure_modes |
-| native | isom:failure_modes |
+| self | grits:failure_modes |
+| native | grits:failure_modes |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:failure_modes](https://w3id.org/isom/failure_modes)
 <details>
 ```yaml
 name: failure_modes
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Confidence
 domain_of:

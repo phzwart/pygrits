@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:char_end](https://w3id.org/isom/char_end)
+URI: [grits:char_end](https://w3id.org/grits/char_end)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:char_end](https://w3id.org/isom/char_end)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:char_end](https://w3id.org/isom/char_end)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:char_end |
-| native | isom:char_end |
+| self | grits:char_end |
+| native | grits:char_end |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:char_end](https://w3id.org/isom/char_end)
 <details>
 ```yaml
 name: char_end
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CharRangeLocator
 domain_of:

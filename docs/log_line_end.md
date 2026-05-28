@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:log_line_end](https://w3id.org/isom/log_line_end)
+URI: [grits:log_line_end](https://w3id.org/grits/log_line_end)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:log_line_end](https://w3id.org/isom/log_line_end)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:log_line_end](https://w3id.org/isom/log_line_end)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:log_line_end |
-| native | isom:log_line_end |
+| self | grits:log_line_end |
+| native | grits:log_line_end |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:log_line_end](https://w3id.org/isom/log_line_end)
 <details>
 ```yaml
 name: log_line_end
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ProcessingLogLineLocator
 domain_of:

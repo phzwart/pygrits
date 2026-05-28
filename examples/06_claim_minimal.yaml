@@ -1,7 +1,7 @@
 # Example 06 — Claim Object produced by the minimal synthesis Activity.
 
 id: obj:claim-minimal-v0
-type: isom:object
+type: grits:object
 viewpoint_directive_id: vpt:blank-slate-v0
 provenance: >-
   Output of synthesis activity act:synth-minimal-v0. Schema-validation example.
@@ -31,11 +31,6 @@ features: '{"claim_kind": "example_assertion"}'
 observations:
   - "Placeholder synthesized claim for schema validation."
 
-gaps: []
-needs: []
-offers: []
-affordances: []
-
 reported_claims:
   - "Example synthesized claim (schema validation only)."
 
@@ -47,5 +42,4 @@ uncertainties:
 
 synthesis_link_ids:
   - act:synth-minimal-v0
-wiki_link_ids: []
-action_link_ids: []
+operation_link_ids: []

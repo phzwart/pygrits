@@ -14,7 +14,7 @@ _Identifier or marker for prior evidence this record derives from or cites. May 
 
 
 
-URI: [isom:cited_from](https://w3id.org/isom/cited_from)
+URI: [grits:cited_from](https://w3id.org/grits/cited_from)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:cited_from](https://w3id.org/isom/cited_from)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -72,7 +72,7 @@ URI: [isom:cited_from](https://w3id.org/isom/cited_from)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:cited_from](https://w3id.org/isom/cited_from)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:cited_from |
-| native | isom:cited_from |
+| self | grits:cited_from |
+| native | grits:cited_from |
 
 
 
@@ -94,7 +94,7 @@ URI: [isom:cited_from](https://w3id.org/isom/cited_from)
 name: cited_from
 description: Identifier or marker for prior evidence this record derives from or cites.
   May be `unknown_external` when citation resolution has not happened.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: EvidenceRecord
 domain_of:

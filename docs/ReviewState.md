@@ -9,13 +9,13 @@ search:
 
 
 
-_Epistemic maturity of a derived entity._
+_Epistemic maturity of a derived grit._
 
 
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:ReviewState](https://w3id.org/isom/ReviewState)
+URI: [grits:ReviewState](https://w3id.org/grits/ReviewState)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -54,7 +54,7 @@ URI: [isom:ReviewState](https://w3id.org/isom/ReviewState)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -66,8 +66,8 @@ URI: [isom:ReviewState](https://w3id.org/isom/ReviewState)
 <details>
 ```yaml
 name: ReviewState
-description: Epistemic maturity of a derived entity.
-from_schema: https://w3id.org/isom/core
+description: Epistemic maturity of a derived grit.
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   unreviewed:

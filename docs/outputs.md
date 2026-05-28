@@ -6,7 +6,7 @@ search:
 # Slot: outputs 
 
 
-_New entities produced by this Activity. May be empty for declarative edges (SUPPORT, CONTRADICTION) whose output is the Activity itself._
+_New grits produced by this Activity. May be empty for declarative edges (SUPPORT, CONTRADICTION) whose output is the Activity itself._
 
 
 
@@ -14,7 +14,7 @@ _New entities produced by this Activity. May be empty for declarative edges (SUP
 
 
 
-URI: [isom:outputs](https://w3id.org/isom/outputs)
+URI: [grits:outputs](https://w3id.org/grits/outputs)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:outputs](https://w3id.org/isom/outputs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Activity](Activity.md) | Transformation |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
 
 
 
@@ -38,7 +38,7 @@ URI: [isom:outputs](https://w3id.org/isom/outputs)
 
 | Property | Value |
 | --- | --- |
-| Range | [EntityId](EntityId.md) |
+| Range | [GritId](GritId.md) |
 | Domain Of | [Activity](Activity.md) |
 
 ### Cardinality and Requirements
@@ -72,7 +72,7 @@ URI: [isom:outputs](https://w3id.org/isom/outputs)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:outputs](https://w3id.org/isom/outputs)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:outputs |
-| native | isom:outputs |
+| self | grits:outputs |
+| native | grits:outputs |
 
 
 
@@ -92,14 +92,14 @@ URI: [isom:outputs](https://w3id.org/isom/outputs)
 <details>
 ```yaml
 name: outputs
-description: New entities produced by this Activity. May be empty for declarative
-  edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.
-from_schema: https://w3id.org/isom/core
+description: New grits produced by this Activity. May be empty for declarative edges
+  (SUPPORT, CONTRADICTION) whose output is the Activity itself.
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Activity
 domain_of:
 - Activity
-range: EntityId
+range: GritId
 multivalued: true
 
 ```

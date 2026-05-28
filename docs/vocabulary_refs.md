@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:vocabulary_refs](https://w3id.org/isom/vocabulary_refs)
+URI: [grits:vocabulary_refs](https://w3id.org/grits/vocabulary_refs)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:vocabulary_refs](https://w3id.org/isom/vocabulary_refs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:vocabulary_refs](https://w3id.org/isom/vocabulary_refs)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:vocabulary_refs](https://w3id.org/isom/vocabulary_refs)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:vocabulary_refs |
-| native | isom:vocabulary_refs |
+| self | grits:vocabulary_refs |
+| native | grits:vocabulary_refs |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:vocabulary_refs](https://w3id.org/isom/vocabulary_refs)
 <details>
 ```yaml
 name: vocabulary_refs
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ViewpointDirective
 domain_of:

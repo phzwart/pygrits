@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:uncertainties](https://w3id.org/isom/uncertainties)
+URI: [grits:uncertainties](https://w3id.org/grits/uncertainties)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,8 +20,8 @@ URI: [isom:uncertainties](https://w3id.org/isom/uncertainties)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -74,7 +74,7 @@ URI: [isom:uncertainties](https://w3id.org/isom/uncertainties)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -83,8 +83,8 @@ URI: [isom:uncertainties](https://w3id.org/isom/uncertainties)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:uncertainties |
-| native | isom:uncertainties |
+| self | grits:uncertainties |
+| native | grits:uncertainties |
 
 
 
@@ -96,7 +96,7 @@ URI: [isom:uncertainties](https://w3id.org/isom/uncertainties)
 name: uncertainties
 in_subset:
 - Full
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

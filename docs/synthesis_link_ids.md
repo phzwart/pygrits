@@ -14,7 +14,7 @@ _Backward pointers to Activities that referenced this Object as input or output.
 
 
 
-URI: [isom:synthesis_link_ids](https://w3id.org/isom/synthesis_link_ids)
+URI: [grits:synthesis_link_ids](https://w3id.org/grits/synthesis_link_ids)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,8 +25,8 @@ URI: [isom:synthesis_link_ids](https://w3id.org/isom/synthesis_link_ids)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -39,7 +39,7 @@ URI: [isom:synthesis_link_ids](https://w3id.org/isom/synthesis_link_ids)
 
 | Property | Value |
 | --- | --- |
-| Range | [EntityId](EntityId.md) |
+| Range | [GritId](GritId.md) |
 | Domain Of | [Object](Object.md) |
 
 ### Cardinality and Requirements
@@ -79,7 +79,7 @@ URI: [isom:synthesis_link_ids](https://w3id.org/isom/synthesis_link_ids)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:synthesis_link_ids](https://w3id.org/isom/synthesis_link_ids)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:synthesis_link_ids |
-| native | isom:synthesis_link_ids |
+| self | grits:synthesis_link_ids |
+| native | grits:synthesis_link_ids |
 
 
 
@@ -103,12 +103,12 @@ description: Backward pointers to Activities that referenced this Object as inpu
   or output.
 in_subset:
 - Full
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:
 - Object
-range: EntityId
+range: GritId
 multivalued: true
 
 ```

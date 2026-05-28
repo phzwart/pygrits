@@ -15,17 +15,17 @@ _Structural type of an Activity (hyperedge in the topology)._
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:ActivityType](https://w3id.org/isom/ActivityType)
+URI: [grits:ActivityType](https://w3id.org/grits/ActivityType)
 
 ## Permissible Values
 | Value | Meaning | Description |
 | --- | --- | --- |
-| SYNTHESIS_EDGE | None | Inputs + assumptions → new synthesis entity |
+| SYNTHESIS_EDGE | None | Inputs + assumptions → new synthesis grit |
 | SUPPORT_EDGE | None | Evidence → claim/synthesis it supports |
 | CONTRADICTION_EDGE | None | Evidence → claim/synthesis it contradicts |
-| COMPATIBILITY_EDGE | None | Records a compatibility judgment over entities |
-| VALIDATION_EDGE | None | Validating entity → entity it validates |
-| ACTION_EDGE | None | Action entity with inputs and output entities |
+| COMPATIBILITY_EDGE | None | Records a compatibility judgment over grits |
+| VALIDATION_EDGE | None | Validating grit → grit it validates |
+| ACTION_EDGE | None | Operation grit with inputs and output grits |
 | ADJUDICATION_EDGE | None | Resolves a set of CONTRADICTION_EDGEs |
 
 
@@ -55,7 +55,7 @@ URI: [isom:ActivityType](https://w3id.org/isom/ActivityType)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -68,12 +68,12 @@ URI: [isom:ActivityType](https://w3id.org/isom/ActivityType)
 ```yaml
 name: ActivityType
 description: Structural type of an Activity (hyperedge in the topology).
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   SYNTHESIS_EDGE:
     text: SYNTHESIS_EDGE
-    description: Inputs + assumptions → new synthesis entity.
+    description: Inputs + assumptions → new synthesis grit.
   SUPPORT_EDGE:
     text: SUPPORT_EDGE
     description: Evidence → claim/synthesis it supports.
@@ -82,13 +82,13 @@ permissible_values:
     description: Evidence → claim/synthesis it contradicts.
   COMPATIBILITY_EDGE:
     text: COMPATIBILITY_EDGE
-    description: Records a compatibility judgment over entities.
+    description: Records a compatibility judgment over grits.
   VALIDATION_EDGE:
     text: VALIDATION_EDGE
-    description: Validating entity → entity it validates.
+    description: Validating grit → grit it validates.
   ACTION_EDGE:
     text: ACTION_EDGE
-    description: Action entity with inputs and output entities.
+    description: Operation grit with inputs and output grits.
   ADJUDICATION_EDGE:
     text: ADJUDICATION_EDGE
     description: Resolves a set of CONTRADICTION_EDGEs.

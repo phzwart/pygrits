@@ -7,7 +7,7 @@ search:
 # Subset: Full 
 
 
-_Full object surface including reported_claims, methods, assumptions, uncertainties, and backward-pointer link lists (synthesis_link_ids, wiki_link_ids, action_link_ids)._
+_Full object surface including reported_claims, methods, assumptions, uncertainties, and backward-pointer link lists (synthesis_link_ids, operation_link_ids)._
 
 
 
@@ -31,7 +31,49 @@ URI: [Full](Full.md)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -70,53 +112,7 @@ URI: [Full](Full.md)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         
-
-
-
-
-
 
 
 
@@ -155,7 +151,6 @@ URI: [Full](Full.md)
 
 
 
-        
 
 
 
@@ -176,12 +171,11 @@ URI: [Full](Full.md)
 
 | Slot | Description |
 | --- | --- |
-| [action_link_ids](action_link_ids.md) | Backward pointers to ACTION_EDGE Activities involving this Object |
 | [methods](methods.md) |  |
+| [operation_link_ids](operation_link_ids.md) | Backward pointers to ACTION_EDGE Activities involving this Object |
 | [reported_claims](reported_claims.md) |  |
 | [synthesis_link_ids](synthesis_link_ids.md) | Backward pointers to Activities that referenced this Object as input or outpu... |
 | [uncertainties](uncertainties.md) |  |
-| [wiki_link_ids](wiki_link_ids.md) | Backward pointers to wiki statement Objects citing this Object |
 
 
 

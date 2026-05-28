@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:reference_sequence_id](https://w3id.org/isom/reference_sequence_id)
+URI: [grits:reference_sequence_id](https://w3id.org/grits/reference_sequence_id)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:reference_sequence_id](https://w3id.org/isom/reference_sequence_id)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference biological sequence |  no  |
+| [SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference sequence |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:reference_sequence_id](https://w3id.org/isom/reference_sequence_id)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:reference_sequence_id](https://w3id.org/isom/reference_sequence_id)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:reference_sequence_id |
-| native | isom:reference_sequence_id |
+| self | grits:reference_sequence_id |
+| native | grits:reference_sequence_id |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:reference_sequence_id](https://w3id.org/isom/reference_sequence_id)
 <details>
 ```yaml
 name: reference_sequence_id
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: SequencePositionLocator
 domain_of:

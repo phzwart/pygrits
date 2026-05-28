@@ -3,7 +3,7 @@
 # evidence_type is an open CURIE (de:text_span); no core enum restricts it.
 
 id: evi:minimal-span-v0
-type: isom:evidence_record
+type: grits:evidence_record
 viewpoint_directive_id: vpt:blank-slate-v0
 provenance: >-
   Minimal core-schema evidence record. CharRangeLocator anchors a text span

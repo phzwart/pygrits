@@ -14,7 +14,7 @@ _Reference to the LinkML schema (or schema profile) this directive commits to._
 
 
 
-URI: [isom:target_schema](https://w3id.org/isom/target_schema)
+URI: [grits:target_schema](https://w3id.org/grits/target_schema)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:target_schema](https://w3id.org/isom/target_schema)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -71,7 +71,7 @@ URI: [isom:target_schema](https://w3id.org/isom/target_schema)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:target_schema](https://w3id.org/isom/target_schema)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:target_schema |
-| native | isom:target_schema |
+| self | grits:target_schema |
+| native | grits:target_schema |
 
 
 
@@ -93,7 +93,7 @@ URI: [isom:target_schema](https://w3id.org/isom/target_schema)
 name: target_schema
 description: Reference to the LinkML schema (or schema profile) this directive commits
   to.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ViewpointDirective
 domain_of:

@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:observations](https://w3id.org/isom/observations)
+URI: [grits:observations](https://w3id.org/grits/observations)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,8 +20,8 @@ URI: [isom:observations](https://w3id.org/isom/observations)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -58,7 +58,7 @@ URI: [isom:observations](https://w3id.org/isom/observations)
 ## In Subsets
 
 
-* [ParticipationReady](ParticipationReady.md)
+* [ExtendedProfile](ExtendedProfile.md)
 
 
 
@@ -74,7 +74,7 @@ URI: [isom:observations](https://w3id.org/isom/observations)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -83,8 +83,8 @@ URI: [isom:observations](https://w3id.org/isom/observations)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:observations |
-| native | isom:observations |
+| self | grits:observations |
+| native | grits:observations |
 
 
 
@@ -95,8 +95,8 @@ URI: [isom:observations](https://w3id.org/isom/observations)
 ```yaml
 name: observations
 in_subset:
-- ParticipationReady
-from_schema: https://w3id.org/isom/core
+- ExtendedProfile
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

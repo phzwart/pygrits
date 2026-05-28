@@ -14,7 +14,7 @@ _Character range within extracted text of a source artifact._
 
 
 
-URI: [isom:CharRangeLocator](https://w3id.org/isom/CharRangeLocator)
+URI: [grits:CharRangeLocator](https://w3id.org/grits/CharRangeLocator)
 
 
 
@@ -79,7 +79,7 @@ URI: [isom:CharRangeLocator](https://w3id.org/isom/CharRangeLocator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:CharRangeLocator](https://w3id.org/isom/CharRangeLocator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:CharRangeLocator |
-| native | isom:CharRangeLocator |
+| self | grits:CharRangeLocator |
+| native | grits:CharRangeLocator |
 
 
 
@@ -106,12 +106,12 @@ URI: [isom:CharRangeLocator](https://w3id.org/isom/CharRangeLocator)
 ```yaml
 name: CharRangeLocator
 description: Character range within extracted text of a source artifact.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   char_start:
     name: char_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CharRangeLocator
@@ -119,7 +119,7 @@ attributes:
     required: true
   char_end:
     name: char_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CharRangeLocator
@@ -127,7 +127,7 @@ attributes:
     required: true
   page:
     name: page
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CharRangeLocator
@@ -143,12 +143,12 @@ attributes:
 ```yaml
 name: CharRangeLocator
 description: Character range within extracted text of a source artifact.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   char_start:
     name: char_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CharRangeLocator
     domain_of:
@@ -157,7 +157,7 @@ attributes:
     required: true
   char_end:
     name: char_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CharRangeLocator
     domain_of:
@@ -166,7 +166,7 @@ attributes:
     required: true
   page:
     name: page
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CharRangeLocator
     domain_of:
@@ -176,7 +176,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: CharRangeLocator

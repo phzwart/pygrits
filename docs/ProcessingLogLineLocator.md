@@ -14,7 +14,7 @@ _Line range within a processing log._
 
 
 
-URI: [isom:ProcessingLogLineLocator](https://w3id.org/isom/ProcessingLogLineLocator)
+URI: [grits:ProcessingLogLineLocator](https://w3id.org/grits/ProcessingLogLineLocator)
 
 
 
@@ -76,7 +76,7 @@ URI: [isom:ProcessingLogLineLocator](https://w3id.org/isom/ProcessingLogLineLoca
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -85,8 +85,8 @@ URI: [isom:ProcessingLogLineLocator](https://w3id.org/isom/ProcessingLogLineLoca
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:ProcessingLogLineLocator |
-| native | isom:ProcessingLogLineLocator |
+| self | grits:ProcessingLogLineLocator |
+| native | grits:ProcessingLogLineLocator |
 
 
 
@@ -103,12 +103,12 @@ URI: [isom:ProcessingLogLineLocator](https://w3id.org/isom/ProcessingLogLineLoca
 ```yaml
 name: ProcessingLogLineLocator
 description: Line range within a processing log.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   log_line_start:
     name: log_line_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ProcessingLogLineLocator
@@ -116,7 +116,7 @@ attributes:
     required: true
   log_line_end:
     name: log_line_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ProcessingLogLineLocator
@@ -132,12 +132,12 @@ attributes:
 ```yaml
 name: ProcessingLogLineLocator
 description: Line range within a processing log.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   log_line_start:
     name: log_line_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ProcessingLogLineLocator
     domain_of:
@@ -146,7 +146,7 @@ attributes:
     required: true
   log_line_end:
     name: log_line_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ProcessingLogLineLocator
     domain_of:
@@ -156,7 +156,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: ProcessingLogLineLocator

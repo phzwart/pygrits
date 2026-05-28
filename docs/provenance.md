@@ -14,7 +14,7 @@ _Provenance description for v1. Future versions will model provenance as structu
 
 
 
-URI: [isom:provenance](https://w3id.org/isom/provenance)
+URI: [grits:provenance](https://w3id.org/grits/provenance)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,11 +25,11 @@ URI: [isom:provenance](https://w3id.org/isom/provenance)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Entity](Entity.md) | Abstract base for all ISOM entities |  no  |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [Activity](Activity.md) | Transformation |  no  |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Grit](Grit.md) | Abstract base for all pygrits graph nodes |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -44,7 +44,7 @@ URI: [isom:provenance](https://w3id.org/isom/provenance)
 | Property | Value |
 | --- | --- |
 | Range | [String](String.md) |
-| Domain Of | [Entity](Entity.md) |
+| Domain Of | [Grit](Grit.md) |
 
 ### Cardinality and Requirements
 
@@ -55,7 +55,7 @@ URI: [isom:provenance](https://w3id.org/isom/provenance)
 
 | Property | Value |
 | --- | --- |
-| Owner | [Entity](Entity.md) |
+| Owner | [Grit](Grit.md) |
 
 
 
@@ -83,7 +83,7 @@ URI: [isom:provenance](https://w3id.org/isom/provenance)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -92,8 +92,8 @@ URI: [isom:provenance](https://w3id.org/isom/provenance)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:provenance |
-| native | isom:provenance |
+| self | grits:provenance |
+| native | grits:provenance |
 
 
 
@@ -108,11 +108,11 @@ description: Provenance description for v1. Future versions will model provenanc
   allow ingestion bundles from upstream extraction tools.
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
-owner: Entity
+owner: Grit
 domain_of:
-- Entity
+- Grit
 range: string
 required: true
 

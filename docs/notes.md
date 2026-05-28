@@ -14,7 +14,7 @@ _Free-text scope clarification._
 
 
 
-URI: [isom:notes](https://w3id.org/isom/notes)
+URI: [grits:notes](https://w3id.org/grits/notes)
 <!-- no inheritance hierarchy -->
 
 
@@ -72,7 +72,7 @@ URI: [isom:notes](https://w3id.org/isom/notes)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:notes](https://w3id.org/isom/notes)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:notes |
-| native | isom:notes |
+| self | grits:notes |
+| native | grits:notes |
 
 
 
@@ -93,7 +93,7 @@ URI: [isom:notes](https://w3id.org/isom/notes)
 ```yaml
 name: notes
 description: Free-text scope clarification.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Scope
 domain_of:

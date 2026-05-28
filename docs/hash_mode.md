@@ -14,7 +14,7 @@ _How the sha256 was computed._
 
 
 
-URI: [isom:hash_mode](https://w3id.org/isom/hash_mode)
+URI: [grits:hash_mode](https://w3id.org/grits/hash_mode)
 <!-- no inheritance hierarchy -->
 
 
@@ -72,7 +72,7 @@ URI: [isom:hash_mode](https://w3id.org/isom/hash_mode)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:hash_mode](https://w3id.org/isom/hash_mode)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:hash_mode |
-| native | isom:hash_mode |
+| self | grits:hash_mode |
+| native | grits:hash_mode |
 
 
 
@@ -93,7 +93,7 @@ URI: [isom:hash_mode](https://w3id.org/isom/hash_mode)
 ```yaml
 name: hash_mode
 description: How the sha256 was computed.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ContentReference
 domain_of:

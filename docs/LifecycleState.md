@@ -9,13 +9,13 @@ search:
 
 
 
-_Lifecycle state of an entity._
+_Lifecycle state of a grit._
 
 
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:LifecycleState](https://w3id.org/isom/LifecycleState)
+URI: [grits:LifecycleState](https://w3id.org/grits/LifecycleState)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -24,7 +24,7 @@ URI: [isom:LifecycleState](https://w3id.org/isom/LifecycleState)
 | parsed | None |  |
 | evidence_extracted | None |  |
 | interaction_ready | None |  |
-| participating | None |  |
+| active | None |  |
 | synthesized | None |  |
 | deprecated | None |  |
 | superseded | None |  |
@@ -57,7 +57,7 @@ URI: [isom:LifecycleState](https://w3id.org/isom/LifecycleState)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -69,8 +69,8 @@ URI: [isom:LifecycleState](https://w3id.org/isom/LifecycleState)
 <details>
 ```yaml
 name: LifecycleState
-description: Lifecycle state of an entity.
-from_schema: https://w3id.org/isom/core
+description: Lifecycle state of a grit.
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   ingested:
@@ -81,8 +81,8 @@ permissible_values:
     text: evidence_extracted
   interaction_ready:
     text: interaction_ready
-  participating:
-    text: participating
+  active:
+    text: active
   synthesized:
     text: synthesized
   deprecated:

@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:byte_start](https://w3id.org/isom/byte_start)
+URI: [grits:byte_start](https://w3id.org/grits/byte_start)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:byte_start](https://w3id.org/isom/byte_start)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:byte_start](https://w3id.org/isom/byte_start)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:byte_start |
-| native | isom:byte_start |
+| self | grits:byte_start |
+| native | grits:byte_start |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:byte_start](https://w3id.org/isom/byte_start)
 <details>
 ```yaml
 name: byte_start
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: FileRegionLocator
 domain_of:

@@ -6,7 +6,7 @@
 #   from pygrits.viewpoints.materials_science_v0 import ViewpointDirective
 
 id: vpt:alkali-halide-thermo-v0
-type: isom:viewpoint_directive
+type: grits:viewpoint_directive
 viewpoint_directive_id: vpt:meta-v0
 provenance: >-
   Hand-authored v0 viewpoint for the first implementation milestone.
@@ -18,7 +18,7 @@ should_not_claim:
   - "Scope dimensions other than thermodynamic and methodological are typically unspecified under this viewpoint."
 
 review_state: machine_generated
-lifecycle_state: participating
+lifecycle_state: active
 generation_mode: hand_authored_v0
 
 scope:

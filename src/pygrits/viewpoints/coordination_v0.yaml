@@ -1,0 +1,41 @@
+id: https://w3id.org/grits/viewpoints/coordination_v0
+name: coordination_v0
+title: Coordination Viewpoint v0
+description: >-
+  Example viewpoint for coordination-layer Object fields moved out of core.
+  Adds required_inputs, declared_contributions, available_operations, and
+  citation_link_ids to Object.
+version: 0.1.0
+license: BSD-3-Clause
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  grits: https://w3id.org/grits/
+  coord: https://w3id.org/grits/viewpoints/coordination_v0/
+
+default_prefix: coord
+default_range: string
+
+imports:
+  - linkml:types
+  - ../src/pygrits/core
+
+classes:
+  Object:
+    attributes:
+      required_inputs:
+        multivalued: true
+        range: string
+        description: Inputs or dependencies this Object declares as required.
+      declared_contributions:
+        multivalued: true
+        range: string
+        description: Outputs or data this Object declares as available.
+      available_operations:
+        multivalued: true
+        range: string
+        description: Operations downstream consumers may invoke on this Object.
+      citation_link_ids:
+        multivalued: true
+        range: GritId
+        description: Backward pointers to grits that cite this Object.

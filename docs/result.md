@@ -14,7 +14,7 @@ _One of `absent`, `weak_signal`, `excluded`, `inconclusive`._
 
 
 
-URI: [isom:result](https://w3id.org/isom/result)
+URI: [grits:result](https://w3id.org/grits/result)
 <!-- no inheritance hierarchy -->
 
 
@@ -72,7 +72,7 @@ URI: [isom:result](https://w3id.org/isom/result)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:result](https://w3id.org/isom/result)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:result |
-| native | isom:result |
+| self | grits:result |
+| native | grits:result |
 
 
 
@@ -93,7 +93,7 @@ URI: [isom:result](https://w3id.org/isom/result)
 ```yaml
 name: result
 description: One of `absent`, `weak_signal`, `excluded`, `inconclusive`.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: NegativeEvidenceRecord
 domain_of:

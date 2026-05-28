@@ -1,7 +1,7 @@
 # Example 05 — Minimal SYNTHESIS_EDGE Activity under the blank-slate viewpoint.
 
 id: act:synth-minimal-v0
-type: isom:activity_type/synthesis_edge
+type: grits:activity_type/synthesis_edge
 viewpoint_directive_id: vpt:blank-slate-v0
 provenance: >-
   Minimal synthesis Activity linking the demo Object and EvidenceRecord

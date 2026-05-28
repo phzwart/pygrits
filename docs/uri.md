@@ -14,7 +14,7 @@ _Locator (file path, https URL, did:..., cid:...)._
 
 
 
-URI: [isom:uri](https://w3id.org/isom/uri)
+URI: [grits:uri](https://w3id.org/grits/uri)
 <!-- no inheritance hierarchy -->
 
 
@@ -72,7 +72,7 @@ URI: [isom:uri](https://w3id.org/isom/uri)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:uri](https://w3id.org/isom/uri)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:uri |
-| native | isom:uri |
+| self | grits:uri |
+| native | grits:uri |
 
 
 
@@ -93,7 +93,7 @@ URI: [isom:uri](https://w3id.org/isom/uri)
 ```yaml
 name: uri
 description: Locator (file path, https URL, did:..., cid:...).
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ContentReference
 domain_of:

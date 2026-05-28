@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:prompts](https://w3id.org/isom/prompts)
+URI: [grits:prompts](https://w3id.org/grits/prompts)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:prompts](https://w3id.org/isom/prompts)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:prompts](https://w3id.org/isom/prompts)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:prompts](https://w3id.org/isom/prompts)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:prompts |
-| native | isom:prompts |
+| self | grits:prompts |
+| native | grits:prompts |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:prompts](https://w3id.org/isom/prompts)
 <details>
 ```yaml
 name: prompts
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ViewpointDirective
 domain_of:

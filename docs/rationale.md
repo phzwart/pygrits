@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:rationale](https://w3id.org/isom/rationale)
+URI: [grits:rationale](https://w3id.org/grits/rationale)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:rationale](https://w3id.org/isom/rationale)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |  no  |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |  no  |
 
 
 
@@ -66,7 +66,7 @@ URI: [isom:rationale](https://w3id.org/isom/rationale)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -75,8 +75,8 @@ URI: [isom:rationale](https://w3id.org/isom/rationale)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:rationale |
-| native | isom:rationale |
+| self | grits:rationale |
+| native | grits:rationale |
 
 
 
@@ -86,7 +86,7 @@ URI: [isom:rationale](https://w3id.org/isom/rationale)
 <details>
 ```yaml
 name: rationale
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CompatibilityJudgment
 domain_of:

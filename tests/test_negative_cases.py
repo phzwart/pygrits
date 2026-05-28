@@ -28,7 +28,7 @@ def test_object_missing_viewpoint_fails() -> None:
     with pytest.raises(ValidationError):
         Object(
             id="obj:test",
-            type="isom:paper",
+            type="grits:paper",
             # viewpoint_directive_id missing
             provenance="test",
             should_not_claim=["test"],
@@ -41,7 +41,7 @@ def test_object_missing_should_not_claim_fails() -> None:
     with pytest.raises(ValidationError):
         Object(
             id="obj:test",
-            type="isom:paper",
+            type="grits:paper",
             viewpoint_directive_id="vpt:meta-v0",
             provenance="test",
             # should_not_claim missing
@@ -54,7 +54,7 @@ def test_object_missing_id_fails() -> None:
     with pytest.raises(ValidationError):
         Object(
             # id missing
-            type="isom:paper",
+            type="grits:paper",
             viewpoint_directive_id="vpt:meta-v0",
             provenance="test",
             should_not_claim=["test"],
@@ -67,7 +67,7 @@ def test_activity_missing_inputs_fails() -> None:
     with pytest.raises(ValidationError):
         Activity(
             id="act:test",
-            type="isom:activity_type/synthesis_edge",
+            type="grits:activity_type/synthesis_edge",
             viewpoint_directive_id="vpt:meta-v0",
             provenance="test",
             should_not_claim=["test"],
@@ -80,7 +80,7 @@ def test_evidence_record_missing_locator_fails() -> None:
     with pytest.raises(ValidationError):
         EvidenceRecord(
             id="evi:test",
-            type="isom:text_span",
+            type="grits:text_span",
             viewpoint_directive_id="vpt:meta-v0",
             provenance="test",
             should_not_claim=["test"],
@@ -139,7 +139,7 @@ def test_extra_field_fails() -> None:
     with pytest.raises(ValidationError):
         Object(
             id="obj:test",
-            type="isom:paper",
+            type="grits:paper",
             viewpoint_directive_id="vpt:meta-v0",
             provenance="test",
             should_not_claim=["test"],
@@ -155,7 +155,7 @@ def test_minimal_object_validates() -> None:
     """An Object meeting the MVE contract must validate."""
     obj = Object(
         id="obj:minimal-test",
-        type="isom:paper",
+        type="grits:paper",
         viewpoint_directive_id="vpt:meta-v0",
         provenance="minimal test",
         should_not_claim=["test should_not_claim"],
@@ -169,7 +169,7 @@ def test_minimal_activity_validates() -> None:
     """An Activity meeting the MVE contract must validate."""
     act = Activity(
         id="act:minimal-test",
-        type="isom:activity_type/synthesis_edge",
+        type="grits:activity_type/synthesis_edge",
         viewpoint_directive_id="vpt:meta-v0",
         provenance="minimal test",
         should_not_claim=["test"],
@@ -183,7 +183,7 @@ def test_minimal_evidence_record_validates() -> None:
     """An EvidenceRecord meeting the MVE contract must validate."""
     er = EvidenceRecord(
         id="evi:minimal-test",
-        type="isom:text_span",
+        type="grits:text_span",
         viewpoint_directive_id="vpt:meta-v0",
         provenance="minimal test",
         should_not_claim=["test"],

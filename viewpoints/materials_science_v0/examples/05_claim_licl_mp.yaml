@@ -36,19 +36,9 @@ features: '{"property": "melting_point", "material": "LiCl", "value_kelvin": 883
 observations:
   - "Asserts LiCl melting point at 883 K under ambient pressure."
 
-gaps:
+unspecified_items:
   - "Independent measurement under specified instrument/protocol not yet linked."
   - "Citation resolution for original measurement not yet performed."
-
-needs:
-  - "VALIDATION_EDGE from an independently-measured LiCl value."
-  - "Citation resolution to identify whether obj:paper-licl-demo-v0 is the original source."
-
-offers:
-  - "Anchor claim for alkali-halide family-trend analysis under ambient pressure."
-
-affordances:
-  - "Cation/anion family interpolation contribution."
 
 reported_claims:
   - "LiCl melting point = 883 K @ ambient pressure (epistemic status: synthesized; lineage: cited/unresolved)."
@@ -62,5 +52,4 @@ uncertainties:
 
 synthesis_link_ids:
   - act:synth-licl-mp-v0
-wiki_link_ids: []
-action_link_ids: []
+operation_link_ids: []

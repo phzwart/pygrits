@@ -6,7 +6,7 @@ search:
 # Class: SequencePositionLocator 
 
 
-_Position range within a reference biological sequence._
+_Position range within a reference sequence._
 
 
 
@@ -14,7 +14,7 @@ _Position range within a reference biological sequence._
 
 
 
-URI: [isom:SequencePositionLocator](https://w3id.org/isom/SequencePositionLocator)
+URI: [grits:SequencePositionLocator](https://w3id.org/grits/SequencePositionLocator)
 
 
 
@@ -79,7 +79,7 @@ URI: [isom:SequencePositionLocator](https://w3id.org/isom/SequencePositionLocato
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:SequencePositionLocator](https://w3id.org/isom/SequencePositionLocato
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:SequencePositionLocator |
-| native | isom:SequencePositionLocator |
+| self | grits:SequencePositionLocator |
+| native | grits:SequencePositionLocator |
 
 
 
@@ -105,20 +105,20 @@ URI: [isom:SequencePositionLocator](https://w3id.org/isom/SequencePositionLocato
 <details>
 ```yaml
 name: SequencePositionLocator
-description: Position range within a reference biological sequence.
-from_schema: https://w3id.org/isom/core
+description: Position range within a reference sequence.
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   reference_sequence_id:
     name: reference_sequence_id
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - SequencePositionLocator
     required: true
   seq_start:
     name: seq_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - SequencePositionLocator
@@ -126,7 +126,7 @@ attributes:
     required: true
   seq_end:
     name: seq_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - SequencePositionLocator
@@ -141,13 +141,13 @@ attributes:
 <details>
 ```yaml
 name: SequencePositionLocator
-description: Position range within a reference biological sequence.
-from_schema: https://w3id.org/isom/core
+description: Position range within a reference sequence.
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   reference_sequence_id:
     name: reference_sequence_id
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: SequencePositionLocator
     domain_of:
@@ -156,7 +156,7 @@ attributes:
     required: true
   seq_start:
     name: seq_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: SequencePositionLocator
     domain_of:
@@ -165,7 +165,7 @@ attributes:
     required: true
   seq_end:
     name: seq_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: SequencePositionLocator
     domain_of:
@@ -175,7 +175,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: SequencePositionLocator

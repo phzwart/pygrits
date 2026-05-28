@@ -6,7 +6,7 @@ search:
 # Slot: evidence_record_ids 
 
 
-_References to EvidenceRecord entities anchoring this Object's claims._
+_References to EvidenceRecord grits anchoring this Object's claims._
 
 
 
@@ -14,7 +14,7 @@ _References to EvidenceRecord entities anchoring this Object's claims._
 
 
 
-URI: [isom:evidence_record_ids](https://w3id.org/isom/evidence_record_ids)
+URI: [grits:evidence_record_ids](https://w3id.org/grits/evidence_record_ids)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,8 +25,8 @@ URI: [isom:evidence_record_ids](https://w3id.org/isom/evidence_record_ids)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -39,7 +39,7 @@ URI: [isom:evidence_record_ids](https://w3id.org/isom/evidence_record_ids)
 
 | Property | Value |
 | --- | --- |
-| Range | [EntityId](EntityId.md) |
+| Range | [GritId](GritId.md) |
 | Domain Of | [Object](Object.md) |
 
 ### Cardinality and Requirements
@@ -79,7 +79,7 @@ URI: [isom:evidence_record_ids](https://w3id.org/isom/evidence_record_ids)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:evidence_record_ids](https://w3id.org/isom/evidence_record_ids)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:evidence_record_ids |
-| native | isom:evidence_record_ids |
+| self | grits:evidence_record_ids |
+| native | grits:evidence_record_ids |
 
 
 
@@ -99,15 +99,15 @@ URI: [isom:evidence_record_ids](https://w3id.org/isom/evidence_record_ids)
 <details>
 ```yaml
 name: evidence_record_ids
-description: References to EvidenceRecord entities anchoring this Object's claims.
+description: References to EvidenceRecord grits anchoring this Object's claims.
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:
 - Object
-range: EntityId
+range: GritId
 multivalued: true
 
 ```

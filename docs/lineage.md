@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:lineage](https://w3id.org/isom/lineage)
+URI: [grits:lineage](https://w3id.org/grits/lineage)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:lineage](https://w3id.org/isom/lineage)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -67,7 +67,7 @@ URI: [isom:lineage](https://w3id.org/isom/lineage)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:lineage](https://w3id.org/isom/lineage)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:lineage |
-| native | isom:lineage |
+| self | grits:lineage |
+| native | grits:lineage |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:lineage](https://w3id.org/isom/lineage)
 <details>
 ```yaml
 name: lineage
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: EvidenceRecord
 domain_of:

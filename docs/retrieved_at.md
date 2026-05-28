@@ -14,7 +14,7 @@ _Last successful integrity verification timestamp._
 
 
 
-URI: [isom:retrieved_at](https://w3id.org/isom/retrieved_at)
+URI: [grits:retrieved_at](https://w3id.org/grits/retrieved_at)
 <!-- no inheritance hierarchy -->
 
 
@@ -71,7 +71,7 @@ URI: [isom:retrieved_at](https://w3id.org/isom/retrieved_at)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:retrieved_at](https://w3id.org/isom/retrieved_at)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:retrieved_at |
-| native | isom:retrieved_at |
+| self | grits:retrieved_at |
+| native | grits:retrieved_at |
 
 
 
@@ -92,7 +92,7 @@ URI: [isom:retrieved_at](https://w3id.org/isom/retrieved_at)
 ```yaml
 name: retrieved_at
 description: Last successful integrity verification timestamp.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ContentReference
 domain_of:

@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:search_confidence](https://w3id.org/isom/search_confidence)
+URI: [grits:search_confidence](https://w3id.org/grits/search_confidence)
 <!-- no inheritance hierarchy -->
 
 
@@ -66,7 +66,7 @@ URI: [isom:search_confidence](https://w3id.org/isom/search_confidence)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -75,8 +75,8 @@ URI: [isom:search_confidence](https://w3id.org/isom/search_confidence)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:search_confidence |
-| native | isom:search_confidence |
+| self | grits:search_confidence |
+| native | grits:search_confidence |
 
 
 
@@ -86,7 +86,7 @@ URI: [isom:search_confidence](https://w3id.org/isom/search_confidence)
 <details>
 ```yaml
 name: search_confidence
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: NegativeEvidenceRecord
 domain_of:

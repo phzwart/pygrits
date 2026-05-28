@@ -6,7 +6,7 @@ search:
 # Class: Activity 
 
 
-_Transformation. Consumes input entities, applies an interpretation under stated assumptions, emits output entities. Hyperedge in the hyperDAG topology. Activities do not participate in conversations — they record how a step of reasoning happened._
+_Hyperedge. Consumes input grits, applies an interpretation under stated assumptions, emits output grits. Records a transform step in the hyperDAG topology._
 
 
 
@@ -24,8 +24,8 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
  classDiagram
     class Activity
     click Activity href "../Activity/"
-      Entity <|-- Activity
-        click Entity href "../Entity/"
+      Grit <|-- Activity
+        click Grit href "../Grit/"
       
       Activity : activity_type
         
@@ -121,7 +121,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 
 
 ## Inheritance
-* [Entity](Entity.md)
+* [Grit](Grit.md)
     * **Activity**
 
 
@@ -137,21 +137,21 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
 | [activity_type](activity_type.md) | 1 <br/> [ActivityType](ActivityType.md) |  | direct |
-| [inputs](inputs.md) | 1..* <br/> [EntityId](EntityId.md) | Input entity IDs consumed by this Activity | direct |
-| [outputs](outputs.md) | * <br/> [EntityId](EntityId.md) | New entities produced by this Activity | direct |
+| [inputs](inputs.md) | 1..* <br/> [GritId](GritId.md) | Input grit IDs consumed by this Activity | direct |
+| [outputs](outputs.md) | * <br/> [GritId](GritId.md) | New grits produced by this Activity | direct |
 | [assumptions](assumptions.md) | * <br/> [String](String.md) |  | direct |
 | [admissibility_rationale](admissibility_rationale.md) | 0..1 <br/> [String](String.md) | Why this Activity is valid given its inputs and viewpoint | direct |
 | [compatibility_judgments](compatibility_judgments.md) | * <br/> [CompatibilityJudgment](CompatibilityJudgment.md) |  | direct |
 | [confidence](confidence.md) | 0..1 <br/> [Confidence](Confidence.md) |  | direct |
-| [id](id.md) | 1 <br/> [EntityId](EntityId.md) | Canonical entity identifier | [Entity](Entity.md) |
-| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Entity](Entity.md) |
-| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [EntityId](EntityId.md) | Reference to the ViewpointDirective that shaped this entity | [Entity](Entity.md) |
-| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Entity](Entity.md) |
-| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this entity must respect | [Entity](Entity.md) |
-| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Entity](Entity.md) |
-| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Entity](Entity.md) |
-| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Entity](Entity.md) |
-| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this entity (parser name +... | [Entity](Entity.md) |
+| [id](id.md) | 1 <br/> [GritId](GritId.md) | Canonical grit identifier | [Grit](Grit.md) |
+| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Grit](Grit.md) |
+| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [GritId](GritId.md) | Reference to the ViewpointDirective that shaped this grit | [Grit](Grit.md) |
+| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Grit](Grit.md) |
+| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this grit must respect | [Grit](Grit.md) |
+| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Grit](Grit.md) |
+| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Grit](Grit.md) |
+| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Grit](Grit.md) |
+| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this grit (parser name + v... | [Grit](Grit.md) |
 
 
 
@@ -176,7 +176,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -186,7 +186,7 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 | Mapping Type | Mapped Value |
 | ---  | ---  |
 | self | prov:Activity |
-| native | isom:Activity |
+| native | grits:Activity |
 
 
 
@@ -202,17 +202,16 @@ URI: [prov:Activity](http://www.w3.org/ns/prov#Activity)
 <details>
 ```yaml
 name: Activity
-description: Transformation. Consumes input entities, applies an interpretation under
-  stated assumptions, emits output entities. Hyperedge in the hyperDAG topology. Activities
-  do not participate in conversations — they record how a step of reasoning happened.
-from_schema: https://w3id.org/isom/core
-is_a: Entity
+description: Hyperedge. Consumes input grits, applies an interpretation under stated
+  assumptions, emits output grits. Records a transform step in the hyperDAG topology.
+from_schema: https://w3id.org/grits/core
+is_a: Grit
 attributes:
   activity_type:
     name: activity_type
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Activity
@@ -220,29 +219,29 @@ attributes:
     required: true
   inputs:
     name: inputs
-    description: Input entity IDs consumed by this Activity.
+    description: Input grit IDs consumed by this Activity.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Activity
-    range: EntityId
+    range: GritId
     required: true
     multivalued: true
   outputs:
     name: outputs
-    description: New entities produced by this Activity. May be empty for declarative
+    description: New grits produced by this Activity. May be empty for declarative
       edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Activity
-    range: EntityId
+    range: GritId
     multivalued: true
   assumptions:
     name: assumptions
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     domain_of:
     - CompatibilityJudgment
     - Object
@@ -252,14 +251,14 @@ attributes:
   admissibility_rationale:
     name: admissibility_rationale
     description: Why this Activity is valid given its inputs and viewpoint.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Activity
     range: string
   compatibility_judgments:
     name: compatibility_judgments
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Activity
@@ -269,7 +268,7 @@ attributes:
     inlined_as_list: true
   confidence:
     name: confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Activity
@@ -285,17 +284,16 @@ class_uri: prov:Activity
 <details>
 ```yaml
 name: Activity
-description: Transformation. Consumes input entities, applies an interpretation under
-  stated assumptions, emits output entities. Hyperedge in the hyperDAG topology. Activities
-  do not participate in conversations — they record how a step of reasoning happened.
-from_schema: https://w3id.org/isom/core
-is_a: Entity
+description: Hyperedge. Consumes input grits, applies an interpretation under stated
+  assumptions, emits output grits. Records a transform step in the hyperDAG topology.
+from_schema: https://w3id.org/grits/core
+is_a: Grit
 attributes:
   activity_type:
     name: activity_type
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
@@ -304,31 +302,31 @@ attributes:
     required: true
   inputs:
     name: inputs
-    description: Input entity IDs consumed by this Activity.
+    description: Input grit IDs consumed by this Activity.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
     - Activity
-    range: EntityId
+    range: GritId
     required: true
     multivalued: true
   outputs:
     name: outputs
-    description: New entities produced by this Activity. May be empty for declarative
+    description: New grits produced by this Activity. May be empty for declarative
       edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
     - Activity
-    range: EntityId
+    range: GritId
     multivalued: true
   assumptions:
     name: assumptions
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     owner: Activity
     domain_of:
     - CompatibilityJudgment
@@ -339,7 +337,7 @@ attributes:
   admissibility_rationale:
     name: admissibility_rationale
     description: Why this Activity is valid given its inputs and viewpoint.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
@@ -347,7 +345,7 @@ attributes:
     range: string
   compatibility_judgments:
     name: compatibility_judgments
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
@@ -358,7 +356,7 @@ attributes:
     inlined_as_list: true
   confidence:
     name: confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
@@ -367,44 +365,44 @@ attributes:
     inlined: true
   id:
     name: id
-    description: Canonical entity identifier.
+    description: Canonical grit identifier.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     identifier: true
     owner: Activity
     domain_of:
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
     required: true
   type:
     name: type
     description: For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary.
-      For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).
+      For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: CurieOrUri
     required: true
   viewpoint_directive_id:
     name: viewpoint_directive_id
-    description: Reference to the ViewpointDirective that shaped this entity. The
-      bootstrap meta-viewpoint and the blank-slate viewpoint are valid references;
-      absence is not.
+    description: Reference to the ViewpointDirective that shaped this grit. The bootstrap
+      meta-viewpoint and the blank-slate viewpoint are valid references; absence is
+      not.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     owner: Activity
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
     required: true
   provenance:
     name: provenance
@@ -413,64 +411,64 @@ attributes:
       to allow ingestion bundles from upstream extraction tools.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: string
     required: true
   should_not_claim:
     name: should_not_claim
-    description: Epistemic boundaries this entity must respect. Combination of per-class
+    description: Epistemic boundaries this grit must respect. Combination of per-class
       defaults plus directive-imposed rules from the viewpoint.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: string
     required: true
     multivalued: true
   scope:
     name: scope
     description: Optional but recommended. Viewpoint-supplied scope dimensions describing
-      the conditions under which this entity's statements apply. The core Scope marker
+      the conditions under which this grit's statements apply. The core Scope marker
       carries no domain dimensions; load a viewpoint schema to populate them.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: Scope
     inlined: true
   review_state:
     name: review_state
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: ReviewState
   lifecycle_state:
     name: lifecycle_state
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: LifecycleState
   generation_mode:
     name: generation_mode
-    description: Free-form descriptor of the process that generated this entity (parser
+    description: Free-form descriptor of the process that generated this grit (parser
       name + version, viewpoint name + version, LLM model + tier).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Activity
     domain_of:
-    - Entity
+    - Grit
     range: string
 class_uri: prov:Activity
 

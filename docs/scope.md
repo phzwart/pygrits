@@ -6,7 +6,7 @@ search:
 # Slot: scope 
 
 
-_Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them._
+_Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them._
 
 
 
@@ -14,7 +14,7 @@ _Optional but recommended. Viewpoint-supplied scope dimensions describing the co
 
 
 
-URI: [isom:scope](https://w3id.org/isom/scope)
+URI: [grits:scope](https://w3id.org/grits/scope)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,11 +25,11 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Entity](Entity.md) | Abstract base for all ISOM entities |  no  |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [Activity](Activity.md) | Transformation |  no  |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Grit](Grit.md) | Abstract base for all pygrits graph nodes |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -44,7 +44,7 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 | Property | Value |
 | --- | --- |
 | Range | [Scope](Scope.md) |
-| Domain Of | [Entity](Entity.md) |
+| Domain Of | [Grit](Grit.md) |
 
 ### Cardinality and Requirements
 
@@ -54,7 +54,7 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 
 | Property | Value |
 | --- | --- |
-| Owner | [Entity](Entity.md) |
+| Owner | [Grit](Grit.md) |
 
 
 
@@ -76,7 +76,7 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -85,8 +85,8 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:scope |
-| native | isom:scope |
+| self | grits:scope |
+| native | grits:scope |
 
 
 
@@ -97,13 +97,13 @@ URI: [isom:scope](https://w3id.org/isom/scope)
 ```yaml
 name: scope
 description: Optional but recommended. Viewpoint-supplied scope dimensions describing
-  the conditions under which this entity's statements apply. The core Scope marker
-  carries no domain dimensions; load a viewpoint schema to populate them.
-from_schema: https://w3id.org/isom/core
+  the conditions under which this grit's statements apply. The core Scope marker carries
+  no domain dimensions; load a viewpoint schema to populate them.
+from_schema: https://w3id.org/grits/core
 rank: 1000
-owner: Entity
+owner: Grit
 domain_of:
-- Entity
+- Grit
 range: Scope
 inlined: true
 

@@ -15,7 +15,7 @@ from pygrits import (
 def _minimal_evidence(**overrides: object) -> EvidenceRecord:
     base = dict(
         id="evi:open-curie-test",
-        type="isom:evidence_record",
+        type="grits:evidence_record",
         viewpoint_directive_id="vpt:meta-v0",
         provenance="open CURIE test",
         should_not_claim=["test"],

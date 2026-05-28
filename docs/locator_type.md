@@ -14,7 +14,7 @@ _Class name of the concrete Locator subclass (e.g. CharRangeLocator)._
 
 
 
-URI: [isom:locator_type](https://w3id.org/isom/locator_type)
+URI: [grits:locator_type](https://w3id.org/grits/locator_type)
 <!-- no inheritance hierarchy -->
 
 
@@ -28,7 +28,7 @@ URI: [isom:locator_type](https://w3id.org/isom/locator_type)
 | [Locator](Locator.md) | Polymorphic locator into a source artifact |  no  |
 | [CharRangeLocator](CharRangeLocator.md) | Character range within extracted text of a source artifact |  no  |
 | [BboxLocator](BboxLocator.md) | Axis-aligned bounding box on a rasterized page |  no  |
-| [SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference biological sequence |  no  |
+| [SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference sequence |  no  |
 | [ProcessingLogLineLocator](ProcessingLogLineLocator.md) | Line range within a processing log |  no  |
 | [TableCellLocator](TableCellLocator.md) | A specific cell within an extracted table |  no  |
 | [FileRegionLocator](FileRegionLocator.md) | Byte range within an opaque binary artifact |  no  |
@@ -80,7 +80,7 @@ URI: [isom:locator_type](https://w3id.org/isom/locator_type)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -89,8 +89,8 @@ URI: [isom:locator_type](https://w3id.org/isom/locator_type)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:locator_type |
-| native | isom:locator_type |
+| self | grits:locator_type |
+| native | grits:locator_type |
 
 
 
@@ -101,7 +101,7 @@ URI: [isom:locator_type](https://w3id.org/isom/locator_type)
 ```yaml
 name: locator_type
 description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 designates_type: true
 owner: Locator

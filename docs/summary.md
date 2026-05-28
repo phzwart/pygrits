@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:summary](https://w3id.org/isom/summary)
+URI: [grits:summary](https://w3id.org/grits/summary)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,8 +20,8 @@ URI: [isom:summary](https://w3id.org/isom/summary)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -57,7 +57,7 @@ URI: [isom:summary](https://w3id.org/isom/summary)
 ## In Subsets
 
 
-* [ParticipationReady](ParticipationReady.md)
+* [ExtendedProfile](ExtendedProfile.md)
 
 
 
@@ -73,7 +73,7 @@ URI: [isom:summary](https://w3id.org/isom/summary)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -82,8 +82,8 @@ URI: [isom:summary](https://w3id.org/isom/summary)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:summary |
-| native | isom:summary |
+| self | grits:summary |
+| native | grits:summary |
 
 
 
@@ -94,8 +94,8 @@ URI: [isom:summary](https://w3id.org/isom/summary)
 ```yaml
 name: summary
 in_subset:
-- ParticipationReady
-from_schema: https://w3id.org/isom/core
+- ExtendedProfile
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

@@ -14,7 +14,7 @@ _Viewpoint-defined structured payload, serialized as a JSON string in v1. The vi
 
 
 
-URI: [isom:features](https://w3id.org/isom/features)
+URI: [grits:features](https://w3id.org/grits/features)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,8 +25,8 @@ URI: [isom:features](https://w3id.org/isom/features)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -62,7 +62,7 @@ URI: [isom:features](https://w3id.org/isom/features)
 ## In Subsets
 
 
-* [ParticipationReady](ParticipationReady.md)
+* [ExtendedProfile](ExtendedProfile.md)
 
 
 
@@ -78,7 +78,7 @@ URI: [isom:features](https://w3id.org/isom/features)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -87,8 +87,8 @@ URI: [isom:features](https://w3id.org/isom/features)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:features |
-| native | isom:features |
+| self | grits:features |
+| native | grits:features |
 
 
 
@@ -102,8 +102,8 @@ description: Viewpoint-defined structured payload, serialized as a JSON string i
   v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed
   Any with viewpoint-declared schemas.
 in_subset:
-- ParticipationReady
-from_schema: https://w3id.org/isom/core
+- ExtendedProfile
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

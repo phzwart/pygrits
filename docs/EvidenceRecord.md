@@ -6,7 +6,7 @@ search:
 # Class: EvidenceRecord 
 
 
-_Grounded data anchored to a single source artifact via a typed locator. The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids and by Activities' inputs; they do not initiate threads or posts._
+_Anchor unit. Grounded data anchored to a single source artifact via a typed locator. Referenced by Objects' evidence_record_ids and by Activities' inputs._
 
 
 
@@ -14,7 +14,7 @@ _Grounded data anchored to a single source artifact via a typed locator. The cit
 
 
 
-URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
+URI: [grits:EvidenceRecord](https://w3id.org/grits/EvidenceRecord)
 
 
 
@@ -24,8 +24,8 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
  classDiagram
     class EvidenceRecord
     click EvidenceRecord href "../EvidenceRecord/"
-      Entity <|-- EvidenceRecord
-        click Entity href "../Entity/"
+      Grit <|-- EvidenceRecord
+        click Grit href "../Grit/"
       
 
       EvidenceRecord <|-- NegativeEvidenceRecord
@@ -139,7 +139,7 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
 
 
 ## Inheritance
-* [Entity](Entity.md)
+* [Grit](Grit.md)
     * **EvidenceRecord**
         * [NegativeEvidenceRecord](NegativeEvidenceRecord.md)
 
@@ -157,15 +157,15 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
 | [extraction_confidence](extraction_confidence.md) | 0..1 <br/> [Confidence](Confidence.md) |  | direct |
 | [lineage](lineage.md) | 0..1 <br/> [LineageType](LineageType.md) |  | direct |
 | [cited_from](cited_from.md) | 0..1 <br/> [String](String.md) | Identifier or marker for prior evidence this record derives from or cites | direct |
-| [id](id.md) | 1 <br/> [EntityId](EntityId.md) | Canonical entity identifier | [Entity](Entity.md) |
-| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Entity](Entity.md) |
-| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [EntityId](EntityId.md) | Reference to the ViewpointDirective that shaped this entity | [Entity](Entity.md) |
-| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Entity](Entity.md) |
-| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this entity must respect | [Entity](Entity.md) |
-| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Entity](Entity.md) |
-| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Entity](Entity.md) |
-| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Entity](Entity.md) |
-| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this entity (parser name +... | [Entity](Entity.md) |
+| [id](id.md) | 1 <br/> [GritId](GritId.md) | Canonical grit identifier | [Grit](Grit.md) |
+| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Grit](Grit.md) |
+| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [GritId](GritId.md) | Reference to the ViewpointDirective that shaped this grit | [Grit](Grit.md) |
+| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Grit](Grit.md) |
+| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this grit must respect | [Grit](Grit.md) |
+| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Grit](Grit.md) |
+| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Grit](Grit.md) |
+| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Grit](Grit.md) |
+| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this grit (parser name + v... | [Grit](Grit.md) |
 
 
 
@@ -190,7 +190,7 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -199,8 +199,8 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:EvidenceRecord |
-| native | isom:EvidenceRecord |
+| self | grits:EvidenceRecord |
+| native | grits:EvidenceRecord |
 
 
 
@@ -216,18 +216,17 @@ URI: [isom:EvidenceRecord](https://w3id.org/isom/EvidenceRecord)
 <details>
 ```yaml
 name: EvidenceRecord
-description: Grounded data anchored to a single source artifact via a typed locator.
-  The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids
-  and by Activities' inputs; they do not initiate threads or posts.
-from_schema: https://w3id.org/isom/core
-is_a: Entity
+description: Anchor unit. Grounded data anchored to a single source artifact via a
+  typed locator. Referenced by Objects' evidence_record_ids and by Activities' inputs.
+from_schema: https://w3id.org/grits/core
+is_a: Grit
 attributes:
   source_artifact_ref:
     name: source_artifact_ref
     description: Single source artifact this evidence is extracted from.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -238,7 +237,7 @@ attributes:
     name: locator
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -247,7 +246,7 @@ attributes:
     inlined: true
   extracted_content:
     name: extracted_content
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -256,7 +255,7 @@ attributes:
     name: normalized_payload
     description: Viewpoint-defined structured payload, serialized as a JSON string
       in v1.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -266,21 +265,21 @@ attributes:
     description: CURIE identifying the kind of scientific content the locator anchors.
       No core-supplied permissible values; viewpoints supply the evidence-type vocabulary
       they use.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
     range: CurieOrUri
   extraction_method:
     name: extraction_method
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
     range: string
   extraction_confidence:
     name: extraction_confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -288,7 +287,7 @@ attributes:
     inlined: true
   lineage:
     name: lineage
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -297,7 +296,7 @@ attributes:
     name: cited_from
     description: Identifier or marker for prior evidence this record derives from
       or cites. May be `unknown_external` when citation resolution has not happened.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - EvidenceRecord
@@ -311,18 +310,17 @@ attributes:
 <details>
 ```yaml
 name: EvidenceRecord
-description: Grounded data anchored to a single source artifact via a typed locator.
-  The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids
-  and by Activities' inputs; they do not initiate threads or posts.
-from_schema: https://w3id.org/isom/core
-is_a: Entity
+description: Anchor unit. Grounded data anchored to a single source artifact via a
+  typed locator. Referenced by Objects' evidence_record_ids and by Activities' inputs.
+from_schema: https://w3id.org/grits/core
+is_a: Grit
 attributes:
   source_artifact_ref:
     name: source_artifact_ref
     description: Single source artifact this evidence is extracted from.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -334,7 +332,7 @@ attributes:
     name: locator
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -344,7 +342,7 @@ attributes:
     inlined: true
   extracted_content:
     name: extracted_content
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -354,7 +352,7 @@ attributes:
     name: normalized_payload
     description: Viewpoint-defined structured payload, serialized as a JSON string
       in v1.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -365,7 +363,7 @@ attributes:
     description: CURIE identifying the kind of scientific content the locator anchors.
       No core-supplied permissible values; viewpoints supply the evidence-type vocabulary
       they use.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -373,7 +371,7 @@ attributes:
     range: CurieOrUri
   extraction_method:
     name: extraction_method
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -381,7 +379,7 @@ attributes:
     range: string
   extraction_confidence:
     name: extraction_confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -390,7 +388,7 @@ attributes:
     inlined: true
   lineage:
     name: lineage
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -400,7 +398,7 @@ attributes:
     name: cited_from
     description: Identifier or marker for prior evidence this record derives from
       or cites. May be `unknown_external` when citation resolution has not happened.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
@@ -408,44 +406,44 @@ attributes:
     range: string
   id:
     name: id
-    description: Canonical entity identifier.
+    description: Canonical grit identifier.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     identifier: true
     owner: EvidenceRecord
     domain_of:
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
     required: true
   type:
     name: type
     description: For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary.
-      For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).
+      For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: CurieOrUri
     required: true
   viewpoint_directive_id:
     name: viewpoint_directive_id
-    description: Reference to the ViewpointDirective that shaped this entity. The
-      bootstrap meta-viewpoint and the blank-slate viewpoint are valid references;
-      absence is not.
+    description: Reference to the ViewpointDirective that shaped this grit. The bootstrap
+      meta-viewpoint and the blank-slate viewpoint are valid references; absence is
+      not.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     owner: EvidenceRecord
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
     required: true
   provenance:
     name: provenance
@@ -454,64 +452,64 @@ attributes:
       to allow ingestion bundles from upstream extraction tools.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: string
     required: true
   should_not_claim:
     name: should_not_claim
-    description: Epistemic boundaries this entity must respect. Combination of per-class
+    description: Epistemic boundaries this grit must respect. Combination of per-class
       defaults plus directive-imposed rules from the viewpoint.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: string
     required: true
     multivalued: true
   scope:
     name: scope
     description: Optional but recommended. Viewpoint-supplied scope dimensions describing
-      the conditions under which this entity's statements apply. The core Scope marker
+      the conditions under which this grit's statements apply. The core Scope marker
       carries no domain dimensions; load a viewpoint schema to populate them.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: Scope
     inlined: true
   review_state:
     name: review_state
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: ReviewState
   lifecycle_state:
     name: lifecycle_state
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: LifecycleState
   generation_mode:
     name: generation_mode
-    description: Free-form descriptor of the process that generated this entity (parser
+    description: Free-form descriptor of the process that generated this grit (parser
       name + version, viewpoint name + version, LLM model + tier).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: EvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: string
 
 ```

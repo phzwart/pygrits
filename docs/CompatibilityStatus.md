@@ -15,7 +15,7 @@ _Outcome of a compatibility judgment._
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:CompatibilityStatus](https://w3id.org/isom/CompatibilityStatus)
+URI: [grits:CompatibilityStatus](https://w3id.org/grits/CompatibilityStatus)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -52,7 +52,7 @@ URI: [isom:CompatibilityStatus](https://w3id.org/isom/CompatibilityStatus)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -65,7 +65,7 @@ URI: [isom:CompatibilityStatus](https://w3id.org/isom/CompatibilityStatus)
 ```yaml
 name: CompatibilityStatus
 description: Outcome of a compatibility judgment.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   compatible:

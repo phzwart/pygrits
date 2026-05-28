@@ -15,7 +15,7 @@ _Independence classification of an evidence record._
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:LineageType](https://w3id.org/isom/LineageType)
+URI: [grits:LineageType](https://w3id.org/grits/LineageType)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -53,7 +53,7 @@ URI: [isom:LineageType](https://w3id.org/isom/LineageType)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -66,7 +66,7 @@ URI: [isom:LineageType](https://w3id.org/isom/LineageType)
 ```yaml
 name: LineageType
 description: Independence classification of an evidence record.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   independent:

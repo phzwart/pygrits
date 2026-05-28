@@ -14,7 +14,7 @@ _The data distribution under which the confidence was calibrated._
 
 
 
-URI: [isom:calibration_scope](https://w3id.org/isom/calibration_scope)
+URI: [grits:calibration_scope](https://w3id.org/grits/calibration_scope)
 <!-- no inheritance hierarchy -->
 
 
@@ -71,7 +71,7 @@ URI: [isom:calibration_scope](https://w3id.org/isom/calibration_scope)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:calibration_scope](https://w3id.org/isom/calibration_scope)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:calibration_scope |
-| native | isom:calibration_scope |
+| self | grits:calibration_scope |
+| native | grits:calibration_scope |
 
 
 
@@ -92,7 +92,7 @@ URI: [isom:calibration_scope](https://w3id.org/isom/calibration_scope)
 ```yaml
 name: calibration_scope
 description: The data distribution under which the confidence was calibrated.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Confidence
 domain_of:

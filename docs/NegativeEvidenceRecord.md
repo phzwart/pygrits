@@ -14,7 +14,7 @@ _First-class record of a search that returned no result under stated scope. Dist
 
 
 
-URI: [isom:NegativeEvidenceRecord](https://w3id.org/isom/NegativeEvidenceRecord)
+URI: [grits:NegativeEvidenceRecord](https://w3id.org/grits/NegativeEvidenceRecord)
 
 
 
@@ -153,7 +153,7 @@ URI: [isom:NegativeEvidenceRecord](https://w3id.org/isom/NegativeEvidenceRecord)
 
 
 ## Inheritance
-* [Entity](Entity.md)
+* [Grit](Grit.md)
     * [EvidenceRecord](EvidenceRecord.md)
         * **NegativeEvidenceRecord**
 
@@ -176,15 +176,15 @@ URI: [isom:NegativeEvidenceRecord](https://w3id.org/isom/NegativeEvidenceRecord)
 | [extraction_confidence](extraction_confidence.md) | 0..1 <br/> [Confidence](Confidence.md) |  | [EvidenceRecord](EvidenceRecord.md) |
 | [lineage](lineage.md) | 0..1 <br/> [LineageType](LineageType.md) |  | [EvidenceRecord](EvidenceRecord.md) |
 | [cited_from](cited_from.md) | 0..1 <br/> [String](String.md) | Identifier or marker for prior evidence this record derives from or cites | [EvidenceRecord](EvidenceRecord.md) |
-| [id](id.md) | 1 <br/> [EntityId](EntityId.md) | Canonical entity identifier | [Entity](Entity.md) |
-| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Entity](Entity.md) |
-| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [EntityId](EntityId.md) | Reference to the ViewpointDirective that shaped this entity | [Entity](Entity.md) |
-| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Entity](Entity.md) |
-| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this entity must respect | [Entity](Entity.md) |
-| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Entity](Entity.md) |
-| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Entity](Entity.md) |
-| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Entity](Entity.md) |
-| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this entity (parser name +... | [Entity](Entity.md) |
+| [id](id.md) | 1 <br/> [GritId](GritId.md) | Canonical grit identifier | [Grit](Grit.md) |
+| [type](type.md) | 1 <br/> [CurieOrUri](CurieOrUri.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary | [Grit](Grit.md) |
+| [viewpoint_directive_id](viewpoint_directive_id.md) | 1 <br/> [GritId](GritId.md) | Reference to the ViewpointDirective that shaped this grit | [Grit](Grit.md) |
+| [provenance](provenance.md) | 1 <br/> [String](String.md) | Provenance description for v1 | [Grit](Grit.md) |
+| [should_not_claim](should_not_claim.md) | 1..* <br/> [String](String.md) | Epistemic boundaries this grit must respect | [Grit](Grit.md) |
+| [scope](scope.md) | 0..1 <br/> [Scope](Scope.md) | Optional but recommended | [Grit](Grit.md) |
+| [review_state](review_state.md) | 0..1 <br/> [ReviewState](ReviewState.md) |  | [Grit](Grit.md) |
+| [lifecycle_state](lifecycle_state.md) | 0..1 <br/> [LifecycleState](LifecycleState.md) |  | [Grit](Grit.md) |
+| [generation_mode](generation_mode.md) | 0..1 <br/> [String](String.md) | Free-form descriptor of the process that generated this grit (parser name + v... | [Grit](Grit.md) |
 
 
 
@@ -209,7 +209,7 @@ URI: [isom:NegativeEvidenceRecord](https://w3id.org/isom/NegativeEvidenceRecord)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -218,8 +218,8 @@ URI: [isom:NegativeEvidenceRecord](https://w3id.org/isom/NegativeEvidenceRecord)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:NegativeEvidenceRecord |
-| native | isom:NegativeEvidenceRecord |
+| self | grits:NegativeEvidenceRecord |
+| native | grits:NegativeEvidenceRecord |
 
 
 
@@ -238,12 +238,12 @@ name: NegativeEvidenceRecord
 description: First-class record of a search that returned no result under stated scope.
   Distinct from `unknown` (question not considered) and from `not_searched` (in scope
   but not attempted).
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: EvidenceRecord
 attributes:
   search_method:
     name: search_method
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - NegativeEvidenceRecord
@@ -251,21 +251,21 @@ attributes:
     required: true
   search_scope:
     name: search_scope
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - NegativeEvidenceRecord
     range: string
   search_timestamp:
     name: search_timestamp
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - NegativeEvidenceRecord
     range: Iso8601
   search_confidence:
     name: search_confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - NegativeEvidenceRecord
@@ -274,7 +274,7 @@ attributes:
   result:
     name: result
     description: One of `absent`, `weak_signal`, `excluded`, `inconclusive`.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - NegativeEvidenceRecord
@@ -292,12 +292,12 @@ name: NegativeEvidenceRecord
 description: First-class record of a search that returned no result under stated scope.
   Distinct from `unknown` (question not considered) and from `not_searched` (in scope
   but not attempted).
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: EvidenceRecord
 attributes:
   search_method:
     name: search_method
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -306,7 +306,7 @@ attributes:
     required: true
   search_scope:
     name: search_scope
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -314,7 +314,7 @@ attributes:
     range: string
   search_timestamp:
     name: search_timestamp
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -322,7 +322,7 @@ attributes:
     range: Iso8601
   search_confidence:
     name: search_confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -332,7 +332,7 @@ attributes:
   result:
     name: result
     description: One of `absent`, `weak_signal`, `excluded`, `inconclusive`.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -344,7 +344,7 @@ attributes:
     description: Single source artifact this evidence is extracted from.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -356,7 +356,7 @@ attributes:
     name: locator
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -366,7 +366,7 @@ attributes:
     inlined: true
   extracted_content:
     name: extracted_content
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -376,7 +376,7 @@ attributes:
     name: normalized_payload
     description: Viewpoint-defined structured payload, serialized as a JSON string
       in v1.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -387,7 +387,7 @@ attributes:
     description: CURIE identifying the kind of scientific content the locator anchors.
       No core-supplied permissible values; viewpoints supply the evidence-type vocabulary
       they use.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -395,7 +395,7 @@ attributes:
     range: CurieOrUri
   extraction_method:
     name: extraction_method
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -403,7 +403,7 @@ attributes:
     range: string
   extraction_confidence:
     name: extraction_confidence
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -412,7 +412,7 @@ attributes:
     inlined: true
   lineage:
     name: lineage
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -422,7 +422,7 @@ attributes:
     name: cited_from
     description: Identifier or marker for prior evidence this record derives from
       or cites. May be `unknown_external` when citation resolution has not happened.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
@@ -430,44 +430,44 @@ attributes:
     range: string
   id:
     name: id
-    description: Canonical entity identifier.
+    description: Canonical grit identifier.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     identifier: true
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
     required: true
   type:
     name: type
     description: For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary.
-      For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).
+      For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: CurieOrUri
     required: true
   viewpoint_directive_id:
     name: viewpoint_directive_id
-    description: Reference to the ViewpointDirective that shaped this entity. The
-      bootstrap meta-viewpoint and the blank-slate viewpoint are valid references;
-      absence is not.
+    description: Reference to the ViewpointDirective that shaped this grit. The bootstrap
+      meta-viewpoint and the blank-slate viewpoint are valid references; absence is
+      not.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     owner: NegativeEvidenceRecord
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
     required: true
   provenance:
     name: provenance
@@ -476,64 +476,64 @@ attributes:
       to allow ingestion bundles from upstream extraction tools.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: string
     required: true
   should_not_claim:
     name: should_not_claim
-    description: Epistemic boundaries this entity must respect. Combination of per-class
+    description: Epistemic boundaries this grit must respect. Combination of per-class
       defaults plus directive-imposed rules from the viewpoint.
     in_subset:
     - MVE
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: string
     required: true
     multivalued: true
   scope:
     name: scope
     description: Optional but recommended. Viewpoint-supplied scope dimensions describing
-      the conditions under which this entity's statements apply. The core Scope marker
+      the conditions under which this grit's statements apply. The core Scope marker
       carries no domain dimensions; load a viewpoint schema to populate them.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: Scope
     inlined: true
   review_state:
     name: review_state
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: ReviewState
   lifecycle_state:
     name: lifecycle_state
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: LifecycleState
   generation_mode:
     name: generation_mode
-    description: Free-form descriptor of the process that generated this entity (parser
+    description: Free-form descriptor of the process that generated this grit (parser
       name + version, viewpoint name + version, LLM model + tier).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NegativeEvidenceRecord
     domain_of:
-    - Entity
+    - Grit
     range: string
 
 ```

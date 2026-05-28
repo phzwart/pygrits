@@ -87,7 +87,7 @@ def test_hash_independent_of_construction_order() -> None:
         sha256="a" * 64,
         uri="file://a.pdf",
     )
-    # ContentReference is not an Entity; hash its dict form via JCS directly.
+    # ContentReference is not a Grit; hash its dict form via JCS directly.
     import hashlib
 
     import jcs
@@ -192,7 +192,7 @@ def test_verify_content_reference_jcs_mismatch() -> None:
 
 
 def test_verify_content_reference_wrong_content_type() -> None:
-    """JCS mode requires Entity or dict, not bytes."""
+    """JCS mode requires Grit or dict, not bytes."""
     ref = ContentReference(
         uri="file://obj.json",
         sha256="a" * 64,
@@ -203,7 +203,7 @@ def test_verify_content_reference_wrong_content_type() -> None:
 
 
 def test_verify_content_reference_raw_bytes_wrong_content_type() -> None:
-    """raw_bytes mode requires bytes, not Entity."""
+    """raw_bytes mode requires bytes, not Grit."""
     obj = _load_example("03_object_minimal.yaml", Object)
     ref = ContentReference(
         uri="file://prompt.txt",
@@ -234,7 +234,7 @@ def test_activity_with_same_inputs_hashes_identically() -> None:
     This is the property that enables idempotent synthesis detection."""
     a1 = Activity(
         id="act:idempotence-test-1",
-        type="isom:activity_type/synthesis_edge",
+        type="grits:activity_type/synthesis_edge",
         viewpoint_directive_id="vpt:meta-v0",
         provenance="idempotence test",
         should_not_claim=["test"],
@@ -266,7 +266,7 @@ def test_activity_with_same_inputs_hashes_identically() -> None:
 
     a2 = Activity(
         id="act:idempotence-test-2",  # different id
-        type="isom:activity_type/synthesis_edge",
+        type="grits:activity_type/synthesis_edge",
         viewpoint_directive_id="vpt:meta-v0",
         provenance="different provenance string",
         should_not_claim=["test"],

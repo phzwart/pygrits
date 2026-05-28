@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:search_method](https://w3id.org/isom/search_method)
+URI: [grits:search_method](https://w3id.org/grits/search_method)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:search_method](https://w3id.org/isom/search_method)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:search_method](https://w3id.org/isom/search_method)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:search_method |
-| native | isom:search_method |
+| self | grits:search_method |
+| native | grits:search_method |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:search_method](https://w3id.org/isom/search_method)
 <details>
 ```yaml
 name: search_method
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: NegativeEvidenceRecord
 domain_of:

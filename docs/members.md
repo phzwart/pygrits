@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:members](https://w3id.org/isom/members)
+URI: [grits:members](https://w3id.org/grits/members)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:members](https://w3id.org/isom/members)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:members](https://w3id.org/isom/members)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:members |
-| native | isom:members |
+| self | grits:members |
+| native | grits:members |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:members](https://w3id.org/isom/members)
 <details>
 ```yaml
 name: members
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CompositeLocator
 domain_of:

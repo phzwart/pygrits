@@ -1,7 +1,7 @@
 # Example 03 — EvidenceRecord for the LiCl melting-point text span.
 
 id: evi:span-licl-mp-v0
-type: isom:evidence_record
+type: grits:evidence_record
 viewpoint_directive_id: vpt:alkali-halide-thermo-v0
 provenance: >-
   Text span extracted by paperqa-A from source PDF

@@ -1,4 +1,4 @@
-id: https://w3id.org/isom/viewpoints/document_extraction_v0
+id: https://w3id.org/grits/viewpoints/document_extraction_v0
 name: document_extraction_v0
 title: Document Extraction Viewpoint v0
 description: >-
@@ -11,8 +11,8 @@ license: BSD-3-Clause
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  isom: https://w3id.org/isom/
-  de: https://w3id.org/isom/viewpoints/document_extraction_v0/
+  grits: https://w3id.org/grits/
+  de: https://w3id.org/grits/viewpoints/document_extraction_v0/
 
 default_prefix: de
 default_range: string

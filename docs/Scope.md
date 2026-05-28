@@ -16,7 +16,7 @@ _Container for viewpoint-supplied scope dimensions. The core defines no domain d
 * __NOTE__: this is an abstract class and should not be instantiated directly
 
 
-URI: [isom:Scope](https://w3id.org/isom/Scope)
+URI: [grits:Scope](https://w3id.org/grits/Scope)
 
 
 
@@ -60,7 +60,7 @@ URI: [isom:Scope](https://w3id.org/isom/Scope)
 
 | used by | used in | type | used |
 | ---  | --- | --- | --- |
-| [Entity](Entity.md) | [scope](scope.md) | range | [Scope](Scope.md) |
+| [Grit](Grit.md) | [scope](scope.md) | range | [Scope](Scope.md) |
 | [Object](Object.md) | [scope](scope.md) | range | [Scope](Scope.md) |
 | [Activity](Activity.md) | [scope](scope.md) | range | [Scope](Scope.md) |
 | [EvidenceRecord](EvidenceRecord.md) | [scope](scope.md) | range | [Scope](Scope.md) |
@@ -87,7 +87,7 @@ URI: [isom:Scope](https://w3id.org/isom/Scope)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -96,8 +96,8 @@ URI: [isom:Scope](https://w3id.org/isom/Scope)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:Scope |
-| native | isom:Scope |
+| self | grits:Scope |
+| native | grits:Scope |
 
 
 
@@ -116,13 +116,13 @@ name: Scope
 description: Container for viewpoint-supplied scope dimensions. The core defines no
   domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare
   the scope commitments they populate.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 abstract: true
 attributes:
   scope_type:
     name: scope_type
     description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     domain_of:
@@ -132,7 +132,7 @@ attributes:
   notes:
     name: notes
     description: Free-text scope clarification.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - Scope
@@ -149,13 +149,13 @@ name: Scope
 description: Container for viewpoint-supplied scope dimensions. The core defines no
   domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare
   the scope commitments they populate.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 abstract: true
 attributes:
   scope_type:
     name: scope_type
     description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: Scope
@@ -166,7 +166,7 @@ attributes:
   notes:
     name: notes
     description: Free-text scope clarification.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: Scope
     domain_of:

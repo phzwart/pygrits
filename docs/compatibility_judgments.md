@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:compatibility_judgments](https://w3id.org/isom/compatibility_judgments)
+URI: [grits:compatibility_judgments](https://w3id.org/grits/compatibility_judgments)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:compatibility_judgments](https://w3id.org/isom/compatibility_judgment
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Activity](Activity.md) | Transformation |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:compatibility_judgments](https://w3id.org/isom/compatibility_judgment
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:compatibility_judgments](https://w3id.org/isom/compatibility_judgment
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:compatibility_judgments |
-| native | isom:compatibility_judgments |
+| self | grits:compatibility_judgments |
+| native | grits:compatibility_judgments |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:compatibility_judgments](https://w3id.org/isom/compatibility_judgment
 <details>
 ```yaml
 name: compatibility_judgments
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Activity
 domain_of:

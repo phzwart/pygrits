@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:search_timestamp](https://w3id.org/isom/search_timestamp)
+URI: [grits:search_timestamp](https://w3id.org/grits/search_timestamp)
 <!-- no inheritance hierarchy -->
 
 
@@ -66,7 +66,7 @@ URI: [isom:search_timestamp](https://w3id.org/isom/search_timestamp)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -75,8 +75,8 @@ URI: [isom:search_timestamp](https://w3id.org/isom/search_timestamp)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:search_timestamp |
-| native | isom:search_timestamp |
+| self | grits:search_timestamp |
+| native | grits:search_timestamp |
 
 
 
@@ -86,7 +86,7 @@ URI: [isom:search_timestamp](https://w3id.org/isom/search_timestamp)
 <details>
 ```yaml
 name: search_timestamp
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: NegativeEvidenceRecord
 domain_of:

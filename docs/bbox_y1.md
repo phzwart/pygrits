@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:bbox_y1](https://w3id.org/isom/bbox_y1)
+URI: [grits:bbox_y1](https://w3id.org/grits/bbox_y1)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:bbox_y1](https://w3id.org/isom/bbox_y1)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:bbox_y1](https://w3id.org/isom/bbox_y1)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:bbox_y1 |
-| native | isom:bbox_y1 |
+| self | grits:bbox_y1 |
+| native | grits:bbox_y1 |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:bbox_y1](https://w3id.org/isom/bbox_y1)
 <details>
 ```yaml
 name: bbox_y1
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: BboxLocator
 domain_of:

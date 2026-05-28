@@ -72,18 +72,18 @@ linkml_meta = LinkMLMeta({'default_prefix': 'mse',
                     'scope-dimension subclasses and a composite '
                     'MaterialsScienceScope. Imports document_extraction_v0 for '
                     'shared document-extraction evidence-type vocabulary.',
-     'id': 'https://w3id.org/isom/viewpoints/materials_science_v0',
+     'id': 'https://w3id.org/grits/viewpoints/materials_science_v0',
      'imports': ['linkml:types', '../src/pygrits/core', 'document_extraction_v0'],
      'license': 'BSD-3-Clause',
      'name': 'materials_science_v0',
      'prefixes': {'de': {'prefix_prefix': 'de',
-                         'prefix_reference': 'https://w3id.org/isom/viewpoints/document_extraction_v0/'},
-                  'isom': {'prefix_prefix': 'isom',
-                           'prefix_reference': 'https://w3id.org/isom/'},
+                         'prefix_reference': 'https://w3id.org/grits/viewpoints/document_extraction_v0/'},
+                  'grits': {'prefix_prefix': 'grits',
+                            'prefix_reference': 'https://w3id.org/grits/'},
                   'linkml': {'prefix_prefix': 'linkml',
                              'prefix_reference': 'https://w3id.org/linkml/'},
                   'mse': {'prefix_prefix': 'mse',
-                          'prefix_reference': 'https://w3id.org/isom/viewpoints/materials_science_v0/'}},
+                          'prefix_reference': 'https://w3id.org/grits/viewpoints/materials_science_v0/'}},
      'source_file': 'viewpoints/materials_science_v0.yaml',
      'title': 'Materials Science Viewpoint v0'} )
 
@@ -107,7 +107,7 @@ class ActivityType(str, Enum):
     """
     SYNTHESIS_EDGE = "SYNTHESIS_EDGE"
     """
-    Inputs + assumptions → new synthesis entity.
+    Inputs + assumptions → new synthesis grit.
     """
     SUPPORT_EDGE = "SUPPORT_EDGE"
     """
@@ -119,15 +119,15 @@ class ActivityType(str, Enum):
     """
     COMPATIBILITY_EDGE = "COMPATIBILITY_EDGE"
     """
-    Records a compatibility judgment over entities.
+    Records a compatibility judgment over grits.
     """
     VALIDATION_EDGE = "VALIDATION_EDGE"
     """
-    Validating entity → entity it validates.
+    Validating grit → grit it validates.
     """
     ACTION_EDGE = "ACTION_EDGE"
     """
-    Action entity with inputs and output entities.
+    Operation grit with inputs and output grits.
     """
     ADJUDICATION_EDGE = "ADJUDICATION_EDGE"
     """
@@ -137,13 +137,13 @@ class ActivityType(str, Enum):
 
 class LifecycleState(str, Enum):
     """
-    Lifecycle state of an entity.
+    Lifecycle state of a grit.
     """
     ingested = "ingested"
     parsed = "parsed"
     evidence_extracted = "evidence_extracted"
     interaction_ready = "interaction_ready"
-    participating = "participating"
+    active = "active"
     synthesized = "synthesized"
     deprecated = "deprecated"
     superseded = "superseded"
@@ -152,7 +152,7 @@ class LifecycleState(str, Enum):
 
 class ReviewState(str, Enum):
     """
-    Epistemic maturity of a derived entity.
+    Epistemic maturity of a derived grit.
     """
     unreviewed = "unreviewed"
     machine_generated = "machine_generated"
@@ -308,7 +308,7 @@ class ContentReference(ConfiguredBaseModel):
     """
     Content-addressed reference to externally stored content. Identity by uri + sha256 + hash_mode. At resolution time, the system fetches uri, recomputes the hash under hash_mode, and refuses to use the content if the hash does not match.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     uri: str = Field(default=..., description="""Locator (file path, https URL, did:..., cid:...).""", json_schema_extra = { "linkml_meta": {'domain_of': ['ContentReference']} })
     sha256: str = Field(default=..., description="""Integrity check on the content.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ContentReference']} })
@@ -334,7 +334,7 @@ class Scope(ConfiguredBaseModel):
     """
     Container for viewpoint-supplied scope dimensions. The core defines no domain dimensions. Viewpoints subclass Scope in their own LinkML schemas to declare the scope commitments they populate.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'https://w3id.org/grits/core'})
 
     scope_type: Literal["Scope"] = Field(default="Scope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
     notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
@@ -344,7 +344,7 @@ class NotesOnlyScope(Scope):
     """
     Scope marker with only free-form notes; no domain dimensions.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     scope_type: Literal["NotesOnlyScope"] = Field(default="NotesOnlyScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
     notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
@@ -354,7 +354,7 @@ class Locator(ConfiguredBaseModel):
     """
     Polymorphic locator into a source artifact. Describes HOW an anchor into a source artifact is shaped (character range, bounding box, sequence position, etc.), not WHAT kind of content the source contains. Discriminator is locator_type.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True, 'from_schema': 'https://w3id.org/grits/core'})
 
     locator_type: Literal["Locator"] = Field(default="Locator", description="""Class name of the concrete Locator subclass (e.g. CharRangeLocator).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Locator']} })
 
@@ -363,7 +363,7 @@ class CharRangeLocator(Locator):
     """
     Character range within extracted text of a source artifact.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     char_start: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['CharRangeLocator']} })
     char_end: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['CharRangeLocator']} })
@@ -375,7 +375,7 @@ class BboxLocator(Locator):
     """
     Axis-aligned bounding box on a rasterized page.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     page: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['CharRangeLocator', 'BboxLocator']} })
     bbox_x0: float = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['BboxLocator']} })
@@ -387,9 +387,9 @@ class BboxLocator(Locator):
 
 class SequencePositionLocator(Locator):
     """
-    Position range within a reference biological sequence.
+    Position range within a reference sequence.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     reference_sequence_id: str = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['SequencePositionLocator']} })
     seq_start: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['SequencePositionLocator']} })
@@ -401,7 +401,7 @@ class ProcessingLogLineLocator(Locator):
     """
     Line range within a processing log.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     log_line_start: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['ProcessingLogLineLocator']} })
     log_line_end: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['ProcessingLogLineLocator']} })
@@ -412,7 +412,7 @@ class TableCellLocator(Locator):
     """
     A specific cell within an extracted table.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     table_id: str = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['TableCellLocator']} })
     row: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['TableCellLocator']} })
@@ -424,7 +424,7 @@ class FileRegionLocator(Locator):
     """
     Byte range within an opaque binary artifact.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     byte_start: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['FileRegionLocator']} })
     byte_end: int = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['FileRegionLocator']} })
@@ -435,7 +435,7 @@ class CompositeLocator(Locator):
     """
     A locator that combines multiple sub-locators.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     members: Optional[list[Union[Locator,CharRangeLocator,BboxLocator,SequencePositionLocator,ProcessingLogLineLocator,TableCellLocator,FileRegionLocator,CompositeLocator]]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositeLocator']} })
     locator_type: Literal["CompositeLocator"] = Field(default="CompositeLocator", description="""Class name of the concrete Locator subclass (e.g. CharRangeLocator).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Locator']} })
@@ -445,115 +445,111 @@ class Confidence(ConfiguredBaseModel):
     """
     Structured confidence carrying calibration metadata. A calibrated confidence outside its calibration_domain or under a different viewpoint is no longer calibrated — downstream consumers must downgrade to heuristic.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     value: Optional[float] = Field(default=None, description="""Numeric confidence; semantics depend on confidence_basis.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence']} })
     confidence_basis: ConfidenceBasis = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence']} })
     calibration_scope: Optional[str] = Field(default=None, description="""The data distribution under which the confidence was calibrated.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence']} })
     confidence_domain: Optional[str] = Field(default=None, description="""The input domain where the calibration applies.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence']} })
     failure_modes: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence']} })
-    viewpoint_directive_id: Optional[str] = Field(default=None, description="""Viewpoint under which calibration was performed.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity']} })
+    viewpoint_directive_id: Optional[str] = Field(default=None, description="""Viewpoint under which calibration was performed.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit']} })
 
 
 class CompatibilityJudgment(ConfiguredBaseModel):
     """
-    A recorded compatibility judgment over a set of entities/evidence.
+    A recorded compatibility judgment over a set of grits/evidence.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
-    compared_entity_ids: list[str] = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment']} })
+    compared_grit_ids: list[str] = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment']} })
     checked_scope_dimensions: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment']} })
     assumptions: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment', 'Object', 'Activity']} })
     rationale: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment']} })
     status: CompatibilityStatus = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment']} })
-    viewpoint_directive_id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity']} })
+    viewpoint_directive_id: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit']} })
 
 
-class Entity(ConfiguredBaseModel):
+class Grit(ConfiguredBaseModel):
     """
-    Abstract base for all ISOM entities. Carries the discipline contract: identity, type, viewpoint, provenance, lifecycle, review state, should_not_claim, scope, generation mode. Three concrete subclasses: Object, Activity, EvidenceRecord.
+    Abstract base for all pygrits graph nodes. Carries the discipline contract: identity, type, viewpoint, provenance, lifecycle, review state, should_not_claim, scope, generation mode. Three concrete role subclasses: Object, Activity, EvidenceRecord.
     """
     linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'abstract': True,
          'class_uri': 'prov:Entity',
-         'from_schema': 'https://w3id.org/isom/core'})
+         'from_schema': 'https://w3id.org/grits/core'})
 
-    id: str = Field(default=..., description="""Canonical entity identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this entity. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity'],
+    id: str = Field(default=..., description="""Canonical grit identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit'],
          'in_subset': ['MVE']} })
-    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
 
 
-class Object(Entity):
+class Object(Grit):
     """
-    Participant in reasoning. Has source artifacts, evidence records, features, observations, needs, offers, posts, communities. The thing being talked about.
+    Subject node. Holds source artifact refs, evidence refs, and descriptive payload slots.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     source_artifact_refs: Optional[list[ContentReference]] = Field(default=None, description="""ContentReferences to the source artifacts this Object derives from.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['MVE']} })
-    evidence_record_ids: Optional[list[str]] = Field(default=None, description="""References to EvidenceRecord entities anchoring this Object's claims.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['MVE']} })
-    summary: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    features: Optional[str] = Field(default=None, description="""Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    observations: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    gaps: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    needs: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    offers: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    affordances: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
+    evidence_record_ids: Optional[list[str]] = Field(default=None, description="""References to EvidenceRecord grits anchoring this Object's claims.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['MVE']} })
+    summary: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
+    features: Optional[str] = Field(default=None, description="""Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
+    observations: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
+    unspecified_items: Optional[list[str]] = Field(default=None, description="""Dimensions or claims not bound under the current viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
     reported_claims: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
     methods: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
     assumptions: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment', 'Object', 'Activity'],
          'in_subset': ['Full']} })
     uncertainties: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
     synthesis_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to Activities that referenced this Object as input or output.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
-    wiki_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to wiki statement Objects citing this Object.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
-    action_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to ACTION_EDGE Activities involving this Object.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
-    id: str = Field(default=..., description="""Canonical entity identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this entity. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity'],
+    operation_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to ACTION_EDGE Activities involving this Object.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
+    id: str = Field(default=..., description="""Canonical grit identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit'],
          'in_subset': ['MVE']} })
-    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
 
 
-class Activity(Entity):
+class Activity(Grit):
     """
-    Transformation. Consumes input entities, applies an interpretation under stated assumptions, emits output entities. Hyperedge in the hyperDAG topology. Activities do not participate in conversations — they record how a step of reasoning happened.
+    Hyperedge. Consumes input grits, applies an interpretation under stated assumptions, emits output grits. Records a transform step in the hyperDAG topology.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'prov:Activity', 'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'class_uri': 'prov:Activity', 'from_schema': 'https://w3id.org/grits/core'})
 
     activity_type: ActivityType = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['Activity'], 'in_subset': ['MVE']} })
-    inputs: list[str] = Field(default=..., description="""Input entity IDs consumed by this Activity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Activity'], 'in_subset': ['MVE']} })
-    outputs: Optional[list[str]] = Field(default=None, description="""New entities produced by this Activity. May be empty for declarative edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Activity']} })
+    inputs: list[str] = Field(default=..., description="""Input grit IDs consumed by this Activity.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Activity'], 'in_subset': ['MVE']} })
+    outputs: Optional[list[str]] = Field(default=None, description="""New grits produced by this Activity. May be empty for declarative edges (SUPPORT, CONTRADICTION) whose output is the Activity itself.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Activity']} })
     assumptions: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment', 'Object', 'Activity']} })
     admissibility_rationale: Optional[str] = Field(default=None, description="""Why this Activity is valid given its inputs and viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Activity']} })
     compatibility_judgments: Optional[list[CompatibilityJudgment]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Activity']} })
     confidence: Optional[Confidence] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Activity']} })
-    id: str = Field(default=..., description="""Canonical entity identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this entity. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity'],
+    id: str = Field(default=..., description="""Canonical grit identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit'],
          'in_subset': ['MVE']} })
-    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
 
 
-class EvidenceRecord(Entity):
+class EvidenceRecord(Grit):
     """
-    Grounded data anchored to a single source artifact via a typed locator. The citable unit. EvidenceRecords are referenced by Objects' evidence_record_ids and by Activities' inputs; they do not initiate threads or posts.
+    Anchor unit. Grounded data anchored to a single source artifact via a typed locator. Referenced by Objects' evidence_record_ids and by Activities' inputs.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     source_artifact_ref: ContentReference = Field(default=..., description="""Single source artifact this evidence is extracted from.""", json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord'], 'in_subset': ['MVE']} })
     locator: Union[Locator,CharRangeLocator,BboxLocator,SequencePositionLocator,ProcessingLogLineLocator,TableCellLocator,FileRegionLocator,CompositeLocator] = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord'], 'in_subset': ['MVE']} })
@@ -564,64 +560,60 @@ class EvidenceRecord(Entity):
     extraction_confidence: Optional[Confidence] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord']} })
     lineage: Optional[LineageType] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord']} })
     cited_from: Optional[str] = Field(default=None, description="""Identifier or marker for prior evidence this record derives from or cites. May be `unknown_external` when citation resolution has not happened.""", json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord']} })
-    id: str = Field(default=..., description="""Canonical entity identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this entity. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity'],
+    id: str = Field(default=..., description="""Canonical grit identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit'],
          'in_subset': ['MVE']} })
-    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
 
 
 class ViewpointDirective(Object):
     """
-    The interpretive frame under which entities are extracted. Itself an Object — a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted entities.
+    The interpretive frame under which grits are extracted. Itself an Object — a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted grits.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     directive_name: str = Field(default=..., description="""Human-readable name (e.g. viewpoint:materials_science:v1). Combined with content hash, this gives identity-by-declaration.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
     prompts: Optional[list[ContentReference]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
     exemplars: Optional[list[ContentReference]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
     vocabulary_refs: Optional[list[ContentReference]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
     target_schema: Optional[ContentReference] = Field(default=None, description="""Reference to the LinkML schema (or schema profile) this directive commits to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
-    imposed_should_not_claim: Optional[list[str]] = Field(default=None, description="""should_not_claim rules this directive imposes on every entity extracted under it. Combined with per-class defaults at extraction time.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
+    imposed_should_not_claim: Optional[list[str]] = Field(default=None, description="""should_not_claim rules this directive imposes on every grit extracted under it. Combined with per-class defaults at extraction time.""", json_schema_extra = { "linkml_meta": {'domain_of': ['ViewpointDirective']} })
     source_artifact_refs: Optional[list[ContentReference]] = Field(default=None, description="""ContentReferences to the source artifacts this Object derives from.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['MVE']} })
-    evidence_record_ids: Optional[list[str]] = Field(default=None, description="""References to EvidenceRecord entities anchoring this Object's claims.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['MVE']} })
-    summary: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    features: Optional[str] = Field(default=None, description="""Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    observations: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    gaps: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    needs: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    offers: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
-    affordances: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ParticipationReady']} })
+    evidence_record_ids: Optional[list[str]] = Field(default=None, description="""References to EvidenceRecord grits anchoring this Object's claims.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['MVE']} })
+    summary: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
+    features: Optional[str] = Field(default=None, description="""Viewpoint-defined structured payload, serialized as a JSON string in v1. The viewpoint's vocabulary determines the shape. Later versions may use a typed Any with viewpoint-declared schemas.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
+    observations: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
+    unspecified_items: Optional[list[str]] = Field(default=None, description="""Dimensions or claims not bound under the current viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['ExtendedProfile']} })
     reported_claims: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
     methods: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
     assumptions: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompatibilityJudgment', 'Object', 'Activity'],
          'in_subset': ['Full']} })
     uncertainties: Optional[list[str]] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
     synthesis_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to Activities that referenced this Object as input or output.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
-    wiki_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to wiki statement Objects citing this Object.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
-    action_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to ACTION_EDGE Activities involving this Object.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
-    id: str = Field(default=..., description="""Canonical entity identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this entity. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity'],
+    operation_link_ids: Optional[list[str]] = Field(default=None, description="""Backward pointers to ACTION_EDGE Activities involving this Object.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Object'], 'in_subset': ['Full']} })
+    id: str = Field(default=..., description="""Canonical grit identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit'],
          'in_subset': ['MVE']} })
-    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
 
 
 class NegativeEvidenceRecord(EvidenceRecord):
     """
     First-class record of a search that returned no result under stated scope. Distinct from `unknown` (question not considered) and from `not_searched` (in scope but not attempted).
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/core'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/core'})
 
     search_method: str = Field(default=..., json_schema_extra = { "linkml_meta": {'domain_of': ['NegativeEvidenceRecord']} })
     search_scope: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['NegativeEvidenceRecord']} })
@@ -637,23 +629,23 @@ class NegativeEvidenceRecord(EvidenceRecord):
     extraction_confidence: Optional[Confidence] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord']} })
     lineage: Optional[LineageType] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord']} })
     cited_from: Optional[str] = Field(default=None, description="""Identifier or marker for prior evidence this record derives from or cites. May be `unknown_external` when citation resolution has not happened.""", json_schema_extra = { "linkml_meta": {'domain_of': ['EvidenceRecord']} })
-    id: str = Field(default=..., description="""Canonical entity identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this entity. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Entity'],
+    id: str = Field(default=..., description="""Canonical grit identifier.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    type: str = Field(default=..., description="""For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    viewpoint_directive_id: str = Field(default=..., description="""Reference to the ViewpointDirective that shaped this grit. The bootstrap meta-viewpoint and the blank-slate viewpoint are valid references; absence is not.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Confidence', 'CompatibilityJudgment', 'Grit'],
          'in_subset': ['MVE']} })
-    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this entity must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity'], 'in_subset': ['MVE']} })
-    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this entity's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
-    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this entity (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Entity']} })
+    provenance: str = Field(default=..., description="""Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    should_not_claim: list[str] = Field(default=..., description="""Epistemic boundaries this grit must respect. Combination of per-class defaults plus directive-imposed rules from the viewpoint.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit'], 'in_subset': ['MVE']} })
+    scope: Optional[Union[Scope,NotesOnlyScope,ThermodynamicScope,TemporalScope,BiologicalScope,CompositionalScope,StatisticalScope,MethodologicalScope,SpatialScope,MaterialsScienceScope,DocumentExtractionScope]] = Field(default=None, description="""Optional but recommended. Viewpoint-supplied scope dimensions describing the conditions under which this grit's statements apply. The core Scope marker carries no domain dimensions; load a viewpoint schema to populate them.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    review_state: Optional[ReviewState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    lifecycle_state: Optional[LifecycleState] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
+    generation_mode: Optional[str] = Field(default=None, description="""Free-form descriptor of the process that generated this grit (parser name + version, viewpoint name + version, LLM model + tier).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Grit']} })
 
 
 class DocumentExtractionScope(NotesOnlyScope):
     """
     Scope for document extraction; no scientific domain dimensions.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/document_extraction_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/document_extraction_v0'})
 
     scope_type: Literal["DocumentExtractionScope"] = Field(default="DocumentExtractionScope", description="""Class name of the concrete Scope subclass (e.g. NotesOnlyScope).""", json_schema_extra = { "linkml_meta": {'designates_type': True, 'domain_of': ['Scope']} })
     notes: Optional[str] = Field(default=None, description="""Free-text scope clarification.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Scope', 'ThermodynamicScope', 'MaterialsScienceScope']} })
@@ -663,7 +655,7 @@ class ThermodynamicScope(Scope):
     """
     Temperature, pressure, ionic strength.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     temperature_kelvin: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ThermodynamicScope']} })
     pressure_pascal: Optional[float] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['ThermodynamicScope']} })
@@ -676,7 +668,7 @@ class TemporalScope(Scope):
     """
     Time window, sample age, instrument run, observation epoch.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     time_window_start: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
     time_window_end: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['TemporalScope']} })
@@ -691,7 +683,7 @@ class BiologicalScope(Scope):
     """
     Organism, tissue, cell line, developmental stage.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     organism: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['BiologicalScope']} })
     tissue: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['BiologicalScope']} })
@@ -705,7 +697,7 @@ class CompositionalScope(Scope):
     """
     Formula, purity, doping, isotopic composition.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     formula: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositionalScope']} })
     purity: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['CompositionalScope']} })
@@ -719,7 +711,7 @@ class StatisticalScope(Scope):
     """
     Sample size, population, sampling method.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     sample_size: Optional[int] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['StatisticalScope']} })
     population: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['StatisticalScope']} })
@@ -732,7 +724,7 @@ class MethodologicalScope(Scope):
     """
     Instrument, protocol, software version.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     instrument: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MethodologicalScope']} })
     protocol: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MethodologicalScope']} })
@@ -745,7 +737,7 @@ class SpatialScope(Scope):
     """
     Region, reference frame, length scale.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     region: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['SpatialScope']} })
     reference_frame: Optional[str] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['SpatialScope']} })
@@ -758,7 +750,7 @@ class MaterialsScienceScope(Scope):
     """
     Composite scope for materials-science viewpoints. Each dimension slot is optional; unset dimensions are operationally unspecified.
     """
-    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/isom/viewpoints/materials_science_v0'})
+    linkml_meta: ClassVar[LinkMLMeta] = LinkMLMeta({'from_schema': 'https://w3id.org/grits/viewpoints/materials_science_v0'})
 
     thermodynamic: Optional[ThermodynamicScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
     temporal: Optional[TemporalScope] = Field(default=None, json_schema_extra = { "linkml_meta": {'domain_of': ['MaterialsScienceScope']} })
@@ -786,7 +778,7 @@ FileRegionLocator.model_rebuild()
 CompositeLocator.model_rebuild()
 Confidence.model_rebuild()
 CompatibilityJudgment.model_rebuild()
-Entity.model_rebuild()
+Grit.model_rebuild()
 Object.model_rebuild()
 Activity.model_rebuild()
 EvidenceRecord.model_rebuild()

@@ -6,7 +6,7 @@ search:
 # Slot: type 
 
 
-_For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge)._
+_For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge)._
 
 
 
@@ -14,7 +14,7 @@ _For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For Activit
 
 
 
-URI: [isom:type](https://w3id.org/isom/type)
+URI: [grits:type](https://w3id.org/grits/type)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,11 +25,11 @@ URI: [isom:type](https://w3id.org/isom/type)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Entity](Entity.md) | Abstract base for all ISOM entities |  no  |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [Activity](Activity.md) | Transformation |  no  |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Grit](Grit.md) | Abstract base for all pygrits graph nodes |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -44,7 +44,7 @@ URI: [isom:type](https://w3id.org/isom/type)
 | Property | Value |
 | --- | --- |
 | Range | [CurieOrUri](CurieOrUri.md) |
-| Domain Of | [Entity](Entity.md) |
+| Domain Of | [Grit](Grit.md) |
 
 ### Cardinality and Requirements
 
@@ -55,7 +55,7 @@ URI: [isom:type](https://w3id.org/isom/type)
 
 | Property | Value |
 | --- | --- |
-| Owner | [Entity](Entity.md) |
+| Owner | [Grit](Grit.md) |
 
 
 
@@ -83,7 +83,7 @@ URI: [isom:type](https://w3id.org/isom/type)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -92,8 +92,8 @@ URI: [isom:type](https://w3id.org/isom/type)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:type |
-| native | isom:type |
+| self | grits:type |
+| native | grits:type |
 
 
 
@@ -104,14 +104,14 @@ URI: [isom:type](https://w3id.org/isom/type)
 ```yaml
 name: type
 description: For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary. For
-  Activity, a CURIE corresponding to the ActivityType value (e.g. isom:activity_type/synthesis_edge).
+  Activity, a CURIE corresponding to the ActivityType value (e.g. grits:activity_type/synthesis_edge).
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
-owner: Entity
+owner: Grit
 domain_of:
-- Entity
+- Grit
 range: CurieOrUri
 required: true
 

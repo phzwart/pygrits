@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:char_start](https://w3id.org/isom/char_start)
+URI: [grits:char_start](https://w3id.org/grits/char_start)
 <!-- no inheritance hierarchy -->
 
 
@@ -67,7 +67,7 @@ URI: [isom:char_start](https://w3id.org/isom/char_start)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:char_start](https://w3id.org/isom/char_start)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:char_start |
-| native | isom:char_start |
+| self | grits:char_start |
+| native | grits:char_start |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:char_start](https://w3id.org/isom/char_start)
 <details>
 ```yaml
 name: char_start
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CharRangeLocator
 domain_of:

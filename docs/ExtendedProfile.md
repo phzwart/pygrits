@@ -4,16 +4,16 @@ search:
 ---
 
 
-# Subset: ParticipationReady 
+# Subset: ExtendedProfile 
 
 
-_Object fields needed for community participation (offers, needs, gaps, features, summary, affordances)._
+_Object fields for extended descriptive payload (summary, features, observations, unspecified_items)._
 
 
 
 <div data-search-exclude markdown="1">
 
-URI: [ParticipationReady](ParticipationReady.md)
+URI: [ExtendedProfile](ExtendedProfile.md)
 
 
 
@@ -31,7 +31,32 @@ URI: [ParticipationReady](ParticipationReady.md)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -86,41 +111,8 @@ URI: [ParticipationReady](ParticipationReady.md)
 
 
 
-
-
-
-
-
-
-
-
-
-
         
 
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-        
-
-        
 
 
 
@@ -153,6 +145,7 @@ URI: [ParticipationReady](ParticipationReady.md)
 
 
 
+        
 
 
 
@@ -177,13 +170,10 @@ URI: [ParticipationReady](ParticipationReady.md)
 
 | Slot | Description |
 | --- | --- |
-| [affordances](affordances.md) |  |
 | [features](features.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
-| [gaps](gaps.md) |  |
-| [needs](needs.md) |  |
 | [observations](observations.md) |  |
-| [offers](offers.md) |  |
 | [summary](summary.md) |  |
+| [unspecified_items](unspecified_items.md) | Dimensions or claims not bound under the current viewpoint |
 
 
 

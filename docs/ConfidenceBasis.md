@@ -15,7 +15,7 @@ _Source semantics of a confidence value._
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:ConfidenceBasis](https://w3id.org/isom/ConfidenceBasis)
+URI: [grits:ConfidenceBasis](https://w3id.org/grits/ConfidenceBasis)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -53,7 +53,7 @@ URI: [isom:ConfidenceBasis](https://w3id.org/isom/ConfidenceBasis)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -66,7 +66,7 @@ URI: [isom:ConfidenceBasis](https://w3id.org/isom/ConfidenceBasis)
 ```yaml
 name: ConfidenceBasis
 description: Source semantics of a confidence value.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   parser_self_report:

@@ -15,7 +15,7 @@ _Five-state refusal taxonomy. Distinct from EpistemicStatus — RefusalState ans
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:RefusalState](https://w3id.org/isom/RefusalState)
+URI: [grits:RefusalState](https://w3id.org/grits/RefusalState)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -47,7 +47,7 @@ URI: [isom:RefusalState](https://w3id.org/isom/RefusalState)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -62,7 +62,7 @@ name: RefusalState
 description: Five-state refusal taxonomy. Distinct from EpistemicStatus — RefusalState
   answers "did we look, and what did we find?", EpistemicStatus answers "what kind
   of statement is this?".
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   unknown:

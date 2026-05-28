@@ -1,12 +1,10 @@
-# Interactive Scientific Object Model — Core Schema
+# pygrits Core Schema
 
-Schema for the Interactive Scientific Object Model (ISOM).
-Defines the three classes of Entity (Object, Activity, EvidenceRecord), the ViewpointDirective construct, and structural primitives (ContentReference, opaque Scope marker, Locator hierarchy, structured Confidence). All entities share the discipline contract (identity, type, viewpoint, provenance, should_not_claim) and differ by role. Domain vocabulary (scope dimensions, evidence types, entity kinds) is supplied by viewpoint schemas that import or extend this core.
-This is a v0.2 schema covering the vertical slice needed for the first implementation milestone (NaCl-style epistemically-disciplined refusal). It does not yet model speech acts, reactions, threads, communities, wiki statement objects, or the harmonization process.
+Core schema for pygrits. Defines Grit role classes (Object, Activity, EvidenceRecord), ViewpointDirective, and structural primitives (ContentReference, opaque Scope marker, Locator hierarchy, structured Confidence). All grits share the discipline contract (identity, type, viewpoint, provenance, should_not_claim) and differ by role. Domain vocabulary is supplied by viewpoint schemas that import or extend this core.
 
-URI: https://w3id.org/isom/core
+URI: https://w3id.org/grits/core
 
-Name: isom_core
+Name: pygrits_core
 
 
 
@@ -14,22 +12,22 @@ Name: isom_core
 
 | Class | Description |
 | --- | --- |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |
 | [Confidence](Confidence.md) | Structured confidence carrying calibration metadata |
 | [ContentReference](ContentReference.md) | Content-addressed reference to externally stored content |
-| [Entity](Entity.md) | Abstract base for all ISOM entities |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Activity](Activity.md) | Transformation |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |
+| [Grit](Grit.md) | Abstract base for all pygrits graph nodes |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Activity](Activity.md) | Hyperedge |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[EvidenceRecord](EvidenceRecord.md) | Anchor unit |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Object](Object.md) | Participant in reasoning |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[Object](Object.md) | Subject node |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |
 | [Locator](Locator.md) | Polymorphic locator into a source artifact |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[BboxLocator](BboxLocator.md) | Axis-aligned bounding box on a rasterized page |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[CharRangeLocator](CharRangeLocator.md) | Character range within extracted text of a source artifact |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[CompositeLocator](CompositeLocator.md) | A locator that combines multiple sub-locators |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[FileRegionLocator](FileRegionLocator.md) | Byte range within an opaque binary artifact |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[ProcessingLogLineLocator](ProcessingLogLineLocator.md) | Line range within a processing log |
-| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference biological sequence |
+| &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference sequence |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[TableCellLocator](TableCellLocator.md) | A specific cell within an extracted table |
 | [Scope](Scope.md) | Container for viewpoint-supplied scope dimensions |
 | &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[NotesOnlyScope](NotesOnlyScope.md) | Scope marker with only free-form notes; no domain dimensions |
@@ -40,10 +38,8 @@ Name: isom_core
 
 | Slot | Description |
 | --- | --- |
-| [action_link_ids](action_link_ids.md) | Backward pointers to ACTION_EDGE Activities involving this Object |
 | [activity_type](activity_type.md) |  |
 | [admissibility_rationale](admissibility_rationale.md) | Why this Activity is valid given its inputs and viewpoint |
-| [affordances](affordances.md) |  |
 | [assumptions](assumptions.md) |  |
 | [bbox_x0](bbox_x0.md) |  |
 | [bbox_x1](bbox_x1.md) |  |
@@ -57,13 +53,13 @@ Name: isom_core
 | [checked_scope_dimensions](checked_scope_dimensions.md) |  |
 | [cited_from](cited_from.md) | Identifier or marker for prior evidence this record derives from or cites |
 | [col](col.md) |  |
-| [compared_entity_ids](compared_entity_ids.md) |  |
+| [compared_grit_ids](compared_grit_ids.md) |  |
 | [compatibility_judgments](compatibility_judgments.md) |  |
 | [confidence](confidence.md) |  |
 | [confidence_basis](confidence_basis.md) |  |
 | [confidence_domain](confidence_domain.md) | The input domain where the calibration applies |
 | [directive_name](directive_name.md) | Human-readable name (e |
-| [evidence_record_ids](evidence_record_ids.md) | References to EvidenceRecord entities anchoring this Object's claims |
+| [evidence_record_ids](evidence_record_ids.md) | References to EvidenceRecord grits anchoring this Object's claims |
 | [evidence_type](evidence_type.md) | CURIE identifying the kind of scientific content the locator anchors |
 | [exemplars](exemplars.md) |  |
 | [extracted_content](extracted_content.md) |  |
@@ -71,12 +67,11 @@ Name: isom_core
 | [extraction_method](extraction_method.md) |  |
 | [failure_modes](failure_modes.md) |  |
 | [features](features.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
-| [gaps](gaps.md) |  |
-| [generation_mode](generation_mode.md) | Free-form descriptor of the process that generated this entity (parser name +... |
+| [generation_mode](generation_mode.md) | Free-form descriptor of the process that generated this grit (parser name + v... |
 | [hash_mode](hash_mode.md) | How the sha256 was computed |
-| [id](id.md) | Canonical entity identifier |
-| [imposed_should_not_claim](imposed_should_not_claim.md) | should_not_claim rules this directive imposes on every entity extracted under... |
-| [inputs](inputs.md) | Input entity IDs consumed by this Activity |
+| [id](id.md) | Canonical grit identifier |
+| [imposed_should_not_claim](imposed_should_not_claim.md) | should_not_claim rules this directive imposes on every grit extracted under i... |
+| [inputs](inputs.md) | Input grit IDs consumed by this Activity |
 | [lifecycle_state](lifecycle_state.md) |  |
 | [lineage](lineage.md) |  |
 | [locator](locator.md) |  |
@@ -86,12 +81,11 @@ Name: isom_core
 | [media_type](media_type.md) | MIME type for disambiguation |
 | [members](members.md) |  |
 | [methods](methods.md) |  |
-| [needs](needs.md) |  |
 | [normalized_payload](normalized_payload.md) | Viewpoint-defined structured payload, serialized as a JSON string in v1 |
 | [notes](notes.md) | Free-text scope clarification |
 | [observations](observations.md) |  |
-| [offers](offers.md) |  |
-| [outputs](outputs.md) | New entities produced by this Activity |
+| [operation_link_ids](operation_link_ids.md) | Backward pointers to ACTION_EDGE Activities involving this Object |
+| [outputs](outputs.md) | New grits produced by this Activity |
 | [page](page.md) |  |
 | [prompts](prompts.md) |  |
 | [provenance](provenance.md) | Provenance description for v1 |
@@ -111,7 +105,7 @@ Name: isom_core
 | [seq_end](seq_end.md) |  |
 | [seq_start](seq_start.md) |  |
 | [sha256](sha256.md) | Integrity check on the content |
-| [should_not_claim](should_not_claim.md) | Epistemic boundaries this entity must respect |
+| [should_not_claim](should_not_claim.md) | Epistemic boundaries this grit must respect |
 | [source_artifact_ref](source_artifact_ref.md) | Single source artifact this evidence is extracted from |
 | [source_artifact_refs](source_artifact_refs.md) | ContentReferences to the source artifacts this Object derives from |
 | [status](status.md) |  |
@@ -121,11 +115,11 @@ Name: isom_core
 | [target_schema](target_schema.md) | Reference to the LinkML schema (or schema profile) this directive commits to |
 | [type](type.md) | For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary |
 | [uncertainties](uncertainties.md) |  |
+| [unspecified_items](unspecified_items.md) | Dimensions or claims not bound under the current viewpoint |
 | [uri](uri.md) | Locator (file path, https URL, did: |
 | [value](value.md) | Numeric confidence; semantics depend on confidence_basis |
 | [viewpoint_directive_id](viewpoint_directive_id.md) | Viewpoint under which calibration was performed |
 | [vocabulary_refs](vocabulary_refs.md) |  |
-| [wiki_link_ids](wiki_link_ids.md) | Backward pointers to wiki statement Objects citing this Object |
 
 
 ## Enumerations
@@ -137,10 +131,10 @@ Name: isom_core
 | [ConfidenceBasis](ConfidenceBasis.md) | Source semantics of a confidence value |
 | [EpistemicStatus](EpistemicStatus.md) | Epistemic label on a consequential statement |
 | [HashMode](HashMode.md) | How a ContentReference's sha256 is computed |
-| [LifecycleState](LifecycleState.md) | Lifecycle state of an entity |
+| [LifecycleState](LifecycleState.md) | Lifecycle state of a grit |
 | [LineageType](LineageType.md) | Independence classification of an evidence record |
 | [RefusalState](RefusalState.md) | Five-state refusal taxonomy |
-| [ReviewState](ReviewState.md) | Epistemic maturity of a derived entity |
+| [ReviewState](ReviewState.md) | Epistemic maturity of a derived grit |
 
 
 ## Types
@@ -155,8 +149,8 @@ Name: isom_core
 | [Datetime](Datetime.md) | The combination of a date and time |
 | [Decimal](Decimal.md) | A real number with arbitrary precision that conforms to the xsd:decimal speci... |
 | [Double](Double.md) | A real number that conforms to the xsd:double specification |
-| [EntityId](EntityId.md) | Canonical entity identifier of the form scheme:value, where scheme is one of ... |
 | [Float](Float.md) | A real number that conforms to the xsd:float specification |
+| [GritId](GritId.md) | Canonical grit identifier of the form scheme:value, where scheme is one of ob... |
 | [Integer](Integer.md) | An integer |
 | [Iso8601](Iso8601.md) | ISO 8601 datetime string |
 | [Jsonpath](Jsonpath.md) | A string encoding a JSON Path |
@@ -176,6 +170,6 @@ Name: isom_core
 
 | Subset | Description |
 | --- | --- |
+| [ExtendedProfile](ExtendedProfile.md) | Object fields for extended descriptive payload (summary, features, observatio... |
 | [Full](Full.md) | Full object surface including reported_claims, methods, assumptions, uncertai... |
-| [MVE](MVE.md) | Minimum viable entity |
-| [ParticipationReady](ParticipationReady.md) | Object fields needed for community participation (offers, needs, gaps, featur... |
+| [MVE](MVE.md) | Minimum viable grit |

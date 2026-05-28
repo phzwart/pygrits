@@ -14,7 +14,7 @@ _Numeric confidence; semantics depend on confidence_basis._
 
 
 
-URI: [isom:value](https://w3id.org/isom/value)
+URI: [grits:value](https://w3id.org/grits/value)
 <!-- no inheritance hierarchy -->
 
 
@@ -71,7 +71,7 @@ URI: [isom:value](https://w3id.org/isom/value)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:value](https://w3id.org/isom/value)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:value |
-| native | isom:value |
+| self | grits:value |
+| native | grits:value |
 
 
 
@@ -92,7 +92,7 @@ URI: [isom:value](https://w3id.org/isom/value)
 ```yaml
 name: value
 description: Numeric confidence; semantics depend on confidence_basis.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Confidence
 domain_of:

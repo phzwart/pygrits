@@ -6,7 +6,7 @@ search:
 # Slot: inputs 
 
 
-_Input entity IDs consumed by this Activity._
+_Input grit IDs consumed by this Activity._
 
 
 
@@ -14,7 +14,7 @@ _Input entity IDs consumed by this Activity._
 
 
 
-URI: [isom:inputs](https://w3id.org/isom/inputs)
+URI: [grits:inputs](https://w3id.org/grits/inputs)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:inputs](https://w3id.org/isom/inputs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Activity](Activity.md) | Transformation |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
 
 
 
@@ -38,7 +38,7 @@ URI: [isom:inputs](https://w3id.org/isom/inputs)
 
 | Property | Value |
 | --- | --- |
-| Range | [EntityId](EntityId.md) |
+| Range | [GritId](GritId.md) |
 | Domain Of | [Activity](Activity.md) |
 
 ### Cardinality and Requirements
@@ -79,7 +79,7 @@ URI: [isom:inputs](https://w3id.org/isom/inputs)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -88,8 +88,8 @@ URI: [isom:inputs](https://w3id.org/isom/inputs)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:inputs |
-| native | isom:inputs |
+| self | grits:inputs |
+| native | grits:inputs |
 
 
 
@@ -99,15 +99,15 @@ URI: [isom:inputs](https://w3id.org/isom/inputs)
 <details>
 ```yaml
 name: inputs
-description: Input entity IDs consumed by this Activity.
+description: Input grit IDs consumed by this Activity.
 in_subset:
 - MVE
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Activity
 domain_of:
 - Activity
-range: EntityId
+range: GritId
 required: true
 multivalued: true
 

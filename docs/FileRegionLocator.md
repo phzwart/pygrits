@@ -14,7 +14,7 @@ _Byte range within an opaque binary artifact._
 
 
 
-URI: [isom:FileRegionLocator](https://w3id.org/isom/FileRegionLocator)
+URI: [grits:FileRegionLocator](https://w3id.org/grits/FileRegionLocator)
 
 
 
@@ -76,7 +76,7 @@ URI: [isom:FileRegionLocator](https://w3id.org/isom/FileRegionLocator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -85,8 +85,8 @@ URI: [isom:FileRegionLocator](https://w3id.org/isom/FileRegionLocator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:FileRegionLocator |
-| native | isom:FileRegionLocator |
+| self | grits:FileRegionLocator |
+| native | grits:FileRegionLocator |
 
 
 
@@ -103,12 +103,12 @@ URI: [isom:FileRegionLocator](https://w3id.org/isom/FileRegionLocator)
 ```yaml
 name: FileRegionLocator
 description: Byte range within an opaque binary artifact.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   byte_start:
     name: byte_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - FileRegionLocator
@@ -116,7 +116,7 @@ attributes:
     required: true
   byte_end:
     name: byte_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - FileRegionLocator
@@ -132,12 +132,12 @@ attributes:
 ```yaml
 name: FileRegionLocator
 description: Byte range within an opaque binary artifact.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   byte_start:
     name: byte_start
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: FileRegionLocator
     domain_of:
@@ -146,7 +146,7 @@ attributes:
     required: true
   byte_end:
     name: byte_end
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: FileRegionLocator
     domain_of:
@@ -156,7 +156,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: FileRegionLocator

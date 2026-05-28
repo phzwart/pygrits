@@ -3,13 +3,13 @@ search:
   boost: 5.0
 ---
 
-# Slot: compared_entity_ids 
+# Slot: compared_grit_ids 
 
 <div data-search-exclude markdown="1">
 
 
 
-URI: [isom:compared_entity_ids](https://w3id.org/isom/compared_entity_ids)
+URI: [grits:compared_grit_ids](https://w3id.org/grits/compared_grit_ids)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:compared_entity_ids](https://w3id.org/isom/compared_entity_ids)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |  no  |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |  no  |
 
 
 
@@ -33,7 +33,7 @@ URI: [isom:compared_entity_ids](https://w3id.org/isom/compared_entity_ids)
 
 | Property | Value |
 | --- | --- |
-| Range | [EntityId](EntityId.md) |
+| Range | [GritId](GritId.md) |
 | Domain Of | [CompatibilityJudgment](CompatibilityJudgment.md) |
 
 ### Cardinality and Requirements
@@ -68,7 +68,7 @@ URI: [isom:compared_entity_ids](https://w3id.org/isom/compared_entity_ids)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -77,8 +77,8 @@ URI: [isom:compared_entity_ids](https://w3id.org/isom/compared_entity_ids)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:compared_entity_ids |
-| native | isom:compared_entity_ids |
+| self | grits:compared_grit_ids |
+| native | grits:compared_grit_ids |
 
 
 
@@ -87,13 +87,13 @@ URI: [isom:compared_entity_ids](https://w3id.org/isom/compared_entity_ids)
 
 <details>
 ```yaml
-name: compared_entity_ids
-from_schema: https://w3id.org/isom/core
+name: compared_grit_ids
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CompatibilityJudgment
 domain_of:
 - CompatibilityJudgment
-range: EntityId
+range: GritId
 required: true
 multivalued: true
 

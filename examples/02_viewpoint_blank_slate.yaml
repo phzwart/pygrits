@@ -7,7 +7,7 @@
 #   python -c "from pygrits import ViewpointDirective; import yaml; ..."
 
 id: vpt:blank-slate-v0
-type: isom:viewpoint_directive
+type: grits:viewpoint_directive
 viewpoint_directive_id: vpt:meta-v0
 provenance: >-
   Hand-authored blank-slate viewpoint v0. Adds no domain vocabulary beyond
@@ -18,7 +18,7 @@ should_not_claim:
   - "Evidence types are not restricted; any CURIE is accepted."
 
 review_state: curator_reviewed
-lifecycle_state: participating
+lifecycle_state: active
 generation_mode: hand_authored_v0
 
 source_artifact_refs: []

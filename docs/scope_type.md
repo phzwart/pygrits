@@ -14,7 +14,7 @@ _Class name of the concrete Scope subclass (e.g. NotesOnlyScope)._
 
 
 
-URI: [isom:scope_type](https://w3id.org/isom/scope_type)
+URI: [grits:scope_type](https://w3id.org/grits/scope_type)
 <!-- no inheritance hierarchy -->
 
 
@@ -74,7 +74,7 @@ URI: [isom:scope_type](https://w3id.org/isom/scope_type)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -83,8 +83,8 @@ URI: [isom:scope_type](https://w3id.org/isom/scope_type)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:scope_type |
-| native | isom:scope_type |
+| self | grits:scope_type |
+| native | grits:scope_type |
 
 
 
@@ -95,7 +95,7 @@ URI: [isom:scope_type](https://w3id.org/isom/scope_type)
 ```yaml
 name: scope_type
 description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 designates_type: true
 owner: Scope

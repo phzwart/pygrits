@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygrits"
-version = "0.2.0"
-description = "Raisins in the pudding: core ISOM schema with viewpoint-extension scaffolding for evidence-grounded scientific entities."
+version = "0.3.0"
+description = "Raisins in the pudding: pygrits core schema with viewpoint-extension scaffolding for evidence-grounded scientific grits."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "BSD-3-Clause" }
@@ -18,7 +18,8 @@ keywords = [
     "provenance",
     "linkml",
     "agentic-systems",
-    "isom",
+    "pygrits",
+    "grits",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -68,6 +69,8 @@ packages = ["src/pygrits"]
 "src/pygrits/viewpoints/document_extraction_v0.schema.json" = "pygrits/viewpoints/document_extraction_v0.schema.json"
 "src/pygrits/viewpoints/materials_science_v0.yaml" = "pygrits/viewpoints/materials_science_v0.yaml"
 "src/pygrits/viewpoints/materials_science_v0.schema.json" = "pygrits/viewpoints/materials_science_v0.schema.json"
+"src/pygrits/viewpoints/coordination_v0.yaml" = "pygrits/viewpoints/coordination_v0.yaml"
+"src/pygrits/viewpoints/coordination_v0.schema.json" = "pygrits/viewpoints/coordination_v0.schema.json"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

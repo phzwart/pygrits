@@ -6,7 +6,7 @@ search:
 # Slot: imposed_should_not_claim 
 
 
-_should_not_claim rules this directive imposes on every entity extracted under it. Combined with per-class defaults at extraction time._
+_should_not_claim rules this directive imposes on every grit extracted under it. Combined with per-class defaults at extraction time._
 
 
 
@@ -14,7 +14,7 @@ _should_not_claim rules this directive imposes on every entity extracted under i
 
 
 
-URI: [isom:imposed_should_not_claim](https://w3id.org/isom/imposed_should_not_claim)
+URI: [grits:imposed_should_not_claim](https://w3id.org/grits/imposed_should_not_claim)
 <!-- no inheritance hierarchy -->
 
 
@@ -25,7 +25,7 @@ URI: [isom:imposed_should_not_claim](https://w3id.org/isom/imposed_should_not_cl
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -72,7 +72,7 @@ URI: [isom:imposed_should_not_claim](https://w3id.org/isom/imposed_should_not_cl
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -81,8 +81,8 @@ URI: [isom:imposed_should_not_claim](https://w3id.org/isom/imposed_should_not_cl
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:imposed_should_not_claim |
-| native | isom:imposed_should_not_claim |
+| self | grits:imposed_should_not_claim |
+| native | grits:imposed_should_not_claim |
 
 
 
@@ -92,9 +92,9 @@ URI: [isom:imposed_should_not_claim](https://w3id.org/isom/imposed_should_not_cl
 <details>
 ```yaml
 name: imposed_should_not_claim
-description: should_not_claim rules this directive imposes on every entity extracted
+description: should_not_claim rules this directive imposes on every grit extracted
   under it. Combined with per-class defaults at extraction time.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ViewpointDirective
 domain_of:

@@ -1,33 +1,25 @@
-id: https://w3id.org/isom/core
-name: isom_core
-title: Interactive Scientific Object Model — Core Schema
+id: https://w3id.org/grits/core
+name: pygrits_core
+title: pygrits Core Schema
 description: >-
-  Schema for the Interactive Scientific Object Model (ISOM).
-
-  Defines the three classes of Entity (Object, Activity, EvidenceRecord),
-  the ViewpointDirective construct, and structural primitives (ContentReference,
-  opaque Scope marker, Locator hierarchy, structured Confidence). All entities
-  share the discipline contract (identity, type, viewpoint, provenance,
-  should_not_claim) and differ by role. Domain vocabulary (scope dimensions,
-  evidence types, entity kinds) is supplied by viewpoint schemas that import
-  or extend this core.
-
-  This is a v0.2 schema covering the vertical slice needed for the first
-  implementation milestone (NaCl-style epistemically-disciplined refusal).
-  It does not yet model speech acts, reactions, threads, communities, wiki
-  statement objects, or the harmonization process.
-version: 0.2.0
+  Core schema for pygrits. Defines Grit role classes (Object, Activity,
+  EvidenceRecord), ViewpointDirective, and structural primitives
+  (ContentReference, opaque Scope marker, Locator hierarchy, structured
+  Confidence). All grits share the discipline contract (identity, type,
+  viewpoint, provenance, should_not_claim) and differ by role. Domain
+  vocabulary is supplied by viewpoint schemas that import or extend this core.
+version: 0.3.0
 license: TBD
 
 prefixes:
   linkml: https://w3id.org/linkml/
-  isom: https://w3id.org/isom/
+  grits: https://w3id.org/grits/
   prov: http://www.w3.org/ns/prov#
   schema: http://schema.org/
   dcterms: http://purl.org/dc/terms/
   xsd: http://www.w3.org/2001/XMLSchema#
 
-default_prefix: isom
+default_prefix: grits
 default_range: string
 
 imports:
@@ -40,18 +32,18 @@ imports:
 subsets:
   MVE:
     description: >-
-      Minimum viable entity. The irreducible discipline contract fields plus
-      the class-specific minimum that makes an entity honest. Instances
-      missing any MVE-tagged required slot fail validation.
-  ParticipationReady:
+      Minimum viable grit. The irreducible discipline contract fields plus
+      the class-specific minimum required for validation. Instances missing
+      any MVE-tagged required slot fail validation.
+  ExtendedProfile:
     description: >-
-      Object fields needed for community participation (offers, needs, gaps,
-      features, summary, affordances).
+      Object fields for extended descriptive payload (summary, features,
+      observations, unspecified_items).
   Full:
     description: >-
       Full object surface including reported_claims, methods, assumptions,
       uncertainties, and backward-pointer link lists (synthesis_link_ids,
-      wiki_link_ids, action_link_ids).
+      operation_link_ids).
 
 # ----------------------------------------------------------------------
 # Types — string subtypes with pattern constraints
@@ -74,14 +66,14 @@ types:
     base: str
     description: ISO 8601 datetime string.
 
-  EntityId:
+  GritId:
     uri: xsd:string
     base: str
     description: >-
-      Canonical entity identifier of the form scheme:value, where scheme is
+      Canonical grit identifier of the form scheme:value, where scheme is
       one of obj, act, evi, vpt, src. Hash-derived where applicable. Identity
       is by declaration plus content hash (for ContentReference-bearing
-      entities like ViewpointDirective).
+      grits like ViewpointDirective).
     pattern: "^[a-z]+:[A-Za-z0-9._:-]+$"
 
 # ----------------------------------------------------------------------
@@ -103,35 +95,35 @@ enums:
     description: Structural type of an Activity (hyperedge in the topology).
     permissible_values:
       SYNTHESIS_EDGE:
-        description: Inputs + assumptions → new synthesis entity.
+        description: Inputs + assumptions → new synthesis grit.
       SUPPORT_EDGE:
         description: Evidence → claim/synthesis it supports.
       CONTRADICTION_EDGE:
         description: Evidence → claim/synthesis it contradicts.
       COMPATIBILITY_EDGE:
-        description: Records a compatibility judgment over entities.
+        description: Records a compatibility judgment over grits.
       VALIDATION_EDGE:
-        description: Validating entity → entity it validates.
+        description: Validating grit → grit it validates.
       ACTION_EDGE:
-        description: Action entity with inputs and output entities.
+        description: Operation grit with inputs and output grits.
       ADJUDICATION_EDGE:
         description: Resolves a set of CONTRADICTION_EDGEs.
 
   LifecycleState:
-    description: Lifecycle state of an entity.
+    description: Lifecycle state of a grit.
     permissible_values:
       ingested:
       parsed:
       evidence_extracted:
       interaction_ready:
-      participating:
+      active:
       synthesized:
       deprecated:
       superseded:
       retracted:
 
   ReviewState:
-    description: Epistemic maturity of a derived entity.
+    description: Epistemic maturity of a derived grit.
     permissible_values:
       unreviewed:
       machine_generated:
@@ -307,7 +299,7 @@ classes:
 
   SequencePositionLocator:
     is_a: Locator
-    description: Position range within a reference biological sequence.
+    description: Position range within a reference sequence.
     attributes:
       reference_sequence_id: {required: true}
       seq_start: {required: true, range: integer}
@@ -369,15 +361,15 @@ classes:
         multivalued: true
         range: string
       viewpoint_directive_id:
-        range: EntityId
+        range: GritId
         description: Viewpoint under which calibration was performed.
 
   CompatibilityJudgment:
-    description: A recorded compatibility judgment over a set of entities/evidence.
+    description: A recorded compatibility judgment over a set of grits/evidence.
     attributes:
-      compared_entity_ids:
+      compared_grit_ids:
         multivalued: true
-        range: EntityId
+        range: GritId
         required: true
       checked_scope_dimensions:
         multivalued: true
@@ -391,27 +383,27 @@ classes:
         required: true
         range: CompatibilityStatus
       viewpoint_directive_id:
-        range: EntityId
+        range: GritId
 
   # ====================================================================
-  # Entity hierarchy — Entity (abstract) with three concrete subclasses
+  # Grit hierarchy — Grit (abstract) with three concrete role subclasses
   # ====================================================================
 
-  Entity:
+  Grit:
     abstract: true
     description: >-
-      Abstract base for all ISOM entities. Carries the discipline contract:
+      Abstract base for all pygrits graph nodes. Carries the discipline contract:
       identity, type, viewpoint, provenance, lifecycle, review state,
-      should_not_claim, scope, generation mode. Three concrete subclasses:
+      should_not_claim, scope, generation mode. Three concrete role subclasses:
       Object, Activity, EvidenceRecord.
     class_uri: prov:Entity
     attributes:
       id:
         identifier: true
         required: true
-        range: EntityId
+        range: GritId
         in_subset: [MVE]
-        description: Canonical entity identifier.
+        description: Canonical grit identifier.
       type:
         required: true
         range: CurieOrUri
@@ -419,13 +411,13 @@ classes:
         description: >-
           For Object and EvidenceRecord, a CURIE into a viewpoint vocabulary.
           For Activity, a CURIE corresponding to the ActivityType value
-          (e.g. isom:activity_type/synthesis_edge).
+          (e.g. grits:activity_type/synthesis_edge).
       viewpoint_directive_id:
         required: true
-        range: EntityId
+        range: GritId
         in_subset: [MVE]
         description: >-
-          Reference to the ViewpointDirective that shaped this entity. The
+          Reference to the ViewpointDirective that shaped this grit. The
           bootstrap meta-viewpoint and the blank-slate viewpoint are valid
           references; absence is not.
       provenance:
@@ -442,14 +434,14 @@ classes:
         range: string
         in_subset: [MVE]
         description: >-
-          Epistemic boundaries this entity must respect. Combination of
+          Epistemic boundaries this grit must respect. Combination of
           per-class defaults plus directive-imposed rules from the viewpoint.
       scope:
         range: Scope
         inlined: true
         description: >-
           Optional but recommended. Viewpoint-supplied scope dimensions
-          describing the conditions under which this entity's statements apply.
+          describing the conditions under which this grit's statements apply.
           The core Scope marker carries no domain dimensions; load a viewpoint
           schema to populate them.
       review_state:
@@ -459,15 +451,14 @@ classes:
       generation_mode:
         range: string
         description: >-
-          Free-form descriptor of the process that generated this entity
+          Free-form descriptor of the process that generated this grit
           (parser name + version, viewpoint name + version, LLM model + tier).
 
   Object:
-    is_a: Entity
+    is_a: Grit
     description: >-
-      Participant in reasoning. Has source artifacts, evidence records,
-      features, observations, needs, offers, posts, communities. The thing
-      being talked about.
+      Subject node. Holds source artifact refs, evidence refs, and descriptive
+      payload slots.
     attributes:
       source_artifact_refs:
         multivalued: true
@@ -478,15 +469,15 @@ classes:
         description: ContentReferences to the source artifacts this Object derives from.
       evidence_record_ids:
         multivalued: true
-        range: EntityId
+        range: GritId
         in_subset: [MVE]
-        description: References to EvidenceRecord entities anchoring this Object's claims.
+        description: References to EvidenceRecord grits anchoring this Object's claims.
       summary:
         range: string
-        in_subset: [ParticipationReady]
+        in_subset: [ExtendedProfile]
       features:
         range: string
-        in_subset: [ParticipationReady]
+        in_subset: [ExtendedProfile]
         description: >-
           Viewpoint-defined structured payload, serialized as a JSON string in v1.
           The viewpoint's vocabulary determines the shape. Later versions may use
@@ -494,23 +485,12 @@ classes:
       observations:
         multivalued: true
         range: string
-        in_subset: [ParticipationReady]
-      gaps:
+        in_subset: [ExtendedProfile]
+      unspecified_items:
         multivalued: true
         range: string
-        in_subset: [ParticipationReady]
-      needs:
-        multivalued: true
-        range: string
-        in_subset: [ParticipationReady]
-      offers:
-        multivalued: true
-        range: string
-        in_subset: [ParticipationReady]
-      affordances:
-        multivalued: true
-        range: string
-        in_subset: [ParticipationReady]
+        in_subset: [ExtendedProfile]
+        description: Dimensions or claims not bound under the current viewpoint.
       reported_claims:
         multivalued: true
         range: string
@@ -529,27 +509,21 @@ classes:
         in_subset: [Full]
       synthesis_link_ids:
         multivalued: true
-        range: EntityId
+        range: GritId
         in_subset: [Full]
         description: Backward pointers to Activities that referenced this Object as input or output.
-      wiki_link_ids:
+      operation_link_ids:
         multivalued: true
-        range: EntityId
-        in_subset: [Full]
-        description: Backward pointers to wiki statement Objects citing this Object.
-      action_link_ids:
-        multivalued: true
-        range: EntityId
+        range: GritId
         in_subset: [Full]
         description: Backward pointers to ACTION_EDGE Activities involving this Object.
 
   Activity:
-    is_a: Entity
+    is_a: Grit
     description: >-
-      Transformation. Consumes input entities, applies an interpretation
-      under stated assumptions, emits output entities. Hyperedge in the
-      hyperDAG topology. Activities do not participate in conversations —
-      they record how a step of reasoning happened.
+      Hyperedge. Consumes input grits, applies an interpretation under stated
+      assumptions, emits output grits. Records a transform step in the hyperDAG
+      topology.
     class_uri: prov:Activity
     attributes:
       activity_type:
@@ -559,14 +533,14 @@ classes:
       inputs:
         required: true
         multivalued: true
-        range: EntityId
+        range: GritId
         in_subset: [MVE]
-        description: Input entity IDs consumed by this Activity.
+        description: Input grit IDs consumed by this Activity.
       outputs:
         multivalued: true
-        range: EntityId
+        range: GritId
         description: >-
-          New entities produced by this Activity. May be empty for
+          New grits produced by this Activity. May be empty for
           declarative edges (SUPPORT, CONTRADICTION) whose output is the
           Activity itself.
       assumptions:
@@ -585,12 +559,11 @@ classes:
         inlined: true
 
   EvidenceRecord:
-    is_a: Entity
+    is_a: Grit
     description: >-
-      Grounded data anchored to a single source artifact via a typed locator.
-      The citable unit. EvidenceRecords are referenced by Objects'
-      evidence_record_ids and by Activities' inputs; they do not initiate
-      threads or posts.
+      Anchor unit. Grounded data anchored to a single source artifact via a
+      typed locator. Referenced by Objects' evidence_record_ids and by
+      Activities' inputs.
     attributes:
       source_artifact_ref:
         required: true
@@ -632,11 +605,11 @@ classes:
   ViewpointDirective:
     is_a: Object
     description: >-
-      The interpretive frame under which entities are extracted. Itself an
+      The interpretive frame under which grits are extracted. Itself an
       Object — a ViewpointDirective has its own viewpoint_directive_id
       (the bootstrap meta-viewpoint, or itself for the meta-viewpoint).
       Carries prompts, exemplars, vocabulary references, target schema,
-      and the should_not_claim rules it imposes on extracted entities.
+      and the should_not_claim rules it imposes on extracted grits.
     attributes:
       directive_name:
         required: true
@@ -666,7 +639,7 @@ classes:
         multivalued: true
         range: string
         description: >-
-          should_not_claim rules this directive imposes on every entity
+          should_not_claim rules this directive imposes on every grit
           extracted under it. Combined with per-class defaults at extraction time.
 
   NegativeEvidenceRecord:

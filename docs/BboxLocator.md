@@ -14,7 +14,7 @@ _Axis-aligned bounding box on a rasterized page._
 
 
 
-URI: [isom:BboxLocator](https://w3id.org/isom/BboxLocator)
+URI: [grits:BboxLocator](https://w3id.org/grits/BboxLocator)
 
 
 
@@ -85,7 +85,7 @@ URI: [isom:BboxLocator](https://w3id.org/isom/BboxLocator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -94,8 +94,8 @@ URI: [isom:BboxLocator](https://w3id.org/isom/BboxLocator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:BboxLocator |
-| native | isom:BboxLocator |
+| self | grits:BboxLocator |
+| native | grits:BboxLocator |
 
 
 
@@ -112,12 +112,12 @@ URI: [isom:BboxLocator](https://w3id.org/isom/BboxLocator)
 ```yaml
 name: BboxLocator
 description: Axis-aligned bounding box on a rasterized page.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   page:
     name: page
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     domain_of:
     - CharRangeLocator
     - BboxLocator
@@ -125,7 +125,7 @@ attributes:
     required: true
   bbox_x0:
     name: bbox_x0
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - BboxLocator
@@ -133,7 +133,7 @@ attributes:
     required: true
   bbox_y0:
     name: bbox_y0
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - BboxLocator
@@ -141,7 +141,7 @@ attributes:
     required: true
   bbox_x1:
     name: bbox_x1
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - BboxLocator
@@ -149,7 +149,7 @@ attributes:
     required: true
   bbox_y1:
     name: bbox_y1
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - BboxLocator
@@ -165,12 +165,12 @@ attributes:
 ```yaml
 name: BboxLocator
 description: Axis-aligned bounding box on a rasterized page.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   page:
     name: page
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     owner: BboxLocator
     domain_of:
     - CharRangeLocator
@@ -179,7 +179,7 @@ attributes:
     required: true
   bbox_x0:
     name: bbox_x0
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: BboxLocator
     domain_of:
@@ -188,7 +188,7 @@ attributes:
     required: true
   bbox_y0:
     name: bbox_y0
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: BboxLocator
     domain_of:
@@ -197,7 +197,7 @@ attributes:
     required: true
   bbox_x1:
     name: bbox_x1
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: BboxLocator
     domain_of:
@@ -206,7 +206,7 @@ attributes:
     required: true
   bbox_y1:
     name: bbox_y1
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: BboxLocator
     domain_of:
@@ -216,7 +216,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: BboxLocator

@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:reported_claims](https://w3id.org/isom/reported_claims)
+URI: [grits:reported_claims](https://w3id.org/grits/reported_claims)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,8 +20,8 @@ URI: [isom:reported_claims](https://w3id.org/isom/reported_claims)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -74,7 +74,7 @@ URI: [isom:reported_claims](https://w3id.org/isom/reported_claims)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -83,8 +83,8 @@ URI: [isom:reported_claims](https://w3id.org/isom/reported_claims)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:reported_claims |
-| native | isom:reported_claims |
+| self | grits:reported_claims |
+| native | grits:reported_claims |
 
 
 
@@ -96,7 +96,7 @@ URI: [isom:reported_claims](https://w3id.org/isom/reported_claims)
 name: reported_claims
 in_subset:
 - Full
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

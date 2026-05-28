@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:exemplars](https://w3id.org/isom/exemplars)
+URI: [grits:exemplars](https://w3id.org/grits/exemplars)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:exemplars](https://w3id.org/isom/exemplars)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:exemplars](https://w3id.org/isom/exemplars)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:exemplars](https://w3id.org/isom/exemplars)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:exemplars |
-| native | isom:exemplars |
+| self | grits:exemplars |
+| native | grits:exemplars |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:exemplars](https://w3id.org/isom/exemplars)
 <details>
 ```yaml
 name: exemplars
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: ViewpointDirective
 domain_of:

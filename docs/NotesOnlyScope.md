@@ -14,7 +14,7 @@ _Scope marker with only free-form notes; no domain dimensions._
 
 
 
-URI: [isom:NotesOnlyScope](https://w3id.org/isom/NotesOnlyScope)
+URI: [grits:NotesOnlyScope](https://w3id.org/grits/NotesOnlyScope)
 
 
 
@@ -73,7 +73,7 @@ URI: [isom:NotesOnlyScope](https://w3id.org/isom/NotesOnlyScope)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -82,8 +82,8 @@ URI: [isom:NotesOnlyScope](https://w3id.org/isom/NotesOnlyScope)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:NotesOnlyScope |
-| native | isom:NotesOnlyScope |
+| self | grits:NotesOnlyScope |
+| native | grits:NotesOnlyScope |
 
 
 
@@ -100,7 +100,7 @@ URI: [isom:NotesOnlyScope](https://w3id.org/isom/NotesOnlyScope)
 ```yaml
 name: NotesOnlyScope
 description: Scope marker with only free-form notes; no domain dimensions.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Scope
 
 ```
@@ -112,13 +112,13 @@ is_a: Scope
 ```yaml
 name: NotesOnlyScope
 description: Scope marker with only free-form notes; no domain dimensions.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Scope
 attributes:
   scope_type:
     name: scope_type
     description: Class name of the concrete Scope subclass (e.g. NotesOnlyScope).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: NotesOnlyScope
@@ -129,7 +129,7 @@ attributes:
   notes:
     name: notes
     description: Free-text scope clarification.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: NotesOnlyScope
     domain_of:

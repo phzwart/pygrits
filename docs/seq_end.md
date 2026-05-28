@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:seq_end](https://w3id.org/isom/seq_end)
+URI: [grits:seq_end](https://w3id.org/grits/seq_end)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:seq_end](https://w3id.org/isom/seq_end)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference biological sequence |  no  |
+| [SequencePositionLocator](SequencePositionLocator.md) | Position range within a reference sequence |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:seq_end](https://w3id.org/isom/seq_end)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:seq_end](https://w3id.org/isom/seq_end)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:seq_end |
-| native | isom:seq_end |
+| self | grits:seq_end |
+| native | grits:seq_end |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:seq_end](https://w3id.org/isom/seq_end)
 <details>
 ```yaml
 name: seq_end
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: SequencePositionLocator
 domain_of:

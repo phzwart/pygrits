@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:assumptions](https://w3id.org/isom/assumptions)
+URI: [grits:assumptions](https://w3id.org/grits/assumptions)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,10 +20,10 @@ URI: [isom:assumptions](https://w3id.org/isom/assumptions)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |  no  |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [Activity](Activity.md) | Transformation |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -64,8 +64,8 @@ URI: [isom:assumptions](https://w3id.org/isom/assumptions)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:assumptions |
-| native | isom:assumptions |
+| self | grits:assumptions |
+| native | grits:assumptions |
 
 
 

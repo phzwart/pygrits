@@ -3,13 +3,18 @@ search:
   boost: 5.0
 ---
 
-# Slot: needs 
+# Slot: unspecified_items 
+
+
+_Dimensions or claims not bound under the current viewpoint._
+
+
 
 <div data-search-exclude markdown="1">
 
 
 
-URI: [isom:needs](https://w3id.org/isom/needs)
+URI: [grits:unspecified_items](https://w3id.org/grits/unspecified_items)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,8 +25,8 @@ URI: [isom:needs](https://w3id.org/isom/needs)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 
 
 
@@ -58,7 +63,7 @@ URI: [isom:needs](https://w3id.org/isom/needs)
 ## In Subsets
 
 
-* [ParticipationReady](ParticipationReady.md)
+* [ExtendedProfile](ExtendedProfile.md)
 
 
 
@@ -74,7 +79,7 @@ URI: [isom:needs](https://w3id.org/isom/needs)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -83,8 +88,8 @@ URI: [isom:needs](https://w3id.org/isom/needs)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:needs |
-| native | isom:needs |
+| self | grits:unspecified_items |
+| native | grits:unspecified_items |
 
 
 
@@ -93,10 +98,11 @@ URI: [isom:needs](https://w3id.org/isom/needs)
 
 <details>
 ```yaml
-name: needs
+name: unspecified_items
+description: Dimensions or claims not bound under the current viewpoint.
 in_subset:
-- ParticipationReady
-from_schema: https://w3id.org/isom/core
+- ExtendedProfile
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Object
 domain_of:

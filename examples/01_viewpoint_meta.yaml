@@ -6,10 +6,10 @@
 # entity references some viewpoint that ultimately descends from this one.
 #
 # Validate with:
-#   linkml-validate -s schema/isom_core.yaml -C ViewpointDirective examples/01_viewpoint_meta.yaml
+#   python -c "from pygrits import ViewpointDirective; ..."
 
 id: vpt:meta-v0
-type: isom:viewpoint_directive
+type: grits:viewpoint_directive
 viewpoint_directive_id: vpt:meta-v0
 provenance: >-
   Bootstrap meta-viewpoint v0. Hardcoded seed of the viewpoint system.
@@ -22,7 +22,7 @@ should_not_claim:
   - "Do not apply the bootstrap directly to source artifacts; use a descendant viewpoint."
 
 review_state: curator_reviewed
-lifecycle_state: participating
+lifecycle_state: active
 generation_mode: hardcoded_bootstrap_v0
 
 source_artifact_refs: []
@@ -40,6 +40,6 @@ exemplars: []
 vocabulary_refs: []
 
 imposed_should_not_claim:
-  - "Every entity must declare its viewpoint_directive_id."
-  - "Every entity must declare its should_not_claim."
-  - "Reasoning produces new entities; it does not mutate existing entities."
+  - "Every grit must declare its viewpoint_directive_id."
+  - "Every grit must declare its should_not_claim."
+  - "Transforms produce new grits; they do not mutate existing grits."

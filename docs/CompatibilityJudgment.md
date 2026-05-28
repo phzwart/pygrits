@@ -6,7 +6,7 @@ search:
 # Class: CompatibilityJudgment 
 
 
-_A recorded compatibility judgment over a set of entities/evidence._
+_A recorded compatibility judgment over a set of grits/evidence._
 
 
 
@@ -14,7 +14,7 @@ _A recorded compatibility judgment over a set of entities/evidence._
 
 
 
-URI: [isom:CompatibilityJudgment](https://w3id.org/isom/CompatibilityJudgment)
+URI: [grits:CompatibilityJudgment](https://w3id.org/grits/CompatibilityJudgment)
 
 
 
@@ -28,7 +28,7 @@ URI: [isom:CompatibilityJudgment](https://w3id.org/isom/CompatibilityJudgment)
         
       CompatibilityJudgment : checked_scope_dimensions
         
-      CompatibilityJudgment : compared_entity_ids
+      CompatibilityJudgment : compared_grit_ids
         
       CompatibilityJudgment : rationale
         
@@ -57,12 +57,12 @@ URI: [isom:CompatibilityJudgment](https://w3id.org/isom/CompatibilityJudgment)
 
 | Name | Cardinality and Range | Description | Inheritance |
 | ---  | --- | --- | --- |
-| [compared_entity_ids](compared_entity_ids.md) | 1..* <br/> [EntityId](EntityId.md) |  | direct |
+| [compared_grit_ids](compared_grit_ids.md) | 1..* <br/> [GritId](GritId.md) |  | direct |
 | [checked_scope_dimensions](checked_scope_dimensions.md) | * <br/> [String](String.md) |  | direct |
 | [assumptions](assumptions.md) | * <br/> [String](String.md) |  | direct |
 | [rationale](rationale.md) | 0..1 <br/> [String](String.md) |  | direct |
 | [status](status.md) | 1 <br/> [CompatibilityStatus](CompatibilityStatus.md) |  | direct |
-| [viewpoint_directive_id](viewpoint_directive_id.md) | 0..1 <br/> [EntityId](EntityId.md) |  | direct |
+| [viewpoint_directive_id](viewpoint_directive_id.md) | 0..1 <br/> [GritId](GritId.md) |  | direct |
 
 
 
@@ -94,7 +94,7 @@ URI: [isom:CompatibilityJudgment](https://w3id.org/isom/CompatibilityJudgment)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -103,8 +103,8 @@ URI: [isom:CompatibilityJudgment](https://w3id.org/isom/CompatibilityJudgment)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:CompatibilityJudgment |
-| native | isom:CompatibilityJudgment |
+| self | grits:CompatibilityJudgment |
+| native | grits:CompatibilityJudgment |
 
 
 
@@ -120,21 +120,21 @@ URI: [isom:CompatibilityJudgment](https://w3id.org/isom/CompatibilityJudgment)
 <details>
 ```yaml
 name: CompatibilityJudgment
-description: A recorded compatibility judgment over a set of entities/evidence.
-from_schema: https://w3id.org/isom/core
+description: A recorded compatibility judgment over a set of grits/evidence.
+from_schema: https://w3id.org/grits/core
 attributes:
-  compared_entity_ids:
-    name: compared_entity_ids
-    from_schema: https://w3id.org/isom/core
+  compared_grit_ids:
+    name: compared_grit_ids
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CompatibilityJudgment
-    range: EntityId
+    range: GritId
     required: true
     multivalued: true
   checked_scope_dimensions:
     name: checked_scope_dimensions
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CompatibilityJudgment
@@ -142,7 +142,7 @@ attributes:
     multivalued: true
   assumptions:
     name: assumptions
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CompatibilityJudgment
@@ -152,14 +152,14 @@ attributes:
     multivalued: true
   rationale:
     name: rationale
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CompatibilityJudgment
     range: string
   status:
     name: status
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CompatibilityJudgment
@@ -167,12 +167,12 @@ attributes:
     required: true
   viewpoint_directive_id:
     name: viewpoint_directive_id
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
 
 ```
 </details>
@@ -182,22 +182,22 @@ attributes:
 <details>
 ```yaml
 name: CompatibilityJudgment
-description: A recorded compatibility judgment over a set of entities/evidence.
-from_schema: https://w3id.org/isom/core
+description: A recorded compatibility judgment over a set of grits/evidence.
+from_schema: https://w3id.org/grits/core
 attributes:
-  compared_entity_ids:
-    name: compared_entity_ids
-    from_schema: https://w3id.org/isom/core
+  compared_grit_ids:
+    name: compared_grit_ids
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CompatibilityJudgment
     domain_of:
     - CompatibilityJudgment
-    range: EntityId
+    range: GritId
     required: true
     multivalued: true
   checked_scope_dimensions:
     name: checked_scope_dimensions
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CompatibilityJudgment
     domain_of:
@@ -206,7 +206,7 @@ attributes:
     multivalued: true
   assumptions:
     name: assumptions
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CompatibilityJudgment
     domain_of:
@@ -217,7 +217,7 @@ attributes:
     multivalued: true
   rationale:
     name: rationale
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CompatibilityJudgment
     domain_of:
@@ -225,7 +225,7 @@ attributes:
     range: string
   status:
     name: status
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CompatibilityJudgment
     domain_of:
@@ -234,13 +234,13 @@ attributes:
     required: true
   viewpoint_directive_id:
     name: viewpoint_directive_id
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     owner: CompatibilityJudgment
     domain_of:
     - Confidence
     - CompatibilityJudgment
-    - Entity
-    range: EntityId
+    - Grit
+    range: GritId
 
 ```
 </details></div>

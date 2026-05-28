@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:status](https://w3id.org/isom/status)
+URI: [grits:status](https://w3id.org/grits/status)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:status](https://w3id.org/isom/status)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |  no  |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |  no  |
 
 
 
@@ -67,7 +67,7 @@ URI: [isom:status](https://w3id.org/isom/status)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:status](https://w3id.org/isom/status)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:status |
-| native | isom:status |
+| self | grits:status |
+| native | grits:status |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:status](https://w3id.org/isom/status)
 <details>
 ```yaml
 name: status
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: CompatibilityJudgment
 domain_of:

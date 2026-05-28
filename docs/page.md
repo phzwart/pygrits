@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:page](https://w3id.org/isom/page)
+URI: [grits:page](https://w3id.org/grits/page)
 <!-- no inheritance hierarchy -->
 
 
@@ -62,8 +62,8 @@ URI: [isom:page](https://w3id.org/isom/page)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:page |
-| native | isom:page |
+| self | grits:page |
+| native | grits:page |
 
 
 

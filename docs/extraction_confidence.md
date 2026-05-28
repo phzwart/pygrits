@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:extraction_confidence](https://w3id.org/isom/extraction_confidence)
+URI: [grits:extraction_confidence](https://w3id.org/grits/extraction_confidence)
 <!-- no inheritance hierarchy -->
 
 
@@ -20,7 +20,7 @@ URI: [isom:extraction_confidence](https://w3id.org/isom/extraction_confidence)
 
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -67,7 +67,7 @@ URI: [isom:extraction_confidence](https://w3id.org/isom/extraction_confidence)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -76,8 +76,8 @@ URI: [isom:extraction_confidence](https://w3id.org/isom/extraction_confidence)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:extraction_confidence |
-| native | isom:extraction_confidence |
+| self | grits:extraction_confidence |
+| native | grits:extraction_confidence |
 
 
 
@@ -87,7 +87,7 @@ URI: [isom:extraction_confidence](https://w3id.org/isom/extraction_confidence)
 <details>
 ```yaml
 name: extraction_confidence
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: EvidenceRecord
 domain_of:

@@ -14,7 +14,7 @@ _A locator that combines multiple sub-locators._
 
 
 
-URI: [isom:CompositeLocator](https://w3id.org/isom/CompositeLocator)
+URI: [grits:CompositeLocator](https://w3id.org/grits/CompositeLocator)
 
 
 
@@ -82,7 +82,7 @@ URI: [isom:CompositeLocator](https://w3id.org/isom/CompositeLocator)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -91,8 +91,8 @@ URI: [isom:CompositeLocator](https://w3id.org/isom/CompositeLocator)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:CompositeLocator |
-| native | isom:CompositeLocator |
+| self | grits:CompositeLocator |
+| native | grits:CompositeLocator |
 
 
 
@@ -109,12 +109,12 @@ URI: [isom:CompositeLocator](https://w3id.org/isom/CompositeLocator)
 ```yaml
 name: CompositeLocator
 description: A locator that combines multiple sub-locators.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   members:
     name: members
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - CompositeLocator
@@ -132,12 +132,12 @@ attributes:
 ```yaml
 name: CompositeLocator
 description: A locator that combines multiple sub-locators.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 is_a: Locator
 attributes:
   members:
     name: members
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: CompositeLocator
     domain_of:
@@ -149,7 +149,7 @@ attributes:
   locator_type:
     name: locator_type
     description: Class name of the concrete Locator subclass (e.g. CharRangeLocator).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     designates_type: true
     owner: CompositeLocator

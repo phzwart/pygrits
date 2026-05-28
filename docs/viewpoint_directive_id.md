@@ -9,7 +9,7 @@ search:
 
 
 
-URI: [isom:viewpoint_directive_id](https://w3id.org/isom/viewpoint_directive_id)
+URI: [grits:viewpoint_directive_id](https://w3id.org/grits/viewpoint_directive_id)
 <!-- no inheritance hierarchy -->
 
 
@@ -21,12 +21,12 @@ URI: [isom:viewpoint_directive_id](https://w3id.org/isom/viewpoint_directive_id)
 | Name | Description | Modifies Slot |
 | --- | --- | --- |
 | [Confidence](Confidence.md) | Structured confidence carrying calibration metadata |  no  |
-| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of entities/evidence |  no  |
-| [Entity](Entity.md) | Abstract base for all ISOM entities |  no  |
-| [Object](Object.md) | Participant in reasoning |  no  |
-| [Activity](Activity.md) | Transformation |  no  |
-| [EvidenceRecord](EvidenceRecord.md) | Grounded data anchored to a single source artifact via a typed locator |  no  |
-| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which entities are extracted |  no  |
+| [CompatibilityJudgment](CompatibilityJudgment.md) | A recorded compatibility judgment over a set of grits/evidence |  no  |
+| [Grit](Grit.md) | Abstract base for all pygrits graph nodes |  no  |
+| [Object](Object.md) | Subject node |  no  |
+| [Activity](Activity.md) | Hyperedge |  no  |
+| [EvidenceRecord](EvidenceRecord.md) | Anchor unit |  no  |
+| [ViewpointDirective](ViewpointDirective.md) | The interpretive frame under which grits are extracted |  no  |
 | [NegativeEvidenceRecord](NegativeEvidenceRecord.md) | First-class record of a search that returned no result under stated scope |  no  |
 
 
@@ -41,7 +41,7 @@ URI: [isom:viewpoint_directive_id](https://w3id.org/isom/viewpoint_directive_id)
 | Property | Value |
 | --- | --- |
 | Range | [String](String.md) |
-| Domain Of | [Confidence](Confidence.md), [CompatibilityJudgment](CompatibilityJudgment.md), [Entity](Entity.md) |
+| Domain Of | [Confidence](Confidence.md), [CompatibilityJudgment](CompatibilityJudgment.md), [Grit](Grit.md) |
 
 ### Cardinality and Requirements
 
@@ -68,8 +68,8 @@ URI: [isom:viewpoint_directive_id](https://w3id.org/isom/viewpoint_directive_id)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:viewpoint_directive_id |
-| native | isom:viewpoint_directive_id |
+| self | grits:viewpoint_directive_id |
+| native | grits:viewpoint_directive_id |
 
 
 
@@ -82,7 +82,7 @@ name: viewpoint_directive_id
 domain_of:
 - Confidence
 - CompatibilityJudgment
-- Entity
+- Grit
 range: string
 
 ```

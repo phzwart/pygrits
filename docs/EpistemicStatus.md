@@ -15,7 +15,7 @@ _Epistemic label on a consequential statement._
 
 <div data-search-exclude markdown="1">
 
-URI: [isom:EpistemicStatus](https://w3id.org/isom/EpistemicStatus)
+URI: [grits:EpistemicStatus](https://w3id.org/grits/EpistemicStatus)
 
 ## Permissible Values
 | Value | Meaning | Description |
@@ -56,7 +56,7 @@ URI: [isom:EpistemicStatus](https://w3id.org/isom/EpistemicStatus)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -69,7 +69,7 @@ URI: [isom:EpistemicStatus](https://w3id.org/isom/EpistemicStatus)
 ```yaml
 name: EpistemicStatus
 description: Epistemic label on a consequential statement.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 permissible_values:
   direct_evidence:

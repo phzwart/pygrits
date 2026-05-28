@@ -14,7 +14,7 @@ _The input domain where the calibration applies._
 
 
 
-URI: [isom:confidence_domain](https://w3id.org/isom/confidence_domain)
+URI: [grits:confidence_domain](https://w3id.org/grits/confidence_domain)
 <!-- no inheritance hierarchy -->
 
 
@@ -71,7 +71,7 @@ URI: [isom:confidence_domain](https://w3id.org/isom/confidence_domain)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -80,8 +80,8 @@ URI: [isom:confidence_domain](https://w3id.org/isom/confidence_domain)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:confidence_domain |
-| native | isom:confidence_domain |
+| self | grits:confidence_domain |
+| native | grits:confidence_domain |
 
 
 
@@ -92,7 +92,7 @@ URI: [isom:confidence_domain](https://w3id.org/isom/confidence_domain)
 ```yaml
 name: confidence_domain
 description: The input domain where the calibration applies.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 rank: 1000
 owner: Confidence
 domain_of:

@@ -14,7 +14,7 @@ _Content-addressed reference to externally stored content. Identity by uri + sha
 
 
 
-URI: [isom:ContentReference](https://w3id.org/isom/ContentReference)
+URI: [grits:ContentReference](https://w3id.org/grits/ContentReference)
 
 
 
@@ -98,7 +98,7 @@ URI: [isom:ContentReference](https://w3id.org/isom/ContentReference)
 ### Schema Source
 
 
-* from schema: https://w3id.org/isom/core
+* from schema: https://w3id.org/grits/core
 
 
 
@@ -107,8 +107,8 @@ URI: [isom:ContentReference](https://w3id.org/isom/ContentReference)
 
 | Mapping Type | Mapped Value |
 | ---  | ---  |
-| self | isom:ContentReference |
-| native | isom:ContentReference |
+| self | grits:ContentReference |
+| native | grits:ContentReference |
 
 
 
@@ -127,12 +127,12 @@ name: ContentReference
 description: Content-addressed reference to externally stored content. Identity by
   uri + sha256 + hash_mode. At resolution time, the system fetches uri, recomputes
   the hash under hash_mode, and refuses to use the content if the hash does not match.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 attributes:
   uri:
     name: uri
     description: Locator (file path, https URL, did:..., cid:...).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ContentReference
@@ -140,7 +140,7 @@ attributes:
   sha256:
     name: sha256
     description: Integrity check on the content.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ContentReference
@@ -150,7 +150,7 @@ attributes:
   hash_mode:
     name: hash_mode
     description: How the sha256 was computed.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ContentReference
@@ -159,7 +159,7 @@ attributes:
   media_type:
     name: media_type
     description: MIME type for disambiguation.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ContentReference
@@ -167,7 +167,7 @@ attributes:
   retrieved_at:
     name: retrieved_at
     description: Last successful integrity verification timestamp.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     domain_of:
     - ContentReference
@@ -185,12 +185,12 @@ name: ContentReference
 description: Content-addressed reference to externally stored content. Identity by
   uri + sha256 + hash_mode. At resolution time, the system fetches uri, recomputes
   the hash under hash_mode, and refuses to use the content if the hash does not match.
-from_schema: https://w3id.org/isom/core
+from_schema: https://w3id.org/grits/core
 attributes:
   uri:
     name: uri
     description: Locator (file path, https URL, did:..., cid:...).
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ContentReference
     domain_of:
@@ -200,7 +200,7 @@ attributes:
   sha256:
     name: sha256
     description: Integrity check on the content.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ContentReference
     domain_of:
@@ -211,7 +211,7 @@ attributes:
   hash_mode:
     name: hash_mode
     description: How the sha256 was computed.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ContentReference
     domain_of:
@@ -221,7 +221,7 @@ attributes:
   media_type:
     name: media_type
     description: MIME type for disambiguation.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ContentReference
     domain_of:
@@ -231,7 +231,7 @@ attributes:
   retrieved_at:
     name: retrieved_at
     description: Last successful integrity verification timestamp.
-    from_schema: https://w3id.org/isom/core
+    from_schema: https://w3id.org/grits/core
     rank: 1000
     owner: ContentReference
     domain_of:
