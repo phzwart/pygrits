@@ -72,6 +72,8 @@ Layers compose into a [ComposedViewpointDirective](viewpoint_directive.md#compos
 
 5. **Refusal is first-class.** Five distinct refusal states (`unknown`, `not_searched`, `searched_absent`, `out_of_viewpoint`, `contradicted`) — never collapsed into a single "I don't know" or a fabricated answer.
 
+6. **Ontology binding is optional and external.** Grits may declare ontology class membership (`instance_of` on [Object](object.md)/[EvidenceRecord](evidence_record.md)), a viewpoint's abstraction level (`abstraction_level` on [ViewpointDirective](viewpoint_directive.md)), and a typed payload schema (`payload_schema`). These are CURIE/schema plugs with no core-supplied vocabulary — the class hierarchy lives in the ontologies a [VocabularyPack](vocabulary_pack.md) references, enabling subsumption reasoning and SPARQL traversal without any domain ontology in core.
+
 ## Further reading
 
 - [composition.md](composition.md) — layer composition, merge rules, `compose_viewpoint()`

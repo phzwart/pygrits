@@ -49,6 +49,8 @@ For Activities, `type` is a CURIE corresponding to the `ActivityType` value (e.g
 
 Declarative edges (`SUPPORT`, `CONTRADICTION`) may have empty `outputs` — the Activity itself is the record.
 
+> **Note.** The semantic-web `instance_of` slot is intentionally *not* on `Activity` in v1 (it lives on [Object](object.md) and [EvidenceRecord](evidence_record.md) only). Declaring ontology class membership for transform edges is deferred to when provenance-graph reasoning needs it.
+
 ## Relationships
 
 ```

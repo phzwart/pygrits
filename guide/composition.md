@@ -62,6 +62,12 @@ Content kinds are opaque `CurieOrUri` values in core. Their meaning is supplied
 by viewpoint vocabularies (e.g. `paper_parsing_v0` defines `pp:equation`,
 `pp:measurement`, ...). Core contains no document or domain semantics.
 
+The optional semantic-web slots (`instance_of`, `payload_schema`,
+`abstraction_level`) are **not folded by the resolver in v1**. They are carried
+as metadata on the grits/viewpoints; auto-derivation of `should_not_claim` from
+`abstraction_level` is a documented but deferred extension. See
+[ViewpointDirective](viewpoint_directive.md#abstraction-level-optional).
+
 ## The composed result
 
 `compose_viewpoint(viewpoint_id, registry, *, extraction_profile_id=...,

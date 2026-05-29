@@ -287,6 +287,13 @@
             "additionalProperties": false,
             "description": "The frozen result of composing a ViewpointDirective with optional ExtractionProfile, VocabularyPack, and ReasoningPolicy layers. Still a viewpoint-level interpretive contract (and still hashed by the one canonical pipeline), it inlines the resolved operational layers and records the flattened source chains for inspectability. Produced by compose_viewpoint(); not hand-authored.",
             "properties": {
+                "abstraction_level": {
+                    "description": "The ontology class at which this viewpoint makes claims. Instance-level viewpoints reference leaf classes (e.g. the class for a specific assay type); merged/general viewpoints reference parent classes (e.g. the class for any Raman spectroscopy). When present, grits extracted under this viewpoint automatically inherit a should_not_claim rule: claims are valid only at the declared class level and must not assert instance-specific details suppressed by the abstraction. Optional in v1.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
                 "assumptions": {
                     "items": {
                         "type": "string"
@@ -353,6 +360,16 @@
                         "null"
                     ]
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "lifecycle_state": {
                     "$ref": "#/$defs/LifecycleState"
                 },
@@ -395,6 +412,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "prompts": {
                     "items": {
@@ -850,6 +878,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "lifecycle_state": {
                     "$ref": "#/$defs/LifecycleState"
                 },
@@ -887,6 +925,17 @@
                         "string",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "provenance": {
                     "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
@@ -1015,6 +1064,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "layer_name": {
                     "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
                     "type": "string"
@@ -1065,6 +1124,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "preserve_content_kinds": {
                     "description": "Content kinds (viewpoint-supplied CURIEs) whose content must be preserved. Core assigns no meaning to these CURIEs.",
@@ -1417,6 +1487,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "lifecycle_state": {
                     "$ref": "#/$defs/LifecycleState"
                 },
@@ -1454,6 +1534,17 @@
                         "string",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "provenance": {
                     "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
@@ -1605,6 +1696,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "lifecycle_state": {
                     "$ref": "#/$defs/LifecycleState"
                 },
@@ -1636,6 +1737,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "provenance": {
                     "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
@@ -1784,6 +1896,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "layer_name": {
                     "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
                     "type": "string"
@@ -1819,6 +1941,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "provenance": {
                     "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
@@ -2022,6 +2155,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "layer_name": {
                     "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
                     "type": "string"
@@ -2075,6 +2218,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "provenance": {
                     "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
@@ -2291,6 +2445,13 @@
             "additionalProperties": false,
             "description": "The interpretive frame under which grits are extracted. Itself an Object \u2014 a ViewpointDirective has its own viewpoint_directive_id (the bootstrap meta-viewpoint, or itself for the meta-viewpoint). Carries prompts, exemplars, vocabulary references, target schema, and the should_not_claim rules it imposes on extracted grits. Composable against parent viewpoint directives. Supported composition modes: additive, restrictive, overriding.",
             "properties": {
+                "abstraction_level": {
+                    "description": "The ontology class at which this viewpoint makes claims. Instance-level viewpoints reference leaf classes (e.g. the class for a specific assay type); merged/general viewpoints reference parent classes (e.g. the class for any Raman spectroscopy). When present, grits extracted under this viewpoint automatically inherit a should_not_claim rule: claims are valid only at the declared class level and must not assert instance-specific details suppressed by the abstraction. Optional in v1.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
                 "assumptions": {
                     "items": {
                         "type": "string"
@@ -2357,6 +2518,16 @@
                         "null"
                     ]
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "lifecycle_state": {
                     "$ref": "#/$defs/LifecycleState"
                 },
@@ -2399,6 +2570,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "prompts": {
                     "items": {
@@ -2587,6 +2769,16 @@
                     "pattern": "^[a-z]+:[A-Za-z0-9._:-]+$",
                     "type": "string"
                 },
+                "instance_of": {
+                    "description": "Ontology class(es) this grit instantiates, expressed as CURIEs into any ontology referenced by the active VocabularyPack. Used for subsumption reasoning, merge operations, and SPARQL traversal. No core-supplied permissible values \u2014 the ontology supplies the class hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070 (assay), schema:Person. Optional in v1; absence means class membership is not formally declared.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "layer_name": {
                     "description": "Human-readable name (e.g. extraction_profile:detailed:v0). Combined with content hash, this gives identity-by-declaration.",
                     "type": "string"
@@ -2643,6 +2835,17 @@
                         "array",
                         "null"
                     ]
+                },
+                "payload_schema": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ContentReference"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Optional content-addressed reference to the schema governing normalized_payload (on EvidenceRecord) or features (on Object). When present, the payload is treated as typed CURIE-keyed triples and validated against the referenced schema. When absent, the payload is an unschematized JSON string (v1 default). The schema must be reachable via the ContentReference uri and its sha256 must match."
                 },
                 "provenance": {
                     "description": "Provenance description for v1. Future versions will model provenance as structured edges into the hyperDAG; for now a free-form string is accepted to allow ingestion bundles from upstream extraction tools.",
@@ -2762,6 +2965,6 @@
     "metamodel_version": "1.11.0",
     "title": "pygrits_core",
     "type": "object",
-    "version": "0.3.0"
+    "version": "0.4.0"
 }
 

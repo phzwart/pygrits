@@ -33,8 +33,12 @@ Grit
 | `extraction_confidence` | no | Structured confidence for the extraction |
 | `lineage` | no | Independence classification (`independent`, `derived`, `cited`, …) |
 | `cited_from` | no | Prior evidence this record derives from |
+| `instance_of` | no | Ontology class CURIE(s) this record instantiates (e.g. `OBI:0000070`) |
+| `payload_schema` | no | Optional `ContentReference` to a schema governing `normalized_payload` |
 
 `evidence_type` has no core-supplied permissible values. Viewpoints define them (e.g. `de:text_span`, `pp:measurement`).
+
+`instance_of` and `payload_schema` are the optional semantic-web slots (v1). `instance_of` declares the ontology class(es) the record instantiates — for subsumption reasoning, merge operations, and SPARQL traversal — drawn from the ontologies a [VocabularyPack](vocabulary_pack.md) references. `payload_schema` optionally binds `normalized_payload` (an unschematized JSON string by default) to a typed schema, so its properties become CURIE-keyed triples; the schema must be reachable via the `ContentReference` `uri` with a matching `sha256`. Both carry no core-supplied vocabulary and may be omitted.
 
 ## Locator hierarchy
 

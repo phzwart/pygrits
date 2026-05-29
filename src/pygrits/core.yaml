@@ -520,6 +520,18 @@ classes:
         range: GritId
         in_subset: [MVE]
         description: References to EvidenceRecord grits anchoring this Object's claims.
+      instance_of:
+        multivalued: true
+        range: CurieOrUri
+        in_subset: [ExtendedProfile]
+        description: >-
+          Ontology class(es) this grit instantiates, expressed as CURIEs into
+          any ontology referenced by the active VocabularyPack. Used for
+          subsumption reasoning, merge operations, and SPARQL traversal. No
+          core-supplied permissible values — the ontology supplies the class
+          hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070
+          (assay), schema:Person. Optional in v1; absence means class membership
+          is not formally declared.
       summary:
         range: string
         in_subset: [ExtendedProfile]
@@ -530,6 +542,17 @@ classes:
           Viewpoint-defined structured payload, serialized as a JSON string in v1.
           The viewpoint's vocabulary determines the shape. Later versions may use
           a typed Any with viewpoint-declared schemas.
+      payload_schema:
+        range: ContentReference
+        inlined: true
+        in_subset: [ExtendedProfile]
+        description: >-
+          Optional content-addressed reference to the schema governing
+          normalized_payload (on EvidenceRecord) or features (on Object). When
+          present, the payload is treated as typed CURIE-keyed triples and
+          validated against the referenced schema. When absent, the payload is
+          an unschematized JSON string (v1 default). The schema must be
+          reachable via the ContentReference uri and its sha256 must match.
       observations:
         multivalued: true
         range: string
@@ -649,6 +672,27 @@ classes:
           Identifier or marker for prior evidence this record derives from
           or cites. May be `unknown_external` when citation resolution has
           not happened.
+      instance_of:
+        multivalued: true
+        range: CurieOrUri
+        description: >-
+          Ontology class(es) this grit instantiates, expressed as CURIEs into
+          any ontology referenced by the active VocabularyPack. Used for
+          subsumption reasoning, merge operations, and SPARQL traversal. No
+          core-supplied permissible values — the ontology supplies the class
+          hierarchy. Examples: CHMO:0000823 (Raman spectroscopy), OBI:0000070
+          (assay), schema:Person. Optional in v1; absence means class membership
+          is not formally declared.
+      payload_schema:
+        range: ContentReference
+        inlined: true
+        description: >-
+          Optional content-addressed reference to the schema governing
+          normalized_payload (on EvidenceRecord) or features (on Object). When
+          present, the payload is treated as typed CURIE-keyed triples and
+          validated against the referenced schema. When absent, the payload is
+          an unschematized JSON string (v1 default). The schema must be
+          reachable via the ContentReference uri and its sha256 must match.
 
   ViewpointDirective:
     is_a: Object
@@ -700,6 +744,16 @@ classes:
         description: >-
           should_not_claim rules this directive imposes on every grit
           extracted under it. Combined with per-class defaults at extraction time.
+      abstraction_level:
+        range: CurieOrUri
+        description: >-
+          The ontology class at which this viewpoint makes claims. Instance-level
+          viewpoints reference leaf classes (e.g. the class for a specific assay
+          type); merged/general viewpoints reference parent classes (e.g. the
+          class for any Raman spectroscopy). When present, grits extracted under
+          this viewpoint automatically inherit a should_not_claim rule: claims
+          are valid only at the declared class level and must not assert
+          instance-specific details suppressed by the abstraction. Optional in v1.
 
   NegativeEvidenceRecord:
     is_a: EvidenceRecord

@@ -38,8 +38,10 @@ Domain-specific objects are not separate Python classes in core. A materials-sci
 |-------|--------|-------------|
 | `source_artifact_refs` | MVE | Content-addressed references to source files |
 | `evidence_record_ids` | MVE | EvidenceRecord grits anchoring this object's claims |
+| `instance_of` | ExtendedProfile | Ontology class CURIE(s) this object instantiates (e.g. `CHMO:0000823`, `schema:Person`) |
 | `summary` | ExtendedProfile | Short descriptive text |
 | `features` | ExtendedProfile | Viewpoint-defined structured payload (JSON string in v1) |
+| `payload_schema` | ExtendedProfile | Optional `ContentReference` to a schema governing `features` |
 | `observations` | ExtendedProfile | Free-text observations |
 | `unspecified_items` | ExtendedProfile | Dimensions not bound under current viewpoint |
 | `reported_claims` | Full | Claims attributed to the source |
@@ -48,6 +50,15 @@ Domain-specific objects are not separate Python classes in core. A materials-sci
 | `uncertainties` | Full | Known uncertainties |
 | `synthesis_link_ids` | Full | Backward pointers to Activities that used this object |
 | `operation_link_ids` | Full | Backward pointers to ACTION_EDGE Activities |
+
+### Ontology binding (optional)
+
+`instance_of` and `payload_schema` connect an Object to an external semantic-web layer. Both are optional in v1 and carry no core-supplied vocabulary — the CURIEs and schemas come from the ontologies a [VocabularyPack](vocabulary_pack.md) references via `ontology_refs`.
+
+- `instance_of` declares the ontology class(es) the object is an instance of, enabling subsumption reasoning, merge operations, and SPARQL traversal over the grit graph.
+- `payload_schema` optionally binds `features` (an unschematized JSON string by default) to a typed schema, so its properties can be treated as CURIE-keyed triples. When present, the schema must be reachable via the `ContentReference` `uri` and its `sha256` must match.
+
+Absence of either means class membership / payload typing is simply not formally declared.
 
 ## Relationships
 

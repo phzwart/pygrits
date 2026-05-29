@@ -50,6 +50,8 @@ ExtractionProfile  → parent_extraction_profile_ids (composition chain)
 EvidenceRecord     → shaped by extraction semantics (locator fidelity, grounding density)
 ```
 
+`ExtractionProfile` governs *how densely and precisely* content is grounded. It does not type the payload itself — that is the separate, optional `payload_schema` slot on [EvidenceRecord](evidence_record.md) / [Object](object.md), which can bind `normalized_payload` / `features` to a typed schema. Grounding density and payload typing are orthogonal concerns.
+
 ## Why it exists
 
 Grounding requirements vary by task. A literature survey needs coarse document-level anchors; a regulatory submission needs character-level locators on every numeric claim. `ExtractionProfile` carries these requirements independently of admissibility rules, so the same viewpoint pairs with a `detailed` or `coarse` profile without duplicating prompts.

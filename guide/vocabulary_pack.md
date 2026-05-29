@@ -41,7 +41,11 @@ ViewpointDirective → may also carry vocabulary_refs (viewpoint-level bindings)
 VocabularyPack     → parent_vocabulary_pack_ids (composition chain)
 Object.type        → CURIE values drawn from active namespaces
 EvidenceRecord.evidence_type → CURIE values drawn from active namespaces
+Object/EvidenceRecord.instance_of → ontology class CURIEs resolved against ontology_refs
+ViewpointDirective.abstraction_level → ontology class CURIE resolved against ontology_refs
 ```
+
+The semantic-web slots (`instance_of` on `Object`/`EvidenceRecord`, `abstraction_level` on `ViewpointDirective`, and a `payload_schema` reference) hold CURIEs and schema references with **no core-supplied meaning**. The class hierarchy that gives them meaning lives in the ontology files this pack lists under `ontology_refs`. This is what enables subsumption reasoning and SPARQL traversal over the grit graph without putting any domain ontology into core.
 
 A `ViewpointDirective` and a `VocabularyPack` can both reference vocabularies. The viewpoint carries prompts and admissibility rules; the pack supplies the namespace surface for composition. When composed, resolved vocabulary refs union with deduplication.
 

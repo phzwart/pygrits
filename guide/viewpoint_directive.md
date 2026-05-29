@@ -34,8 +34,15 @@ Full discipline contract plus `source_artifact_refs`, `evidence_record_ids`, etc
 | `vocabulary_refs` | Content-addressed vocabulary definitions |
 | `target_schema` | LinkML schema (or profile) this directive commits to |
 | `imposed_should_not_claim` | Rules imposed on every grit extracted under this directive |
+| `abstraction_level` | Optional ontology class CURIE at which this viewpoint makes claims |
 
 Identity is **by declaration plus content hash**: `directive_name` is the human reference; `canonical_hash_instance()` is the integrity check.
+
+### Abstraction level (optional)
+
+`abstraction_level` is the optional semantic-web slot on a viewpoint. It declares the ontology class at which the viewpoint makes claims: instance-level viewpoints reference leaf classes (a specific assay type), while merged/general viewpoints reference parent classes (e.g. the class for any Raman spectroscopy). This makes the abstraction explicit so that two structurally identical viewpoints — one extracting a specific instance, one extracting a general class — are distinguishable.
+
+In v1 the slot is carried as metadata only: the intended `should_not_claim` rule ("claims are valid only at the declared class level; do not assert instance-specific details suppressed by the abstraction") is documented but **not yet auto-derived** by composition. The CURIE is drawn from the ontologies a [VocabularyPack](vocabulary_pack.md) references via `ontology_refs`.
 
 ## ComposedViewpointDirective
 

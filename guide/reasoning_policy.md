@@ -44,6 +44,8 @@ Activity (SYNTHESIS_EDGE) → permitted or forbidden by policy flags
 Activity (ADJUDICATION_EDGE) → requires enable_contradiction_adjudication
 ```
 
+`allow_ontology_normalization` governs whether a layer may normalize grits against an external ontology — the same ontology layer the `instance_of` and `abstraction_level` semantic-web slots reference (see [Object](object.md#ontology-binding-optional) and [ViewpointDirective](viewpoint_directive.md#abstraction-level-optional)). The slots declare class membership; this flag governs whether reasoning may act on it.
+
 ## Why it exists
 
 Different workflows need different inferential freedom. A regulatory audit pipeline forbids speculative inference and cross-document synthesis. An exploratory literature review permits both — under explicit, inspectable flags.
