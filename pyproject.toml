@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygrits"
-version = "0.4.0"
-description = "Raisins in the pudding: pygrits core schema with viewpoint-extension scaffolding for evidence-grounded scientific grits."
+version = "0.5.0"
+description = "Minimal evidence-grounded node model on PROV-O for agentic scientific reasoning."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "BSD-3-Clause" }
@@ -14,12 +14,10 @@ authors = [
 ]
 keywords = [
     "scientific-reasoning",
-    "epistemic-discipline",
     "provenance",
     "linkml",
-    "agentic-systems",
+    "prov-o",
     "pygrits",
-    "grits",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -39,8 +37,10 @@ dependencies = [
 
 [project.optional-dependencies]
 schema = [
-    # Tools needed to regenerate the Pydantic / JSON Schema / docs from the LinkML source.
-    # Not required to USE pygrits (the generated artifacts are shipped with the package).
+    "linkml>=1.11",
+]
+rdf = [
+    "rdflib>=7",
     "linkml>=1.11",
 ]
 test = [
@@ -48,14 +48,14 @@ test = [
     "pytest-cov",
 ]
 dev = [
-    "pygrits[schema,test]",
+    "pygrits[schema,rdf,test]",
     "ruff",
 ]
 
 [project.urls]
-# Update once the GitHub repo exists:
-# Homepage = "https://github.com/<user>/pygrits"
-# Issues = "https://github.com/<user>/pygrits/issues"
+Homepage = "https://github.com/phzwart/pygrits"
+Repository = "https://github.com/phzwart/pygrits"
+Issues = "https://github.com/phzwart/pygrits/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pygrits"]
@@ -63,16 +63,9 @@ packages = ["src/pygrits"]
 [tool.hatch.build.targets.wheel.force-include]
 "src/pygrits/core.yaml" = "pygrits/core.yaml"
 "src/pygrits/core.schema.json" = "pygrits/core.schema.json"
-"src/pygrits/viewpoints/blank_slate_v0.yaml" = "pygrits/viewpoints/blank_slate_v0.yaml"
-"src/pygrits/viewpoints/blank_slate_v0.schema.json" = "pygrits/viewpoints/blank_slate_v0.schema.json"
+"src/pygrits/core.context.jsonld" = "pygrits/core.context.jsonld"
 "src/pygrits/viewpoints/document_extraction_v0.yaml" = "pygrits/viewpoints/document_extraction_v0.yaml"
 "src/pygrits/viewpoints/document_extraction_v0.schema.json" = "pygrits/viewpoints/document_extraction_v0.schema.json"
-"src/pygrits/viewpoints/materials_science_v0.yaml" = "pygrits/viewpoints/materials_science_v0.yaml"
-"src/pygrits/viewpoints/materials_science_v0.schema.json" = "pygrits/viewpoints/materials_science_v0.schema.json"
-"src/pygrits/viewpoints/coordination_v0.yaml" = "pygrits/viewpoints/coordination_v0.yaml"
-"src/pygrits/viewpoints/coordination_v0.schema.json" = "pygrits/viewpoints/coordination_v0.schema.json"
-"src/pygrits/viewpoints/paper_parsing_v0.yaml" = "pygrits/viewpoints/paper_parsing_v0.yaml"
-"src/pygrits/viewpoints/paper_parsing_v0.schema.json" = "pygrits/viewpoints/paper_parsing_v0.schema.json"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -89,4 +82,4 @@ extend-exclude = [
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B"]
-ignore = ["E501"]  # line length handled by formatter
+ignore = ["E501"]

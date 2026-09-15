@@ -1,0 +1,11 @@
+id: act:derive-kcat-summary-v0
+viewpoint_id: vpt:demo-bundle-v0
+agent: pygrits-demo/0.5.0
+activity_type: derivation
+plan_step: grits:steps/summarize_kcat_landscape
+inputs:
+  - evi:source-line-range-v0
+  - evi:no-kcat-for-s-v0
+outputs:
+  - ent:kcat-landscape-v0
+rationale: Combine anchored measurements and documented absence under the demo viewpoint.

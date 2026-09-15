@@ -1,75 +1,50 @@
 """
-Verify every shipped example YAML loads as a valid Pydantic instance of
-its declared class.
-
-This catches: schema-example drift, gen-pydantic regressions, and
-required-field violations on the example side.
+Verify the shipped example bundle loads and passes bundle validation.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
 
-import pytest
 import yaml
 
 from pygrits import (
     Activity,
+    Entity,
     EvidenceRecord,
-    Object,
+    NegativeEvidenceRecord,
     ViewpointDirective,
+    validate_bundle,
 )
 
 EXAMPLES_DIR = Path(__file__).parent.parent / "examples"
 
-# Map example filename → expected Pydantic class
-EXAMPLE_CLASSES = {
-    "01_viewpoint_meta.yaml": ViewpointDirective,
-    "02_viewpoint_blank_slate.yaml": ViewpointDirective,
-    "03_object_minimal.yaml": Object,
-    "04_evidence_minimal.yaml": EvidenceRecord,
-    "05_synthesis_activity_minimal.yaml": Activity,
-    "06_claim_minimal.yaml": Object,
-}
+EXAMPLE_SPECS: tuple[tuple[str, type], ...] = (
+    ("01_viewpoint.yaml", ViewpointDirective),
+    ("02_evidence_line_range.yaml", EvidenceRecord),
+    ("03_negative_evidence.yaml", NegativeEvidenceRecord),
+    ("04_derivation_activity.yaml", Activity),
+    ("05_entity_kcat_landscape.yaml", Entity),
+)
 
 
-@pytest.mark.parametrize("filename,cls", EXAMPLE_CLASSES.items())
-def test_example_validates(filename: str, cls: type) -> None:
-    path = EXAMPLES_DIR / filename
-    assert path.exists(), f"Example file not found: {path}"
-
-    with open(path) as f:
-        data = yaml.safe_load(f)
-
-    instance = cls(**data)
-    assert instance.id is not None
-    assert instance.viewpoint_directive_id is not None
-    assert instance.should_not_claim, "should_not_claim must be non-empty"
-    assert instance.provenance
+def _load(name: str, cls: type):
+    with open(EXAMPLES_DIR / name) as f:
+        return cls(**yaml.safe_load(f))
 
 
 def test_all_examples_present() -> None:
-    """Guard against silent example deletion."""
     on_disk = {p.name for p in EXAMPLES_DIR.glob("*.yaml")}
-    declared = set(EXAMPLE_CLASSES.keys())
-    assert on_disk == declared, (
-        f"Example set drift: on disk {on_disk}, declared {declared}"
-    )
+    declared = {name for name, _ in EXAMPLE_SPECS}
+    assert on_disk == declared
 
 
-def test_synthesis_activity_consumes_object_and_evidence() -> None:
-    """The synthesis Activity must reference the demo object and evidence."""
-    with open(EXAMPLES_DIR / "05_synthesis_activity_minimal.yaml") as f:
-        data = yaml.safe_load(f)
-    activity = Activity(**data)
-    assert "obj:minimal-demo-v0" in activity.inputs
-    assert "evi:minimal-span-v0" in activity.inputs
-    assert "obj:claim-minimal-v0" in activity.outputs
+def test_example_bundle_validates() -> None:
+    grits = [_load(name, cls) for name, cls in EXAMPLE_SPECS]
+    validate_bundle(grits)
 
 
-def test_claim_object_links_back_to_activity() -> None:
-    """The output claim Object must back-link to the synthesis Activity."""
-    with open(EXAMPLES_DIR / "06_claim_minimal.yaml") as f:
-        data = yaml.safe_load(f)
-    claim = Object(**data)
-    assert "act:synth-minimal-v0" in claim.synthesis_link_ids
+def test_derivation_activity_links_bundle() -> None:
+    activity = _load("04_derivation_activity.yaml", Activity)
+    assert activity.outputs == ["ent:kcat-landscape-v0"]
+    assert "evi:source-line-range-v0" in activity.inputs

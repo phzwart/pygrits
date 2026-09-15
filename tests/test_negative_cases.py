@@ -1,9 +1,5 @@
 """
 Negative tests: confirm that violations of the discipline contract fail.
-
-If any of these tests pass without raising ValidationError, the schema
-or the generated Pydantic has regressed and the system is no longer
-enforcing the discipline it claims to enforce.
 """
 
 from __future__ import annotations
@@ -14,65 +10,34 @@ from pydantic import ValidationError
 from pygrits import (
     Activity,
     ActivityType,
-    BboxLocator,
+    BundleValidationError,
     CharRangeLocator,
     ContentReference,
+    Entity,
     EvidenceRecord,
     HashMode,
-    Object,
+    LineRangeLocator,
+    ViewpointDirective,
+    validate_bundle,
 )
 
-# -------- Missing MVE fields --------
 
-def test_object_missing_viewpoint_fails() -> None:
+def test_entity_missing_viewpoint_fails() -> None:
     with pytest.raises(ValidationError):
-        Object(
-            id="obj:test",
-            type="grits:paper",
-            # viewpoint_directive_id missing
-            provenance="test",
-            should_not_claim=["test"],
-            source_artifact_refs=[],
-            evidence_record_ids=[],
-        )
+        Entity(id="ent:test", summary="x")
 
 
-def test_object_missing_should_not_claim_fails() -> None:
+def test_entity_missing_id_fails() -> None:
     with pytest.raises(ValidationError):
-        Object(
-            id="obj:test",
-            type="grits:paper",
-            viewpoint_directive_id="vpt:meta-v0",
-            provenance="test",
-            # should_not_claim missing
-            source_artifact_refs=[],
-            evidence_record_ids=[],
-        )
-
-
-def test_object_missing_id_fails() -> None:
-    with pytest.raises(ValidationError):
-        Object(
-            # id missing
-            type="grits:paper",
-            viewpoint_directive_id="vpt:meta-v0",
-            provenance="test",
-            should_not_claim=["test"],
-            source_artifact_refs=[],
-            evidence_record_ids=[],
-        )
+        Entity(viewpoint_id="vpt:meta-v0")
 
 
 def test_activity_missing_inputs_fails() -> None:
     with pytest.raises(ValidationError):
         Activity(
             id="act:test",
-            type="grits:activity_type/synthesis_edge",
-            viewpoint_directive_id="vpt:meta-v0",
-            provenance="test",
-            should_not_claim=["test"],
-            activity_type=ActivityType.SYNTHESIS_EDGE,
-            # inputs missing
+            viewpoint_id="vpt:meta-v0",
+            activity_type=ActivityType.derivation,
         )
 
 
@@ -80,114 +45,74 @@ def test_evidence_record_missing_locator_fails() -> None:
     with pytest.raises(ValidationError):
         EvidenceRecord(
             id="evi:test",
-            type="grits:text_span",
-            viewpoint_directive_id="vpt:meta-v0",
-            provenance="test",
-            should_not_claim=["test"],
-            source_artifact_ref=ContentReference(
+            viewpoint_id="vpt:meta-v0",
+            source=ContentReference(
                 uri="file://test.pdf",
                 sha256="a" * 64,
                 hash_mode=HashMode.raw_bytes,
             ),
-            # locator missing
         )
 
 
-# -------- Malformed values --------
-
 def test_malformed_sha256_fails() -> None:
-    with pytest.raises(ValidationError):
-        ContentReference(
+    vpt = ViewpointDirective(id="vpt:t", viewpoint_id="vpt:t", name="t")
+    er = EvidenceRecord(
+        id="evi:t",
+        viewpoint_id="vpt:t",
+        source=ContentReference(
             uri="file://test.pdf",
             sha256="not_a_sha256",
             hash_mode=HashMode.raw_bytes,
-        )
+        ),
+        locator=CharRangeLocator(
+            locator_type="CharRangeLocator",
+            char_start=0,
+            char_end=1,
+        ),
+    )
+    with pytest.raises(BundleValidationError, match="sha256"):
+        validate_bundle([vpt, er])
 
-
-def test_short_sha256_fails() -> None:
-    with pytest.raises(ValidationError):
-        ContentReference(
-            uri="file://test.pdf",
-            sha256="abc123",  # too short
-            hash_mode=HashMode.raw_bytes,
-        )
-
-
-def test_uppercase_sha256_fails() -> None:
-    with pytest.raises(ValidationError):
-        ContentReference(
-            uri="file://test.pdf",
-            sha256="A" * 64,  # uppercase rejected by pattern
-            hash_mode=HashMode.raw_bytes,
-        )
-
-
-def test_content_reference_missing_hash_mode_fails() -> None:
-    with pytest.raises(ValidationError):
-        ContentReference(
-            uri="file://test.pdf",
-            sha256="a" * 64,
-            # hash_mode missing
-        )
-
-
-# -------- Strict extra="forbid" check --------
 
 def test_extra_field_fails() -> None:
-    """Pydantic models are configured with extra='forbid' — sneaking in
-    undeclared fields should fail."""
     with pytest.raises(ValidationError):
-        Object(
-            id="obj:test",
-            type="grits:paper",
-            viewpoint_directive_id="vpt:meta-v0",
-            provenance="test",
-            should_not_claim=["test"],
-            source_artifact_refs=[],
-            evidence_record_ids=[],
-            nonsense_field="this should not be accepted",
+        Entity(
+            id="ent:test",
+            viewpoint_id="vpt:meta-v0",
+            nonsense_field="not allowed",
         )
 
 
-# -------- Valid minimal construction --------
-
-def test_minimal_object_validates() -> None:
-    """An Object meeting the MVE contract must validate."""
-    obj = Object(
-        id="obj:minimal-test",
-        type="grits:paper",
-        viewpoint_directive_id="vpt:meta-v0",
-        provenance="minimal test",
-        should_not_claim=["test should_not_claim"],
-        source_artifact_refs=[],
-        evidence_record_ids=[],
-    )
-    assert obj.id == "obj:minimal-test"
+def test_minimal_entity_validates() -> None:
+    ent = Entity(id="ent:minimal-test", viewpoint_id="vpt:meta-v0")
+    assert ent.id == "ent:minimal-test"
 
 
 def test_minimal_activity_validates() -> None:
-    """An Activity meeting the MVE contract must validate."""
     act = Activity(
         id="act:minimal-test",
-        type="grits:activity_type/synthesis_edge",
-        viewpoint_directive_id="vpt:meta-v0",
-        provenance="minimal test",
-        should_not_claim=["test"],
-        activity_type=ActivityType.SYNTHESIS_EDGE,
-        inputs=["obj:some-input"],
+        viewpoint_id="vpt:meta-v0",
+        activity_type=ActivityType.derivation,
+        inputs=["ent:some-input"],
     )
-    assert act.activity_type == ActivityType.SYNTHESIS_EDGE
+    assert act.activity_type == ActivityType.derivation
+
+
+def test_line_range_locator_validates() -> None:
+    loc = LineRangeLocator(
+        locator_type="LineRangeLocator",
+        path="src/foo.py",
+        line_start=1,
+        line_end=10,
+    )
+    assert loc.path == "src/foo.py"
 
 
 def test_minimal_evidence_record_validates() -> None:
-    """An EvidenceRecord meeting the MVE contract must validate."""
     er = EvidenceRecord(
         id="evi:minimal-test",
-        type="grits:text_span",
-        viewpoint_directive_id="vpt:meta-v0",
-        provenance="minimal test",
-        should_not_claim=["test"],
-        source_artifact_ref=ContentReference(
+        viewpoint_id="vpt:meta-v0",
+        source=ContentReference(
             uri="file://test.pdf",
             sha256="a" * 64,
             hash_mode=HashMode.raw_bytes,
@@ -199,16 +124,3 @@ def test_minimal_evidence_record_validates() -> None:
         ),
     )
     assert er.locator.char_start == 0
-
-
-def test_bbox_locator_validates() -> None:
-    """Alternative Locator subclass works through the polymorphic slot."""
-    bbox = BboxLocator(
-        locator_type="BboxLocator",
-        page=1,
-        bbox_x0=0.0,
-        bbox_y0=0.0,
-        bbox_x1=100.0,
-        bbox_y1=200.0,
-    )
-    assert bbox.page == 1

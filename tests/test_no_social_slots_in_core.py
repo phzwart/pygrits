@@ -30,6 +30,6 @@ def test_core_module_has_no_social_coordination_slots() -> None:
     import pygrits.core as core
 
     for name in FORBIDDEN_SLOT_NAMES:
-        assert not hasattr(core.Object, name), (
-            f"core Object must not expose slot {name!r}"
+        assert not hasattr(core.Entity, name), (
+            f"core Entity must not expose slot {name!r}"
         )

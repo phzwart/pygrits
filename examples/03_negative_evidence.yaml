@@ -1,0 +1,10 @@
+id: evi:no-kcat-for-s-v0
+viewpoint_id: vpt:demo-bundle-v0
+agent: pygrits-demo/0.5.0
+source:
+  uri: file://./sources/demo/paper.txt
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  hash_mode: raw_bytes
+search_method: full-text search for k_cat on substrate S
+search_scope: entire corpus for enzyme E
+result: absent

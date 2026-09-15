@@ -15,11 +15,8 @@ from pygrits import (
 def _minimal_evidence(**overrides: object) -> EvidenceRecord:
     base = dict(
         id="evi:open-curie-test",
-        type="grits:evidence_record",
-        viewpoint_directive_id="vpt:meta-v0",
-        provenance="open CURIE test",
-        should_not_claim=["test"],
-        source_artifact_ref=ContentReference(
+        viewpoint_id="vpt:meta-v0",
+        source=ContentReference(
             uri="file://test.pdf",
             sha256="a" * 64,
             hash_mode=HashMode.raw_bytes,

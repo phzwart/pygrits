@@ -1,0 +1,6 @@
+id: vpt:demo-bundle-v0
+viewpoint_id: vpt:demo-bundle-v0
+name: document extraction demo bundle
+summary: Minimal viewpoint for the shipped example bundle.
+constraints:
+  - Require an evidence label on every Entity.evidence link.

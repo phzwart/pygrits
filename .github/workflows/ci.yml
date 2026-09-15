@@ -24,15 +24,12 @@ jobs:
       - name: Install package and test deps
         run: |
           python -m pip install --upgrade pip
-          pip install -e '.[test]'
+          pip install -e '.[test,rdf]'
 
       - name: Run tests
         run: pytest
 
   schema-consistency:
-    # Regenerate the Pydantic + JSON Schema from the LinkML source and
-    # assert the checked-in files match. This catches "I changed core.yaml
-    # but forgot to regenerate" silent drift.
     runs-on: ubuntu-latest
 
     steps:
@@ -49,14 +46,19 @@ jobs:
           pip install -e '.[schema]'
 
       - name: Regenerate artifacts
-        run: |
-          bash scripts/regenerate.sh
+        run: bash scripts/regenerate.sh
 
-      - name: Assert no drift
+      - name: Generate docs and OWL (CI-only artifacts)
+        run: |
+          gen-doc src/pygrits/core.yaml -d docs
+          gen-owl src/pygrits/core.yaml > src/pygrits/core.ttl
+
+      - name: Assert no drift in committed generated files
         run: |
           if ! git diff --exit-code \
               src/pygrits/core.py \
               src/pygrits/core.schema.json \
+              src/pygrits/core.context.jsonld \
               src/pygrits/viewpoints/; then
             echo "Generated artifacts are out of date with LinkML sources"
             echo "Run scripts/regenerate.sh and commit the result"

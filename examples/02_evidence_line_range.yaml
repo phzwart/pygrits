@@ -1,0 +1,14 @@
+id: evi:source-line-range-v0
+viewpoint_id: vpt:demo-bundle-v0
+agent: pygrits-demo/0.5.0
+source:
+  uri: file://./sources/demo/paper.txt
+  sha256: bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+  hash_mode: raw_bytes
+locator:
+  locator_type: LineRangeLocator
+  path: sources/demo/paper.txt
+  line_start: 42
+  line_end: 44
+extracted_content: "k_cat = 120 s^-1 for substrate S1"
+evidence_type: de:text_span

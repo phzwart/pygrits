@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # Regenerate generated artifacts from the LinkML source schema.
 #
-# Run this whenever src/pygrits/core.yaml or viewpoints/*.yaml changes. The
-# generated files (core.py, core.schema.json, docs/, viewpoint artifacts) are
-# checked into the repo so users don't need the LinkML toolchain to install
-# or use pygrits.
+# Run this whenever src/pygrits/core.yaml or viewpoints/*.yaml changes.
+# Committed: core.py, core.schema.json, core.context.jsonld, viewpoint artifacts.
+# docs/ and core.ttl are generated in CI only (not committed).
 #
-# Requires:  pip install 'pygrits[schema]'   (or just  pip install linkml)
+# Requires:  pip install 'pygrits[schema]'
 #
 # Usage:     ./scripts/regenerate.sh
 
@@ -23,7 +22,7 @@ if [[ ! -f "$SCHEMA" ]]; then
     exit 1
 fi
 
-for cmd in gen-pydantic gen-json-schema gen-doc; do
+for cmd in gen-pydantic gen-json-schema gen-jsonld-context; do
     if ! command -v "$cmd" >/dev/null 2>&1; then
         echo "Missing tool: $cmd" >&2
         echo "Install with:  pip install 'pygrits[schema]'" >&2
@@ -37,10 +36,8 @@ gen-pydantic "$SCHEMA" > src/pygrits/core.py
 echo "Regenerating JSON Schema..."
 gen-json-schema "$SCHEMA" > src/pygrits/core.schema.json
 
-echo "Regenerating docs..."
-rm -rf docs
-mkdir -p docs
-gen-doc "$SCHEMA" -d docs
+echo "Regenerating JSON-LD context..."
+gen-jsonld-context "$SCHEMA" > src/pygrits/core.context.jsonld
 
 mkdir -p "$VIEWPOINTS_PKG"
 
