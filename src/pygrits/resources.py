@@ -1,4 +1,4 @@
-"""Paths to bundled LinkML and JSON Schema artifacts."""
+"""Paths to the bundled profile, context, and JSON Schema."""
 
 from __future__ import annotations
 
@@ -11,25 +11,17 @@ def _pkg_path(*parts: str) -> Path:
         return Path(p)
 
 
+def context_path() -> Path:
+    return _pkg_path("context.jsonld")
+
+
 def schema_path() -> Path:
-    return _pkg_path("core.yaml")
+    return _pkg_path("schema.json")
 
 
-def json_schema_path() -> Path:
-    return _pkg_path("core.schema.json")
+def profile_path() -> Path:
+    return _pkg_path("PROFILE.md")
 
 
-def viewpoint_schema_path(name: str) -> Path:
-    filename = f"{name}.yaml" if not name.endswith(".yaml") else name
-    with resources.as_file(
-        resources.files("pygrits.viewpoints").joinpath(filename)
-    ) as p:
-        return Path(p)
-
-
-def viewpoint_json_schema_path(name: str) -> Path:
-    basename = name.removesuffix(".yaml").removesuffix(".schema.json")
-    with resources.as_file(
-        resources.files("pygrits.viewpoints").joinpath(f"{basename}.schema.json")
-    ) as p:
-        return Path(p)
+def profile_text() -> str:
+    return profile_path().read_text(encoding="utf-8")

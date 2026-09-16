@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygrits"
-version = "0.5.0"
-description = "Minimal evidence-grounded node model on PROV-O for agentic scientific reasoning."
+version = "0.6.0"
+description = "Closed PROV-O + Web Annotation emit profile and validator for agentic claims."
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "BSD-3-Clause" }
@@ -15,8 +15,8 @@ authors = [
 keywords = [
     "scientific-reasoning",
     "provenance",
-    "linkml",
     "prov-o",
+    "web-annotation",
     "pygrits",
 ]
 classifiers = [
@@ -32,23 +32,15 @@ classifiers = [
 dependencies = [
     "pydantic>=2.5",
     "jcs>=0.2",
-    "pyyaml>=6.0",
 ]
 
 [project.optional-dependencies]
-schema = [
-    "linkml>=1.11",
-]
-rdf = [
-    "rdflib>=7",
-    "linkml>=1.11",
-]
 test = [
     "pytest>=7",
     "pytest-cov",
 ]
 dev = [
-    "pygrits[schema,rdf,test]",
+    "pygrits[test]",
     "ruff",
 ]
 
@@ -61,11 +53,9 @@ Issues = "https://github.com/phzwart/pygrits/issues"
 packages = ["src/pygrits"]
 
 [tool.hatch.build.targets.wheel.force-include]
-"src/pygrits/core.yaml" = "pygrits/core.yaml"
-"src/pygrits/core.schema.json" = "pygrits/core.schema.json"
-"src/pygrits/core.context.jsonld" = "pygrits/core.context.jsonld"
-"src/pygrits/viewpoints/document_extraction_v0.yaml" = "pygrits/viewpoints/document_extraction_v0.yaml"
-"src/pygrits/viewpoints/document_extraction_v0.schema.json" = "pygrits/viewpoints/document_extraction_v0.schema.json"
+"src/pygrits/context.jsonld" = "pygrits/context.jsonld"
+"src/pygrits/schema.json" = "pygrits/schema.json"
+"src/pygrits/PROFILE.md" = "pygrits/PROFILE.md"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -75,10 +65,6 @@ addopts = "-v"
 [tool.ruff]
 line-length = 100
 target-version = "py311"
-extend-exclude = [
-    "src/pygrits/core.py",
-    "src/pygrits/viewpoints/*.py",
-]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "W", "UP", "B"]

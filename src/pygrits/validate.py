@@ -1,74 +1,48 @@
-"""Bundle referential integrity and semantic checks."""
+"""Bundle checks. The agent can omit these; this function must not."""
 
 from __future__ import annotations
 
-import re
 from collections.abc import Iterable
 
-from pygrits.core import (
-    Activity,
-    ActivityType,
-    ContentReference,
-    Entity,
-    EvidenceLabel,
-    EvidenceRecord,
-    Grit,
-    ViewpointDirective,
-)
-
-_SHA256 = re.compile(r"^[a-f0-9]{64}$")
+from pygrits.models import Activity, Bundle, Entity, Node, Plan
 
 
 class BundleValidationError(ValueError):
     pass
 
-def _content_refs(grit: Grit) -> list[ContentReference]:
-    refs: list[ContentReference] = []
-    if isinstance(grit, Entity):
-        refs.extend(grit.sources or [])
-    if isinstance(grit, EvidenceRecord):
-        refs.append(grit.source)
-    if isinstance(grit, ViewpointDirective):
-        refs.extend(grit.prompts or [])
-        refs.extend(grit.exemplars or [])
-        refs.extend(grit.vocabularies or [])
-        if grit.target_schema:
-            refs.append(grit.target_schema)
-    return refs
+
+def _as_graph(src: Bundle | Iterable[Node]) -> tuple[list[Node], Bundle | None]:
+    if isinstance(src, Bundle):
+        return list(src.graph), src
+    return list(src), None
 
 
-def _referenced_ids(grit: Grit) -> set[str]:
-    refs = {grit.viewpoint_id}
-    if grit.generated_by:
-        refs.add(grit.generated_by)
-    if isinstance(grit, Entity):
-        refs.update(grit.derived_from or [])
-        refs.update(link.evidence_id for link in grit.evidence or [])
-    if isinstance(grit, Activity):
-        refs.update(grit.inputs)
-        refs.update(grit.outputs or [])
-    return refs
+def validate(src: Bundle | Iterable[Node]) -> None:
+    nodes, _ = _as_graph(src)
+    by_id = {node.id: node for node in nodes}
+    if len(by_id) != len(nodes):
+        raise BundleValidationError("duplicate @id in graph")
+    plans = {node.id for node in nodes if isinstance(node, Plan)}
+
+    for node in nodes:
+        if isinstance(node, (Entity, Activity)):
+            if node.plan not in by_id:
+                raise BundleValidationError(f"{node.id}: missing id {node.plan!r} in bundle")
+            if node.plan not in plans:
+                raise BundleValidationError(f"{node.id}: plan {node.plan!r} is not a prov:Plan")
+        if isinstance(node, Entity):
+            if node.how in ("derived", "inferred") and not (node.rationale and node.rationale.strip()):
+                raise BundleValidationError(f"{node.id}: {node.how} requires rationale")
+            if node.how == "quote" and (node.source is None or node.target is None):
+                raise BundleValidationError(f"{node.id}: quote requires source and target")
+            if node.how == "quote" and node.result is not None:
+                raise BundleValidationError(f"{node.id}: quote cannot also have result")
+        if isinstance(node, Activity):
+            for ref in node.used + node.generated:
+                if ref not in by_id:
+                    raise BundleValidationError(f"{node.id}: missing id {ref!r} in bundle")
+            if node.kind in ("support", "contradiction") and node.generated:
+                raise BundleValidationError(f"{node.id}: {node.kind} must not have generated")
 
 
-def validate_bundle(grits: Iterable[Grit]) -> None:
-    grit_list = list(grits)
-    ids = {g.id for g in grit_list}
-    for grit in grit_list:
-        for ref in _content_refs(grit):
-            if not _SHA256.fullmatch(ref.sha256):
-                raise BundleValidationError(f"{grit.id}: invalid ContentReference sha256")
-        for ref in _referenced_ids(grit):
-            if ref not in ids:
-                raise BundleValidationError(f"{grit.id}: missing id {ref!r} in bundle")
-        if isinstance(grit, Entity):
-            for link in grit.evidence or []:
-                if link.label in (EvidenceLabel.derived, EvidenceLabel.inferred):
-                    if not (link.rationale and link.rationale.strip()):
-                        raise BundleValidationError(
-                            f"{grit.id}: {link.label} evidence link requires rationale"
-                        )
-        if isinstance(grit, Activity) and grit.activity_type in (
-            ActivityType.support,
-            ActivityType.contradiction,
-        ) and grit.outputs:
-            raise BundleValidationError(f"{grit.id}: {grit.activity_type} must not have outputs")
+validate_bundle = validate

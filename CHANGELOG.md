@@ -1,5 +1,32 @@
 # Changelog
 
+## 0.6.0 — 2026-09-15
+
+Breaking. The package is a PROV-O + Web Annotation emit profile and validator. Invented core classes are gone.
+
+### Removed
+
+- LinkML `core.yaml` and generated `core.py` / JSON Schema / JSON-LD context
+- `Grit`, `ViewpointDirective`, `EvidenceRecord`, `NegativeEvidenceRecord`, `EvidenceLink`, locator classes
+- Viewpoint package and `document_extraction_v0`
+- RDF dumper, `scripts/regenerate.sh`, composition / ISOM / domain-vocab guards
+- YAML example bundle
+
+### Replaced by
+
+- `PROFILE.md` — agent directive
+- `context.jsonld` — existing terms only (`prov`, `oa`, `dcterms`)
+- `schema.json` — closed emit shape
+- `Plan` / `Entity` / `Activity` Pydantic models (`prov:Plan`, `prov:Entity`, `prov:Activity`)
+- `load`, `dump`, `validate`, `stamp`, `profile_text`
+
+### Rules `validate()` still enforces
+
+- Referenced ids exist; `plan` must be a `prov:Plan`
+- `how` of `derived` / `inferred` requires `rationale`
+- `how` of `quote` requires `source` and `target`
+- `support` / `contradiction` must not `generated`
+
 ## 0.5.0 — 2026-09-15
 
 Breaking release. No compatibility with 0.4.

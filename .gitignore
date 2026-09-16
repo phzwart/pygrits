@@ -55,4 +55,3 @@ Thumbs.db
 
 # Generated in CI only
 /docs/
-/src/pygrits/core.ttl

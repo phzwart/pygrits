@@ -1,0 +1,25 @@
+{
+  "@context": {
+    "prov": "http://www.w3.org/ns/prov#",
+    "oa": "http://www.w3.org/ns/oa#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "schema": "http://schema.org/",
+    "plan": {"@id": "prov:wasInfluencedBy", "@type": "@id"},
+    "used": {"@id": "prov:used", "@type": "@id", "@container": "@list"},
+    "generated": {"@id": "prov:generated", "@type": "@id", "@container": "@list"},
+    "agent": {"@id": "prov:wasAttributedTo"},
+    "source": {"@id": "prov:hadPrimarySource"},
+    "target": {"@id": "oa:hasTarget"},
+    "hasSource": {"@id": "oa:hasSource", "@type": "@id"},
+    "selector": {"@id": "oa:hasSelector"},
+    "exact": {"@id": "oa:exact"},
+    "prefix": {"@id": "oa:prefix"},
+    "suffix": {"@id": "oa:suffix"},
+    "start": {"@id": "oa:start", "@type": "xsd:nonNegativeInteger"},
+    "end": {"@id": "oa:end", "@type": "xsd:nonNegativeInteger"},
+    "conformsTo": {"@id": "dcterms:conformsTo", "@type": "@id"},
+    "summary": {"@id": "dcterms:description"},
+    "name": {"@id": "schema:name"}
+  }
+}

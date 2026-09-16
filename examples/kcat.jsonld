@@ -1,0 +1,58 @@
+{
+  "@context": "pygrits/context.jsonld",
+  "@graph": [
+    {
+      "@id": "plan:demo",
+      "@type": "prov:Plan",
+      "name": "document extraction",
+      "prompt_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "schema_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "agent": "pygrits-demo/0.6.0"
+    },
+    {
+      "@id": "evi:s1",
+      "@type": "prov:Entity",
+      "plan": "plan:demo",
+      "how": "quote",
+      "agent": "pygrits-demo/0.6.0",
+      "source": {
+        "uri": "file://paper.txt",
+        "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "target": {
+        "hasSource": "file://paper.txt",
+        "selector": {
+          "@type": "oa:TextQuoteSelector",
+          "exact": "k_cat = 120 s^-1 for substrate S1"
+        }
+      }
+    },
+    {
+      "@id": "evi:no-s",
+      "@type": "prov:Entity",
+      "plan": "plan:demo",
+      "result": "absent",
+      "agent": "pygrits-demo/0.6.0",
+      "summary": "full-text search for k_cat on substrate S, entire corpus for enzyme E"
+    },
+    {
+      "@id": "act:summarize",
+      "@type": "prov:Activity",
+      "plan": "plan:demo",
+      "kind": "derivation",
+      "agent": "pygrits-demo/0.6.0",
+      "used": ["evi:s1", "evi:no-s"],
+      "generated": ["ent:landscape"]
+    },
+    {
+      "@id": "ent:landscape",
+      "@type": "prov:Entity",
+      "plan": "plan:demo",
+      "how": "inferred",
+      "rationale": "Absence of a matching passage under the stated search supports treating S as unmeasured, not as zero activity.",
+      "agent": "pygrits-demo/0.6.0",
+      "summary": "Reported k_cat values exist for related substrates; substrate S has no reported measurement.",
+      "payload": "https://example.org/assay-claim.json"
+    }
+  ]
+}
