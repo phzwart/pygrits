@@ -7,7 +7,7 @@
     "schema": "http://schema.org/",
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     "pplan": "http://purl.org/net/p-plan#",
-    "grits": "https://w3id.org/grits/",
+    "grits": "https://phzwart.github.io/pygrits/ns#",
     "plan": {"@id": "grits:plan", "@type": "@id"},
     "used": {"@id": "prov:used", "@type": "@id", "@container": "@list"},
     "generated": {"@id": "prov:generated", "@type": "@id", "@container": "@list"},

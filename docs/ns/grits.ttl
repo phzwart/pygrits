@@ -1,0 +1,56 @@
+@prefix grits: <https://phzwart.github.io/pygrits/ns#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+
+<https://phzwart.github.io/pygrits/ns> a owl:Ontology ;
+    dcterms:title "pygrits profile terms" ;
+    dcterms:description "The keys the pygrits emit profile adds on top of PROV-O and Web Annotation. Types remain prov:/oa:; only these properties are ours." ;
+    owl:versionInfo "0.6.2" .
+
+grits:plan a owl:ObjectProperty ;
+    rdfs:subPropertyOf prov:wasInfluencedBy ;
+    rdfs:label "plan" ;
+    rdfs:comment "The prov:Plan (extraction run contract) this node was produced under." .
+
+grits:how a owl:DatatypeProperty ;
+    rdfs:label "how" ;
+    rdfs:comment "How a claim relates to its source: quote | derived | inferred | unknown." .
+
+grits:kind a owl:DatatypeProperty ;
+    rdfs:label "kind" ;
+    rdfs:comment "Role of an activity: derivation | support | contradiction | adjudication." .
+
+grits:rationale a owl:DatatypeProperty ;
+    rdfs:label "rationale" ;
+    rdfs:comment "Stated reasoning; required when how is derived or inferred, and on adjudications." .
+
+grits:result a owl:DatatypeProperty ;
+    rdfs:label "result" ;
+    rdfs:comment "Outcome of a search that found nothing: absent | weak | excluded | inconclusive." .
+
+grits:payloadSchema a owl:ObjectProperty ;
+    rdfs:label "payload schema" ;
+    rdfs:comment "IRI of the schema governing the domain document this entity evidences." .
+
+grits:payloadRef a owl:ObjectProperty ;
+    rdfs:label "payload reference" ;
+    rdfs:comment "Content-addressed reference to the domain document this entity evidences." .
+
+grits:contentHash a owl:DatatypeProperty ;
+    rdfs:label "content hash" ;
+    rdfs:comment "SHA-256 over the node's canonical bytes, excluding this field." .
+
+grits:promptDigest a owl:DatatypeProperty ;
+    rdfs:label "prompt digest" ;
+    rdfs:comment "SHA-256 of the prompt bytes the plan was run with." .
+
+grits:schemaDigest a owl:DatatypeProperty ;
+    rdfs:label "schema digest" ;
+    rdfs:comment "SHA-256 of the payload schema bytes the plan was run with." .
+
+grits:sha256 a owl:DatatypeProperty ;
+    rdfs:label "sha256" ;
+    rdfs:comment "SHA-256 of a referenced artifact's raw bytes." .

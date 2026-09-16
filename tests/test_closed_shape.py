@@ -113,7 +113,7 @@ def test_context_only_uses_allowed_vocabs() -> None:
         "http://schema.org/",
         "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
         "http://purl.org/net/p-plan#",
-        "https://w3id.org/grits/",
+        "https://phzwart.github.io/pygrits/ns#",
     }
     iris = []
     for value in ctx.values():

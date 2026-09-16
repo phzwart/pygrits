@@ -1,6 +1,6 @@
 # pygrits
 
-Closed **PROV-O + Web Annotation** emit profile and validator. Agents dump a JSON-LD graph; this package checks it. Types are `prov:` / `oa:`. Remaining keys have IRIs under `https://w3id.org/grits/` so they survive expansion.
+Closed **PROV-O + Web Annotation** emit profile and validator. Agents dump a JSON-LD graph; this package checks it. Types are `prov:` / `oa:`. Remaining keys have IRIs under `https://phzwart.github.io/pygrits/ns#` so they survive expansion.
 
 The contract is [`PROFILE.md`](PROFILE.md). Attach `profile_text()` or `schema.json` to the run.
 

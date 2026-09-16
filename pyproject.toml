@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pygrits"
-version = "0.6.1"
+version = "0.6.2"
 description = "Closed PROV-O + Web Annotation emit profile and validator for agentic claims."
 readme = "README.md"
 requires-python = ">=3.11"

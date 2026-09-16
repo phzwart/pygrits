@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.6.2 — 2026-09-15
+
+Profile terms moved from unregistered w3id.org/grits to https://phzwart.github.io/pygrits/ns#.
+
 ## 0.6.1 — 2026-09-15
 
 Profile terms now have IRIs so JSON-LD expansion keeps the epistemics.

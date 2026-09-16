@@ -2,7 +2,7 @@
 
 Emit a JSON-LD graph. This file is the contract. Do not invent types or keys.
 
-Profile keys have IRIs in `context.jsonld` (`grits:` = `https://w3id.org/grits/`) so they survive JSON-LD expansion. Types stay `prov:` / `oa:`. `plan` is `grits:plan`, a documented sub-property of `prov:wasInfluencedBy`.
+Profile keys have IRIs in `context.jsonld` (`grits:` = `https://phzwart.github.io/pygrits/ns#`) so they survive JSON-LD expansion. Types stay `prov:` / `oa:`. `plan` is `grits:plan`, a documented sub-property of `prov:wasInfluencedBy`.
 
 ## Shape
 

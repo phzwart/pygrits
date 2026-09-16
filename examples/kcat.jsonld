@@ -7,14 +7,14 @@
       "name": "document extraction",
       "prompt_digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "schema_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
-      "agent": "pygrits-demo/0.6.1"
+      "agent": "pygrits-demo/0.6.2"
     },
     {
       "@id": "evi:s1",
       "@type": "prov:Entity",
       "plan": "plan:demo",
       "how": "quote",
-      "agent": "pygrits-demo/0.6.1",
+      "agent": "pygrits-demo/0.6.2",
       "source": {
         "uri": "file://paper.txt",
         "sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
@@ -32,7 +32,7 @@
       "@type": "prov:Entity",
       "plan": "plan:demo",
       "result": "absent",
-      "agent": "pygrits-demo/0.6.1",
+      "agent": "pygrits-demo/0.6.2",
       "summary": "full-text search for k_cat on substrate S, entire corpus for enzyme E"
     },
     {
@@ -40,7 +40,7 @@
       "@type": "prov:Activity",
       "plan": "plan:demo",
       "kind": "derivation",
-      "performed_by": "pygrits-demo/0.6.1",
+      "performed_by": "pygrits-demo/0.6.2",
       "plan_step": "pplan:steps/summarize_kcat_landscape",
       "used": ["evi:s1", "evi:no-s"],
       "generated": ["ent:landscape"]
@@ -51,7 +51,7 @@
       "plan": "plan:demo",
       "how": "inferred",
       "rationale": "Absence of a matching passage under the stated search supports treating S as unmeasured, not as zero activity.",
-      "agent": "pygrits-demo/0.6.1",
+      "agent": "pygrits-demo/0.6.2",
       "summary": "Reported k_cat values exist for related substrates; substrate S has no reported measurement.",
       "plan_variable": "pplan:vars/kcat_landscape",
       "payload": "https://example.org/assay-claim.json",
