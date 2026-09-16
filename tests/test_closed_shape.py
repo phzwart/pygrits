@@ -93,7 +93,17 @@ def test_profile_is_the_directive() -> None:
     assert root.read_text(encoding="utf-8") == profile_path().read_text(encoding="utf-8")
 
 
-def test_context_only_uses_existing_vocabs() -> None:
+def test_agent_on_activity_fails() -> None:
+    with pytest.raises(ValidationError):
+        Activity(id="act:t", plan="plan:t", kind="derivation", used=["evi:q"], agent="x")
+
+
+def test_performed_by_on_entity_fails() -> None:
+    with pytest.raises(ValidationError):
+        Entity(id="ent:t", plan="plan:t", performed_by="x")
+
+
+def test_context_only_uses_allowed_vocabs() -> None:
     ctx = json.loads(context_path().read_text())["@context"]
     allowed = {
         "http://www.w3.org/ns/prov#",
@@ -101,6 +111,9 @@ def test_context_only_uses_existing_vocabs() -> None:
         "http://purl.org/dc/terms/",
         "http://www.w3.org/2001/XMLSchema#",
         "http://schema.org/",
+        "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "http://purl.org/net/p-plan#",
+        "https://w3id.org/grits/",
     }
     iris = []
     for value in ctx.values():
@@ -112,10 +125,13 @@ def test_context_only_uses_existing_vocabs() -> None:
                 iris.append(iri)
     for iri in iris:
         assert any(iri.startswith(base) for base in allowed), iri
-    assert "w3id.org/grits" not in json.dumps(ctx)
 
 
 def test_schema_is_closed() -> None:
     schema = json.loads(schema_path().read_text())
     assert schema["additionalProperties"] is False
-    assert schema["$defs"]["entity"]["allOf"][1]["additionalProperties"] is False
+    assert schema["$defs"]["entity"]["additionalProperties"] is False
+    assert schema["$defs"]["activity"]["additionalProperties"] is False
+    assert "performed_by" in schema["$defs"]["activity"]["properties"]
+    assert "agent" not in schema["$defs"]["activity"]["properties"]
+    assert "payload_ref" in schema["$defs"]["entity"]["properties"]

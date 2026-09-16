@@ -119,3 +119,31 @@ def test_support_with_generated_fails() -> None:
 def test_duplicate_id_fails() -> None:
     with pytest.raises(BundleValidationError, match="duplicate"):
         validate([_plan(), Plan(id="plan:t", name="other", prompt_digest=_HEX_A, schema_digest=_HEX_C)])
+
+
+def test_adjudication_without_rationale_fails() -> None:
+    with pytest.raises(BundleValidationError, match="adjudication requires rationale"):
+        validate(
+            [
+                _plan(),
+                _quote(),
+                Entity(id="ent:b", plan="plan:t"),
+                Activity(
+                    id="act:a",
+                    plan="plan:t",
+                    kind="adjudication",
+                    used=["evi:q"],
+                    generated=["ent:b"],
+                ),
+            ]
+        )
+
+
+def test_result_without_summary_fails() -> None:
+    with pytest.raises(BundleValidationError, match="result requires summary"):
+        validate(
+            [
+                _plan(),
+                Entity(id="evi:none", plan="plan:t", result="absent"),
+            ]
+        )

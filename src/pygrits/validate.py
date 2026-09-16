@@ -37,12 +37,16 @@ def validate(src: Bundle | Iterable[Node]) -> None:
                 raise BundleValidationError(f"{node.id}: quote requires source and target")
             if node.how == "quote" and node.result is not None:
                 raise BundleValidationError(f"{node.id}: quote cannot also have result")
+            if node.result is not None and not (node.summary and node.summary.strip()):
+                raise BundleValidationError(f"{node.id}: result requires summary")
         if isinstance(node, Activity):
             for ref in node.used + node.generated:
                 if ref not in by_id:
                     raise BundleValidationError(f"{node.id}: missing id {ref!r} in bundle")
             if node.kind in ("support", "contradiction") and node.generated:
                 raise BundleValidationError(f"{node.id}: {node.kind} must not have generated")
+            if node.kind == "adjudication" and not (node.rationale and node.rationale.strip()):
+                raise BundleValidationError(f"{node.id}: adjudication requires rationale")
 
 
 validate_bundle = validate

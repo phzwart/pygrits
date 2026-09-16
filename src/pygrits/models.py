@@ -1,4 +1,4 @@
-"""Closed emit shapes. Field names are the JSON keys; @context maps the PROV/OA ones."""
+"""Closed emit shapes. Field names are the JSON keys; @context maps them to IRIs."""
 
 from __future__ import annotations
 
@@ -90,7 +90,6 @@ class Target(_Strict):
 class NodeBase(_Strict):
     id: str = Field(alias="@id", pattern=_ID)
     content_hash: str | None = Field(default=None, pattern=_SHA256)
-    agent: str | None = None
 
 
 class Plan(NodeBase):
@@ -98,6 +97,7 @@ class Plan(NodeBase):
     name: str
     prompt_digest: str = Field(pattern=_SHA256)
     schema_digest: str = Field(pattern=_SHA256)
+    agent: str | None = None
 
 
 class Entity(NodeBase):
@@ -109,7 +109,10 @@ class Entity(NodeBase):
     rationale: str | None = None
     result: Result | None = None
     payload: str | None = None
+    payload_ref: ContentRef | None = None
+    plan_variable: str | None = None
     summary: str | None = None
+    agent: str | None = None
 
 
 class Activity(NodeBase):
@@ -118,6 +121,11 @@ class Activity(NodeBase):
     kind: Kind
     used: list[str] = Field(min_length=1)
     generated: list[str] = Field(default_factory=list)
+    performed_by: str | None = None
+    rationale: str | None = None
+    started_at: str | None = None
+    ended_at: str | None = None
+    plan_step: str | None = None
 
 
 Node = Plan | Entity | Activity

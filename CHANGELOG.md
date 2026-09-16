@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.1 — 2026-09-15
+
+Profile terms now have IRIs so JSON-LD expansion keeps the epistemics.
+
+- Context: `grits:` prefix; every emit key defined. `uri` maps to `@id`; `source` expands to a node with `@id` and `sha256`.
+- `plan` maps to `grits:plan` (sub-property of `prov:wasInfluencedBy`), not `prov:wasInfluencedBy`.
+- Activity attribution is `performed_by` (`prov:wasAssociatedWith`); `agent` stays on Entity/Plan (`prov:wasAttributedTo`).
+- `payload_ref` (content-addressed domain document) beside `payload` (schema IRI).
+- Optional `plan_step` / `plan_variable` (`pplan:`).
+- Activity `rationale`, `started_at`, `ended_at`; `adjudication` requires rationale.
+- `result` requires `summary`.
+- `tests/test_jsonld_roundtrip.py` expands the example with pyld.
+
 ## 0.6.0 — 2026-09-15
 
 Breaking. The package is a PROV-O + Web Annotation emit profile and validator. Invented core classes are gone.

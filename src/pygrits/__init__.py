@@ -30,7 +30,7 @@ from pygrits.models import (
 from pygrits.resources import context_path, profile_path, profile_text, schema_path
 from pygrits.validate import BundleValidationError, validate, validate_bundle
 
-__version__ = "0.6.0"
+__version__ = "0.6.1"
 
 
 def load(src: str | Path | dict[str, Any]) -> Bundle:
